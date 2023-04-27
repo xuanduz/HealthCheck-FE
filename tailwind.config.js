@@ -9,7 +9,7 @@ module.exports = withMT({
       sans: ["Montserrat", "sans-serif"],
     },
     boxShadow: {
-      full: "8px 15px 40px -8px rgba(0, 0, 0, 0.1)",
+      ["sm-full"]: "8px 15px 40px -8px rgba(0, 0, 0, 0.1)",
     },
   },
   plugins: [],

@@ -1,4 +1,4 @@
-import Container from "./Container";
+import Container from "./ContainerComponent";
 import BgFooter from "../assets/images/bg-footer.png";
 import { Typography } from "@material-tailwind/react";
 import logo from "../assets/images/logo.png";

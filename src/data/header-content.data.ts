@@ -1,3 +1,5 @@
+import { RouteName } from "./router.data";
+
 export interface HeaderContentType {
   title: string;
   content?: string;
@@ -6,15 +8,15 @@ export interface HeaderContentType {
 
 export const HeaderContentData: HeaderContentType[] = [
   {
-    title: "Chuyên khoa",
-    slug: "chuyenkhoa",
+    title: "Cơ sở y tế",
+    slug: RouteName.CLINICS,
   },
   {
-    title: "Cơ sở y tế",
-    slug: "chuyenkhoa",
+    title: "Chuyên khoa",
+    slug: RouteName.SPECIALTIES,
   },
   {
     title: "Bác sĩ",
-    slug: "bacsi",
+    slug: RouteName.DOCTORS,
   },
 ];

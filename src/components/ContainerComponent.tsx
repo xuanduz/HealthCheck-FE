@@ -1,4 +1,4 @@
-const Container = (props: any) => {
+const ContainerComponent = (props: any) => {
   return (
     <div className="w-10/12" style={{ margin: "0 auto" }}>
       {props?.children}
@@ -6,4 +6,4 @@ const Container = (props: any) => {
   );
 };
 
-export default Container;
+export default ContainerComponent;

@@ -5,10 +5,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;700&display=swap");
 
 @import "./_variable.css";
-@import "./login.css";
-@import "./header.css";
-@import "./home.css";
 @import "./footer.css";
+@import "./header.css";
+@import "./login.css";
+@import "./home.css";
+@import "./booking.css";
 
 body {
   font-family: "Montserrat", sans-serif;

@@ -23,7 +23,7 @@ const AdviceComponent = () => {
         <ul className="ml-14 flex flex-col gap-10 justify-center">
           <li className="flex gap-10">
             <div className="h-full flex justify-center">
-              <div className="w-24 rounded-full shadow-full shadow-blue-700/40 m-auto p-4">
+              <div className="w-24 rounded-full shadow-sm-full shadow-blue-700/40 m-auto p-4">
                 <img src={SvgExport1} alt="icon" className="w-full" />
               </div>
             </div>
@@ -40,7 +40,7 @@ const AdviceComponent = () => {
           </li>
           <li className="flex gap-10">
             <div className="h-full flex justify-center">
-              <div className="w-24 rounded-full shadow-full shadow-blue-700/40 m-auto p-4">
+              <div className="w-24 rounded-full shadow-sm-full shadow-blue-700/40 m-auto p-4">
                 <img src={SvgExport2} alt="icon" className="w-full" />
               </div>
             </div>
@@ -56,7 +56,7 @@ const AdviceComponent = () => {
           </li>
           <li className="flex gap-10">
             <div className="h-full flex justify-center">
-              <div className="w-24 rounded-full shadow-full shadow-blue-700/40 m-auto p-4">
+              <div className="w-24 rounded-full shadow-sm-full shadow-blue-700/40 m-auto p-4">
                 <img src={SvgExport3} alt="icon" className="w-full" />
               </div>
             </div>
@@ -69,7 +69,7 @@ const AdviceComponent = () => {
           </li>
           <li className="flex gap-10">
             <div className="h-full flex justify-center">
-              <div className="w-24 rounded-full shadow-full shadow-blue-700/40 m-auto p-4">
+              <div className="w-24 rounded-full shadow-sm-full shadow-blue-700/40 m-auto p-4">
                 <img src={SvgExport4} alt="icon" className="w-full" />
               </div>
             </div>
@@ -85,7 +85,7 @@ const AdviceComponent = () => {
           </li>
           <li className="flex gap-10">
             <div className="h-full flex justify-center">
-              <div className="w-24 rounded-full shadow-full shadow-blue-700/40 m-auto p-4">
+              <div className="w-24 rounded-full shadow-sm-full shadow-blue-700/40 m-auto p-4">
                 <img src={SvgExport5} alt="icon" className="w-full" />
               </div>
             </div>

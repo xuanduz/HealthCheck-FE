@@ -12,8 +12,8 @@ const LoginPage = () => {
     <div className="login-content h-screen flex justify-center">
       <div className="login-container w-10/12 flex items-center">
         <div className="login-banner w-1/2 flex flex-col items-center">
-          <h3 className="font-extrabold text-transparent text-7xl bg-clip-text bg-gradient-to-r from-blue-800 to-blue-400">
-            Hello doctor!
+          <h3 className="font-extrabold text-transparent text-5xl bg-clip-text bg-gradient-to-r from-blue-800 to-blue-400">
+            Wellcome to Health Check!
           </h3>
           <img src={bannerDoctors} className="login-banner-img" alt="" />
         </div>
