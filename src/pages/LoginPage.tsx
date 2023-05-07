@@ -13,7 +13,7 @@ const LoginPage = () => {
       <div className="login-container w-10/12 flex items-center">
         <div className="login-banner w-1/2 flex flex-col items-center">
           <h3 className="font-extrabold text-transparent text-5xl bg-clip-text bg-gradient-to-r from-blue-800 to-blue-400">
-            Wellcome to Health Check!
+            Welcome to Health Check!
           </h3>
           <img src={bannerDoctors} className="login-banner-img" alt="" />
         </div>
@@ -56,13 +56,6 @@ const LoginPage = () => {
               <Button className="mt-4" fullWidth>
                 Login
               </Button>
-              <Typography color="gray" className="text-base text-center mt-4">
-                Or login with
-              </Typography>
-              <div className="flex gap-2 justify-center">
-                <p>FB</p>
-                <p>GG</p>
-              </div>
             </form>
           </Card>
         </div>

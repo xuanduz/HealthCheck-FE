@@ -1,4 +1,4 @@
-import { RouteName } from "./router.data";
+import { RouteNamePatient } from "../routes/routes";
 
 export interface HeaderContentType {
   title: string;
@@ -9,14 +9,14 @@ export interface HeaderContentType {
 export const HeaderContentData: HeaderContentType[] = [
   {
     title: "Cơ sở y tế",
-    slug: RouteName.CLINICS,
+    slug: RouteNamePatient.CLINICS,
   },
   {
     title: "Chuyên khoa",
-    slug: RouteName.SPECIALTIES,
+    slug: RouteNamePatient.SPECIALTIES,
   },
   {
     title: "Bác sĩ",
-    slug: RouteName.DOCTORS,
+    slug: RouteNamePatient.DOCTORS,
   },
 ];

@@ -17,7 +17,7 @@ import banner from "../../assets/images/banner.jpg";
 import CardComponent from "../../components/CardComponent";
 import AdviceComponent from "../../components/AdviceComponent";
 
-const HomePageClient = () => {
+const HomePagePatient = () => {
   return (
     <>
       <div className="banner">
@@ -87,4 +87,4 @@ const HomePageClient = () => {
   );
 };
 
-export default HomePageClient;
+export default HomePagePatient;

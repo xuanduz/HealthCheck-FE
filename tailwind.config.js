@@ -11,6 +11,9 @@ module.exports = withMT({
     boxShadow: {
       ["sm-full"]: "8px 15px 40px -8px rgba(0, 0, 0, 0.1)",
     },
+    colors: {
+      lightPrimary: "#F4F7FE",
+    },
   },
   plugins: [],
 });

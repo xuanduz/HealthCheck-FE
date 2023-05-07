@@ -5,7 +5,7 @@ import {
 } from "../data/header-content.data";
 import { BsQuestionCircle } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { RouteName } from "../data/router.data";
+import { RouteNamePatient } from "../routes/routes";
 
 export interface HeaderProps {
   isLogin?: boolean;
@@ -16,7 +16,7 @@ const HeaderComponent = (props: HeaderProps) => {
     <div className="header w-full h-20 shadow-md">
       <div className="header-container flex w-10/12 content-center h-full justify-between items-center">
         <div className="header-logo flex">
-          <Link to={RouteName.HOME}>
+          <Link to={RouteNamePatient.HOME}>
             <img src={logo} alt="logo" />
           </Link>
         </div>

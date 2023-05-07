@@ -8,7 +8,7 @@ import { GrSchedule } from "react-icons/gr";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import SmallCardComponent from "../../components/SmallCardComponent";
 import { Link } from "react-router-dom";
-import { RouteName } from "../../data/router.data";
+import { RouteNamePatient } from "../../routes/routes";
 
 const DoctorDetailPage = () => {
   return (
@@ -64,7 +64,7 @@ const DoctorDetailPage = () => {
                   </Typography>
                   <HorizontalLine />
                 </div>
-                <Link to={RouteName.BOOKING_PAGE}>
+                <Link to={RouteNamePatient.BOOKING_FORM}>
                   <Button className="w-full">Đặt lịch ngay</Button>
                 </Link>
               </form>
