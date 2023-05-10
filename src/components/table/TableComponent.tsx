@@ -20,11 +20,17 @@ export interface TableComponentProps {
 
 export interface DataTablePatientTypes {
   id?: number | string;
-  time: string;
-  fullName: string;
-  address: string;
-  gender: string;
-  reason: string;
+  email?: string;
+  phoneNumber?: string;
+  time?: string;
+  fullName?: string;
+  addressDetail?: string;
+  gender?: string;
+  reason?: string;
+  province?: string;
+  status?: string;
+  resultFile?: any;
+  birthday?: string;
 }
 
 export default function TableComponent(props: TableComponentProps) {
@@ -46,21 +52,21 @@ export default function TableComponent(props: TableComponentProps) {
     {
       time: "9:00 - 9:30",
       fullName: "Xuna Duc",
-      address: "Ha noi",
+      addressDetail: "Ha noi",
       gender: "Nam",
       reason: "qjow oqiwheo qhwoe hqoweh oqhe oqh",
     },
     {
       time: "9:00 - 9:30",
       fullName: "Xuna Duc",
-      address: "Ha noi",
+      addressDetail: "Ha noi",
       gender: "Nam",
       reason: "qjow oqiwheo qhwoe hqoweh oqhe oqh",
     },
     {
       time: "9:00 - 9:30",
       fullName: "Xuna Duc",
-      address: "Ha noi",
+      addressDetail: "Ha noi",
       gender: "Nam",
       reason: "qjow oqiwheo qhwoe hqoweh oqhe oqh",
     },
@@ -148,7 +154,7 @@ export default function TableComponent(props: TableComponentProps) {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      {data?.address}
+                      {data?.addressDetail}
                     </Typography>
                   </td>
                   <td className={classes}>

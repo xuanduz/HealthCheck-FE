@@ -13,7 +13,7 @@ const AdminLayout = (props: any) => {
           className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}
         >
           <div className="h-full">
-            <div className="pt-5s mx-auto mb-auto h-full min-h-[100vh] pt-20 p-2 md:pr-2">
+            <div className="pt-5s mx-auto mb-auto h-full min-h-[100vh] pt-10 p-2 md:pr-2">
               {props?.children}
             </div>
           </div>

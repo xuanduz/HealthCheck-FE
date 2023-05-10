@@ -8,7 +8,7 @@ const HomePageDoctor = () => {
   return (
     <div>
       <Typography variant="h1" className="text-red-500">
-        Xin chào bác sĩ !
+        Xin chào Bác sĩ !
       </Typography>
     </div>
   );

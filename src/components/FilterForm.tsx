@@ -132,7 +132,7 @@ const FilterForm = (props: FilterFormProps) => {
         <div className="mt-5">
           <Select
             label="Chọn tỉnh/thành phố"
-            menuProps={{ className: "h-48" }}
+            menuProps={{ className: "h-42" }}
             onChange={(value: any) =>
               setFormData({
                 ...formData,
