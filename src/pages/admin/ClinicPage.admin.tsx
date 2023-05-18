@@ -17,16 +17,7 @@ import { MdOutlineAttachFile } from "react-icons/md";
 import DialogComponent from "../../components/dialog/DialogComponent";
 import ClinicFormComponent from "../../components/clinic/ClinicFormComponent";
 import ClinicPostComponent from "../../components/clinic/ClinicPostComponent";
-
-export interface ClinicType {
-  id?: string | number;
-  name: string;
-  province?: string;
-  address?: string;
-  image?: string;
-  descriptionHTML?: string;
-  describe?: string;
-}
+import { ClinicType } from "../../data/types.data";
 
 const ClinicPageAdmin = () => {
   const TABLE_HEAD = ["Tên", "Tỉnh/Thành", "Địa chỉ", "Ảnh", "", ""];
@@ -34,7 +25,7 @@ const ClinicPageAdmin = () => {
   const dataTable: ClinicType[] = [
     {
       name: "Bệnh viện đa khoa Bạch Mai",
-      province: "Ha noi",
+      provinceKey: "Ha noi",
       address:
         "số 78 đường Giải Phóng, phường Phương Mai, quận Đống Đa, Hà Nội",
       image:
@@ -42,7 +33,7 @@ const ClinicPageAdmin = () => {
     },
     {
       name: "Bệnh viện đa khoa Bạch Mai",
-      province: "Ha noi",
+      provinceKey: "Ha noi",
       address:
         "số 78 đường Giải Phóng, phường Phương Mai, quận Đống Đa, Hà Nội",
       image:
@@ -50,7 +41,7 @@ const ClinicPageAdmin = () => {
     },
     {
       name: "Bệnh viện đa khoa Bạch Mai",
-      province: "Ha noi",
+      provinceKey: "Ha noi",
       address:
         "số 78 đường Giải Phóng, phường Phương Mai, quận Đống Đa, Hà Nội",
       image:
@@ -58,7 +49,7 @@ const ClinicPageAdmin = () => {
     },
     {
       name: "Bệnh viện đa khoa Bạch Mai",
-      province: "Ha noi",
+      provinceKey: "Ha noi",
       address:
         "số 78 đường Giải Phóng, phường Phương Mai, quận Đống Đa, Hà Nội",
       image:
@@ -180,7 +171,7 @@ const ClinicPageAdmin = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {data?.province}
+                        {data?.provinceKey}
                       </Typography>
                     </td>
                     <td className={classes}>

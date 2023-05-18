@@ -11,3 +11,8 @@
 option {
   color: black;
 }
+
+.Toastify {
+  position: absolute;
+  z-index: 999999;
+}

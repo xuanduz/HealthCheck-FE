@@ -4,13 +4,19 @@ import "./assets/css/index.css";
 import App from "./App";
 // @material-tailwind/react
 import { ThemeProvider } from "@material-tailwind/react";
+import { RecoilRoot } from "recoil";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <ThemeProvider>
-    <App />
+    <RecoilRoot>
+      <ToastContainer position="top-right" />
+      <App />
+    </RecoilRoot>
   </ThemeProvider>
 );
 

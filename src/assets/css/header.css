@@ -18,3 +18,8 @@
   color: white;
   background-color: var(--color-blue);
 }
+
+.active-section-header {
+  color: white;
+  background-color: var(--color-blue) !important;
+}

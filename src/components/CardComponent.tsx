@@ -12,7 +12,7 @@ export interface CardComponentProps {
   id?: number;
   title?: string;
   price?: string;
-  address?: string;
+  address?: string | undefined;
   image?: string;
   describe?: string;
   url: string;

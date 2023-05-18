@@ -107,7 +107,7 @@ function App() {
     },
     {
       path: RouteNameDoctor.LOGIN,
-      element: <LoginPage />,
+      element: <LoginPage role="DOCTOR" />,
     },
     {
       path: RouteNameDoctor.HOME,
@@ -142,6 +142,10 @@ function App() {
       ),
     },
     /////////
+    {
+      path: RouteNameAdmin.LOGIN,
+      element: <LoginPage role="ADMIN" />,
+    },
     {
       path: RouteNameAdmin.HOME,
       element: (

@@ -17,6 +17,7 @@ const AppointmentPageDoctor = () => {
           />
         </div>
         <div>
+          <h3>sort, province, bookingtype</h3>
           <TableComponent title="Danh sách bệnh nhân" />
         </div>
       </form>

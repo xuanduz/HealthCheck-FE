@@ -4,7 +4,7 @@ import {
   HeaderContentType,
 } from "../data/header-content.data";
 import { BsQuestionCircle } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { RouteNamePatient } from "../routes/routes";
 
 export interface HeaderProps {
@@ -12,6 +12,12 @@ export interface HeaderProps {
 }
 
 const HeaderComponent = (props: HeaderProps) => {
+  let location = useLocation();
+
+  const activeRoute = (routeName: string) => {
+    return location.pathname.includes(routeName);
+  };
+
   return (
     <div className="header w-full h-20 shadow-md">
       <div className="header-container flex w-10/12 content-center h-full justify-between items-center">
@@ -24,7 +30,12 @@ const HeaderComponent = (props: HeaderProps) => {
           <ul className="flex gap-16">
             {HeaderContentData.map((item: HeaderContentType, index: number) => (
               <Link to={item.slug}>
-                <li key={index} className="font-semibold cursor-pointer">
+                <li
+                  key={index}
+                  className={`font-semibold cursor-pointer ${
+                    activeRoute(item.slug) ? " active-section-header" : ""
+                  }`}
+                >
                   {item.title}
                 </li>
               </Link>

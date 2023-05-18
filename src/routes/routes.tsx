@@ -10,6 +10,7 @@ export const RouteNamePatient = {
   SPECIALTY_DETAIL: "/specialties/:id",
   BOOKING_DOCTOR: "/booking",
   BOOKING_FORM: "/booking/123",
+  LOGIN: "/login",
 };
 
 export const RouteNameDoctor = {
@@ -31,6 +32,7 @@ export const RouteNameAdmin = {
   // SPECIALTY_DETAIL: "/specialties/:id",
   // BOOKING_DOCTOR: "/booking",
   REGISTER: "/system-admin/register",
+  CHANGE_PASSWORD: "/system-admin/change-password",
 };
 
 export const RoleRoutes = {
@@ -70,13 +72,13 @@ export const routesSidebar: RoutesType[] = [
     role: RoleRoutes.ADMIN,
   },
   {
-    name: "Quản lý cơ sở y tế",
-    path: RouteNameAdmin.CLINICS,
+    name: "Quản lý đơn đặt lịch",
+    path: RouteNameAdmin.BOOKING,
     role: RoleRoutes.ADMIN,
   },
   {
-    name: "Quản lý đơn đặt lịch",
-    path: RouteNameAdmin.BOOKING,
+    name: "Quản lý cơ sở y tế",
+    path: RouteNameAdmin.CLINICS,
     role: RoleRoutes.ADMIN,
   },
   {
@@ -87,6 +89,11 @@ export const routesSidebar: RoutesType[] = [
   {
     name: "Đăng ký thêm tài khoản",
     path: RouteNameAdmin.REGISTER,
+    role: RoleRoutes.ADMIN,
+  },
+  {
+    name: "Đổi mật khẩu",
+    path: RouteNameAdmin.CHANGE_PASSWORD,
     role: RoleRoutes.ADMIN,
   },
 ];

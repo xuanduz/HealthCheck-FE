@@ -13,24 +13,10 @@ import {
 } from "@material-tailwind/react";
 import { BsEye } from "react-icons/bs";
 import { MdOutlineAttachFile } from "react-icons/md";
+import { PatientType } from "../../data/types.data";
 
 export interface TableComponentProps {
   title?: string;
-}
-
-export interface DataTablePatientTypes {
-  id?: number | string;
-  email?: string;
-  phoneNumber?: string;
-  time?: string;
-  fullName?: string;
-  addressDetail?: string;
-  gender?: string;
-  reason?: string;
-  province?: string;
-  status?: string;
-  resultFile?: any;
-  birthday?: string;
 }
 
 export default function TableComponent(props: TableComponentProps) {
@@ -48,28 +34,28 @@ export default function TableComponent(props: TableComponentProps) {
     "",
   ];
 
-  const dataTable: DataTablePatientTypes[] = [
-    {
-      time: "9:00 - 9:30",
-      fullName: "Xuna Duc",
-      addressDetail: "Ha noi",
-      gender: "Nam",
-      reason: "qjow oqiwheo qhwoe hqoweh oqhe oqh",
-    },
-    {
-      time: "9:00 - 9:30",
-      fullName: "Xuna Duc",
-      addressDetail: "Ha noi",
-      gender: "Nam",
-      reason: "qjow oqiwheo qhwoe hqoweh oqhe oqh",
-    },
-    {
-      time: "9:00 - 9:30",
-      fullName: "Xuna Duc",
-      addressDetail: "Ha noi",
-      gender: "Nam",
-      reason: "qjow oqiwheo qhwoe hqoweh oqhe oqh",
-    },
+  const dataTable: PatientType[] = [
+    // {
+    //   bookingTime: "9:00 - 9:30",
+    //   fullName: "Xuna Duc",
+    //   addressDetail: "Ha noi",
+    //   gender: "Nam",
+    //   reason: "qjow oqiwheo qhwoe hqoweh oqhe oqh",
+    // },
+    // {
+    //   bookingTime: "9:00 - 9:30",
+    //   fullName: "Xuna Duc",
+    //   addressDetail: "Ha noi",
+    //   gender: "Nam",
+    //   reason: "qjow oqiwheo qhwoe hqoweh oqhe oqh",
+    // },
+    // {
+    //   bookingTime: "9:00 - 9:30",
+    //   fullName: "Xuna Duc",
+    //   addressDetail: "Ha noi",
+    //   gender: "Nam",
+    //   reason: "qjow oqiwheo qhwoe hqoweh oqhe oqh",
+    // },
   ];
 
   return (
@@ -111,7 +97,7 @@ export default function TableComponent(props: TableComponentProps) {
             </tr>
           </thead>
           <tbody>
-            {dataTable?.map((data: DataTablePatientTypes, index: number) => {
+            {dataTable?.map((data: PatientType, index: number) => {
               const isLast = index === dataTable?.length - 1;
               const classes = isLast
                 ? "p-4"
@@ -145,7 +131,7 @@ export default function TableComponent(props: TableComponentProps) {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      {data?.time}
+                      {data?.bookingTime}
                     </Typography>
                   </td>
                   <td className={classes}>

@@ -1,13 +1,31 @@
 import { HiX } from "react-icons/hi";
 import logo from "../../assets/images/logo.png";
 import SidebarLinks from "./SidebarLink";
-import { routesSidebar } from "../../routes/routes";
+import {
+  RouteNameAdmin,
+  RouteNameDoctor,
+  routesSidebar,
+} from "../../routes/routes";
+import { handleLogout } from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 const SidebarComponent = (props: {
   open: boolean;
   onClose: React.MouseEventHandler<HTMLSpanElement>;
 }) => {
   const { open, onClose } = props;
+  const navigate = useNavigate();
+  const cookie = new Cookies();
+
+  const logout = async () => {
+    let success = await handleLogout();
+    if (success) {
+      cookie.get("role") == "ADMIN" && navigate(RouteNameAdmin.LOGIN);
+      cookie.get("role") == "DOCTOR" && navigate(RouteNameDoctor.LOGIN);
+    }
+  };
+
   return (
     <div
       className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 ${
@@ -33,7 +51,10 @@ const SidebarComponent = (props: {
         </div>
         <div className="absolute bottom-[160px]">
           <div className="relative mb-3 flex hover:cursor-pointer">
-            <li className="my-[3px] flex cursor-pointer items-center px-8">
+            <li
+              className="my-[3px] flex cursor-pointer items-center px-8"
+              onClick={() => logout()}
+            >
               <p className={`leading-1 ml-4 flex font-medium text-gray-600`}>
                 Đăng xuất
               </p>

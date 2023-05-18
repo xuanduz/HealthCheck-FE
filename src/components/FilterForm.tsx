@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { FaHandPointRight } from "react-icons/fa";
 import { useState } from "react";
+import { CodeType } from "../data/types.data";
 
 export interface PriceRangeType {
   minPrice?: number | undefined;
@@ -17,7 +18,7 @@ export interface PriceRangeType {
 
 export interface InputFilter {
   name?: string;
-  province?: string;
+  provinceKey?: string;
   price?: PriceRangeType;
 }
 
@@ -30,28 +31,20 @@ export interface FilterFormProps {
   haveName?: boolean;
   haveProvince?: boolean;
   havePrice?: boolean;
+  listProvinces?: CodeType[];
   handleSubmitFilterForm: Function;
 }
 
 const FilterForm = (props: FilterFormProps) => {
-  const { haveName, haveProvince, havePrice, handleSubmitFilterForm } = props;
+  const {
+    haveName,
+    haveProvince,
+    havePrice,
+    handleSubmitFilterForm,
+    listProvinces,
+  } = props;
 
   const [formData, setFormData] = useState<InputFilter>();
-
-  const provinces = [
-    {
-      name: "Hà Nội",
-    },
-    {
-      name: "Hồ Chí Minh",
-    },
-    {
-      name: "Đà Nẵng",
-    },
-    {
-      name: "Thái Bình",
-    },
-  ];
 
   const marks: Mark[] = [
     {
@@ -136,13 +129,13 @@ const FilterForm = (props: FilterFormProps) => {
             onChange={(value: any) =>
               setFormData({
                 ...formData,
-                province: value,
+                provinceKey: value,
               })
             }
           >
-            {provinces.map(({ name }: any) => (
-              <Option key={name} value={name}>
-                {name}
+            {listProvinces?.map((province: CodeType, ind: number) => (
+              <Option key={province.id} value={province.key}>
+                {province.value}
               </Option>
             ))}
           </Select>

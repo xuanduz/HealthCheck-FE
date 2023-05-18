@@ -2,11 +2,53 @@ import { Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
 import ContainerComponent from "../../components/ContainerComponent";
 import FilterForm, { InputFilter } from "../../components/FilterForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CardComponent from "../../components/CardComponent";
+import {
+  useRecoilStateLoadable,
+  useRecoilValueLoadable,
+  useSetRecoilState,
+} from "recoil";
+import { ClinicType, CodeType, defaultPageInfo } from "../../data/types.data";
+import {
+  clinicAtom,
+  clinicSelector,
+} from "../../data/recoil/patient/clinic.patient";
+import { provincesSelector } from "../../data/recoil/commonData";
+import EmptyClinic from "../../assets/images/empty-clinic.png";
+import Pagination from "../../components/PaginationComponent";
 
 const ClinicsPage = () => {
-  const [filter, setFilter] = useState<InputFilter>();
+  // const [listClinics, setFilterClinic] = useRecoilStateLoadable(clinicSelector);
+  const setFilterClinic = useSetRecoilState(clinicAtom(defaultPageInfo));
+  const listClinicLoadable = useRecoilValueLoadable(clinicSelector);
+  const provinces = useRecoilValueLoadable(provincesSelector);
+  const [listProvinces, setListProvinces] = useState<CodeType[]>([]);
+  const [listClinics, setListClinics] = useState<ClinicType[]>([]);
+
+  useEffect(() => {
+    if (provinces?.state == "hasValue") {
+      setListProvinces([
+        { id: 0, key: "", type: "", value: "Tất cả" },
+        ...provinces?.contents?.data?.data,
+      ]);
+    }
+  }, [provinces.state]);
+
+  useEffect(() => {
+    if (listClinicLoadable?.state == "hasValue") {
+      setListClinics(listClinicLoadable?.contents?.data?.data);
+    }
+  }, [listClinicLoadable]);
+
+  const handleFilter = ({ ...params }) => {
+    const data = { ...params };
+    setFilterClinic({
+      ...defaultPageInfo,
+      clinicName: data?.name,
+      provinceKey: data?.provinceKey,
+    });
+  };
 
   return (
     <>
@@ -30,7 +72,8 @@ const ClinicsPage = () => {
                 <FilterForm
                   haveName={true}
                   haveProvince={true}
-                  handleSubmitFilterForm={setFilter}
+                  listProvinces={listProvinces}
+                  handleSubmitFilterForm={handleFilter}
                 />
               </div>
             </Card>
@@ -41,20 +84,23 @@ const ClinicsPage = () => {
             </Typography>
             <div>
               <ul className="grid grid-cols-3 gap-5 mt-2">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any, index: number) => (
+                {listClinics?.map((clinic: ClinicType, index: number) => (
                   <li className="basis-1/3">
                     <CardComponent
                       key={index}
                       id={index}
-                      url={`/clinics/${index}`}
-                      title="Bệnh viện Bạch Mai"
-                      describe="Phó giáo sư, tiến sĩ"
-                      address="Ha Noi"
-                      image="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
+                      url={`/clinics/${clinic?.id}`}
+                      title={clinic?.name}
+                      describe={clinic?.describe}
+                      address={clinic?.provinceData?.value}
+                      image={clinic?.image || EmptyClinic}
                     />
                   </li>
                 ))}
               </ul>
+            </div>
+            <div className="flex justify-center my-10">
+              {/* <Pagination /> */}
             </div>
           </div>
         </div>
