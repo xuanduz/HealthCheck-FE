@@ -1,11 +1,7 @@
 import { HiX } from "react-icons/hi";
 import logo from "../../assets/images/logo.png";
 import SidebarLinks from "./SidebarLink";
-import {
-  RouteNameAdmin,
-  RouteNameDoctor,
-  routesSidebar,
-} from "../../routes/routes";
+import { RouteNameAdmin, RouteNameDoctor, routesSidebar } from "../../routes/routes";
 import { handleLogout } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -19,11 +15,9 @@ const SidebarComponent = (props: {
   const cookie = new Cookies();
 
   const logout = async () => {
-    let success = await handleLogout();
-    if (success) {
-      cookie.get("role") == "ADMIN" && navigate(RouteNameAdmin.LOGIN);
-      cookie.get("role") == "DOCTOR" && navigate(RouteNameDoctor.LOGIN);
-    }
+    await handleLogout();
+    cookie.get("role") == "ADMIN" && navigate(RouteNameAdmin.LOGIN);
+    cookie.get("role") == "DOCTOR" && navigate(RouteNameDoctor.LOGIN);
   };
 
   return (
@@ -32,10 +26,7 @@ const SidebarComponent = (props: {
         open ? "translate-x-0" : "-translate-x-96"
       }`}
     >
-      <span
-        className="absolute right-4 top-4 block cursor-pointer xl:hidden"
-        onClick={onClose}
-      >
+      <span className="absolute right-4 top-4 block cursor-pointer xl:hidden" onClick={onClose}>
         <HiX />
       </span>
 
@@ -51,13 +42,8 @@ const SidebarComponent = (props: {
         </div>
         <div className="absolute bottom-[160px]">
           <div className="relative mb-3 flex hover:cursor-pointer">
-            <li
-              className="my-[3px] flex cursor-pointer items-center px-8"
-              onClick={() => logout()}
-            >
-              <p className={`leading-1 ml-4 flex font-medium text-gray-600`}>
-                Đăng xuất
-              </p>
+            <li className="my-[3px] flex cursor-pointer items-center px-8" onClick={() => logout()}>
+              <p className={`leading-1 ml-4 flex font-medium text-gray-600`}>Đăng xuất</p>
             </li>
           </div>
         </div>

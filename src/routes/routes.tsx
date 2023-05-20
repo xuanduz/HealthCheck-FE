@@ -25,6 +25,7 @@ export const RouteNameAdmin = {
   LOGIN: "/system-admin/login",
   HOME: "/system-admin/home",
   DOCTORS: "/system-admin/doctor",
+  SPECIALTY: "/system-admin/specialty",
   DOCTOR_DETAIL: "/system-admin/doctors/:id",
   CLINICS: "/system-admin/clinics",
   CLINIC_DETAIL: "/system-admin/clinics/:id",
@@ -79,6 +80,11 @@ export const routesSidebar: RoutesType[] = [
   {
     name: "Quản lý cơ sở y tế",
     path: RouteNameAdmin.CLINICS,
+    role: RoleRoutes.ADMIN,
+  },
+  {
+    name: "Quản lý chuyên khoa",
+    path: RouteNameAdmin.SPECIALTY,
     role: RoleRoutes.ADMIN,
   },
   {

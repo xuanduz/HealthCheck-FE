@@ -1,4 +1,4 @@
-export const DEFAULT_SIZE_PER_PAGE = 9;
+export const DEFAULT_SIZE_PER_PAGE = 2;
 
 export interface OffsetPageInfo {
   pageNum: number;
@@ -43,7 +43,7 @@ export interface DoctorType {
   email?: string;
   password?: string;
   fullName?: string;
-  gender?: string;
+  gender?: boolean;
   phoneNumber?: string;
   price?: string | number;
   image?: string;
@@ -53,8 +53,8 @@ export interface DoctorType {
   describe?: string;
 
   specialty?: SpecialtyType;
-  clinic?: ClinicType;
-  specialtyData?: SpecialtyType;
+  clinicId?: number | string;
+  specialtyData?: SpecialtyType[];
   clinicData?: ClinicType;
 }
 
@@ -88,9 +88,9 @@ export interface AdminType {
 
 export interface CodeType {
   id?: number;
-  key: string;
-  type: string;
-  value: string;
+  key?: string;
+  type?: string;
+  value?: string;
 }
 
 export interface AppointmentType {

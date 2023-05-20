@@ -6,12 +6,12 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";
 
-export interface ClinicPostComponentProps {
+export interface DoctorPostComponentProps {
   descriptionHTML?: string;
   setDescriptionHTML?: Function;
 }
 
-export default function ClinicPostComponent(props: ClinicPostComponentProps) {
+export default function DoctorPostComponent(props: DoctorPostComponentProps) {
   const { descriptionHTML, setDescriptionHTML } = props;
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(stateFromHTML(descriptionHTML || ""))

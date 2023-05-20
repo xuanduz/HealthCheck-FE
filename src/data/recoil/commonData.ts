@@ -1,25 +1,26 @@
 import axios from "axios";
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
-import Cookies from "universal-cookie";
-
-const cookies = new Cookies();
 
 export const provincesSelector = selector({
   key: "provincesSelector",
   get: async ({ get }) => {
-    const listProvinces = await axios.get(
-      `${process.env.REACT_APP_HOST}/province/all`
-    );
+    const listProvinces = await axios.get(`${process.env.REACT_APP_API}/province/all`);
     return listProvinces;
+  },
+});
+
+export const positionsSelector = selector({
+  key: "positionsSelector",
+  get: async ({ get }) => {
+    const listPositions = await axios.get(`${process.env.REACT_APP_API}/position/all`);
+    return listPositions;
   },
 });
 
 export const clinicsSelector = selector({
   key: "clinicsSelector",
   get: async ({ get }) => {
-    const listClinics = await axios.get(
-      `${process.env.REACT_APP_HOST}/clinic/all`
-    );
+    const listClinics = await axios.get(`${process.env.REACT_APP_API}/clinic/all`);
     return listClinics;
   },
 });
@@ -27,9 +28,7 @@ export const clinicsSelector = selector({
 export const specialtiesSelector = selector({
   key: "specialtiesSelector",
   get: async ({ get }) => {
-    const listSpecialties = await axios.get(
-      `${process.env.REACT_APP_HOST}/specialty/all`
-    );
+    const listSpecialties = await axios.get(`${process.env.REACT_APP_API}/specialty/all`);
     return listSpecialties;
   },
 });

@@ -8,12 +8,10 @@ export const clinicAtom = atomFamily({
 });
 
 export const clinicSelector = selector({
-  key: "clinicSelector",
+  key: "clinicPatientSelector",
   get: async ({ get }) => {
     let query = get(clinicAtom(defaultPageInfo));
-    let pageData = await axios.post(
-      `${process.env.REACT_APP_HOST}/clinic/filter`
-    );
+    let pageData = await axios.post(`${process.env.REACT_APP_API}/clinic/filter`);
     return pageData;
   },
 });
@@ -22,7 +20,7 @@ export const clinicSelector = selector({
 //   key: "clinicsSelector",
 //   get: async ({ get }) => {
 //     const listClinics = await axios.get(
-//       `${process.env.REACT_APP_HOST}/clinic/all`
+//       `${process.env.REACT_APP_API}/clinic/all`
 //     );
 //     console.log(">>> check ", listClinics);
 //     return listClinics;
@@ -33,7 +31,7 @@ export const clinicSelector = selector({
 //   key: "specialtiesSelector",
 //   get: async ({ get }) => {
 //     const listSpecialties = await axios.get(
-//       `${process.env.REACT_APP_HOST}/specialty/all`
+//       `${process.env.REACT_APP_API}/specialty/all`
 //     );
 //     console.log(">>> check ", listSpecialties);
 //     return listSpecialties;

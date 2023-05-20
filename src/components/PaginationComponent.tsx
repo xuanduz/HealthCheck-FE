@@ -6,6 +6,7 @@ export interface PaginationData {
   pageNum?: number;
   pageSize?: number;
   records?: number;
+  pageAmount?: number;
 }
 
 export interface PaginationProps {
@@ -17,6 +18,17 @@ export default function Pagination(props: PaginationProps) {
   const { paginationData, handlePaging } = props;
   const [activePage, setActivePage] = useState(paginationData?.pageNum || 1);
 
+  useEffect(() => {
+    paginationData?.pageNum && setActivePage(paginationData?.pageNum);
+  }, [paginationData]);
+
+  useEffect(() => {
+    handlePaging({
+      ...paginationData,
+      pageNum: activePage,
+    });
+  }, [activePage]);
+
   const getItemProps = (index: number) => {
     return {
       variant: activePage === index ? "filled" : "text",
@@ -26,26 +38,18 @@ export default function Pagination(props: PaginationProps) {
   };
 
   const next = () => {
-    if (activePage === paginationData?.pageSize) return;
-    handlePaging({
-      ...paginationData,
-      pageNum: (paginationData?.pageNum as number) + 1,
-    });
+    if (activePage === paginationData?.pageAmount) return;
     setActivePage(activePage + 1);
   };
 
   const prev = () => {
     if (activePage === 1) return;
-    handlePaging({
-      ...paginationData,
-      pageNum: (paginationData?.pageNum as number) - 1,
-    });
     setActivePage(activePage - 1);
   };
 
   const getArray = () => {
     var data = [];
-    var length = paginationData?.pageNum || 1;
+    var length = paginationData?.pageAmount || 1;
 
     for (var i = 0; i < length; i++) {
       data.push(i + 1);
@@ -86,7 +90,7 @@ export default function Pagination(props: PaginationProps) {
         color="blue-gray"
         className="flex items-center gap-2"
         onClick={next}
-        disabled={activePage === paginationData?.pageSize}
+        disabled={activePage === paginationData?.pageAmount}
       >
         Sau
         <BsArrowRight strokeWidth={2} className="h-4 w-4" />

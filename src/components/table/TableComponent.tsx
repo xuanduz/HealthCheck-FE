@@ -85,11 +85,7 @@ export default function TableComponent(props: TableComponentProps) {
                     index == 0 ? "w-[30px]" : ""
                   }`}
                 >
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none"
-                  >
+                  <Typography variant="small" color="blue-gray" className="font-bold leading-none">
                     {head}
                   </Typography>
                 </th>
@@ -99,65 +95,39 @@ export default function TableComponent(props: TableComponentProps) {
           <tbody>
             {dataTable?.map((data: PatientType, index: number) => {
               const isLast = index === dataTable?.length - 1;
-              const classes = isLast
-                ? "p-4"
-                : "p-4 border-b border-blue-gray-50";
+              const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
               return (
-                <tr key={index}>
+                <tr key={data?.id}>
                   <td className={classes}>
                     <div className="flex items-center gap-3">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold"
-                      >
+                      <Typography variant="small" color="blue-gray" className="font-bold">
                         {index + 1}
                       </Typography>
                     </div>
                   </td>
                   <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
+                    <Typography variant="small" color="blue-gray" className="font-normal">
                       {data?.fullName}
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
+                    <Typography variant="small" color="blue-gray" className="font-normal">
                       {data?.bookingTime}
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
+                    <Typography variant="small" color="blue-gray" className="font-normal">
                       {data?.addressDetail}
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
+                    <Typography variant="small" color="blue-gray" className="font-normal">
                       {data?.gender}
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
+                    <Typography variant="small" color="blue-gray" className="font-normal">
                       {data?.reason}
                     </Typography>
                   </td>

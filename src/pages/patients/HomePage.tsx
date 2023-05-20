@@ -31,16 +31,13 @@ const HomePagePatient = () => {
   });
   const filterDoctor = async (doctorFilter: FilterDoctor) => {
     const data = await axios.post(
-      `${process.env.REACT_APP_HOST}/doctor/featured/filter`,
+      `${process.env.REACT_APP_API}/doctor/featured/filter`,
       doctorFilter
     );
     setFeaturedDoctors(data.data?.data);
   };
   const filterClinic = async (doctorFilter: FilterDoctor) => {
-    const data = await axios.post(
-      `${process.env.REACT_APP_HOST}/clinic/filter`,
-      doctorFilter
-    );
+    const data = await axios.post(`${process.env.REACT_APP_API}/clinic/filter`, doctorFilter);
     setFeaturedClinics(data.data?.data);
   };
   useEffect(() => {

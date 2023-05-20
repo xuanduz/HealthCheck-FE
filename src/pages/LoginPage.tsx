@@ -4,11 +4,7 @@ import bannerDoctors from "../assets/images/doctors.jpg";
 import logo from "../assets/images/logo.png";
 import HorizontalLine from "../components/HorizontalLineComponent";
 import axios from "axios";
-import {
-  RouteNameAdmin,
-  RouteNameDoctor,
-  RouteNamePatient,
-} from "../routes/routes";
+import { RouteNameAdmin, RouteNameDoctor, RouteNamePatient } from "../routes/routes";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRecoilState } from "recoil";
@@ -26,12 +22,8 @@ export interface LoginPageProps {
 const LoginPage = (props: LoginPageProps) => {
   const cookies = new Cookies();
   const navigate = useNavigate();
-  const [refreshToken, setRefreshToken] = useRecoilState(
-    adminRefreshTokenSelector
-  );
-  const [accessToken, setAccessToken] = useRecoilState(
-    adminAccessTokenSelector
-  );
+  const [refreshToken, setRefreshToken] = useRecoilState(adminRefreshTokenSelector);
+  const [accessToken, setAccessToken] = useRecoilState(adminAccessTokenSelector);
   const { role } = props;
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -53,13 +45,10 @@ const LoginPage = (props: LoginPageProps) => {
   const handleLogin = async (e: any) => {
     e.preventDefault();
     if (role == "ADMIN") {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_HOST + RouteNameAdmin.LOGIN}`,
-        {
-          email: email,
-          password: password,
-        }
-      );
+      const { data } = await axios.post(`${process.env.REACT_APP_API + RouteNameAdmin.LOGIN}`, {
+        email: email,
+        password: password,
+      });
       if (data.success) {
         loginSuccess(data);
         navigate(RouteNameAdmin.HOME);
@@ -68,13 +57,10 @@ const LoginPage = (props: LoginPageProps) => {
       }
     }
     if (role == "DOCTOR") {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_HOST + RouteNameDoctor.LOGIN}`,
-        {
-          email: email,
-          password: password,
-        }
-      );
+      const { data } = await axios.post(`${process.env.REACT_APP_API + RouteNameDoctor.LOGIN}`, {
+        email: email,
+        password: password,
+      });
       if (data.success) {
         loginSuccess(data);
         navigate(RouteNameDoctor.HOME);
@@ -83,13 +69,10 @@ const LoginPage = (props: LoginPageProps) => {
       }
     }
     if (role == "PATIENT") {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_HOST + RouteNamePatient.LOGIN}`,
-        {
-          email: email,
-          password: password,
-        }
-      );
+      const { data } = await axios.post(`${process.env.REACT_APP_API + RouteNamePatient.LOGIN}`, {
+        email: email,
+        password: password,
+      });
       if (data.success) {
         loginSuccess(data);
         navigate(RouteNamePatient.HOME);
@@ -99,18 +82,12 @@ const LoginPage = (props: LoginPageProps) => {
     }
   };
 
-  const getGreeting = (role: string) => {
-    if (role == "ADMIN") return "Xin chào Quản trị !";
-    if (role == "DOCTOR") return "Xin chào Bác sĩ !";
-    if (role == "PATIENT") return "Xin chào !";
-  };
-
   return (
     <div className="login-content h-screen flex justify-center">
       <div className="login-container w-10/12 flex items-center">
         <div className="login-banner w-1/2 flex flex-col items-center">
           <h3 className="font-extrabold text-center text-transparent text-5xl bg-clip-text bg-gradient-to-r from-blue-800 to-blue-400">
-            {getGreeting("PATIENT")}
+            {"Xin chào !"}
           </h3>
           <img src={bannerDoctors} className="login-banner-img" alt="" />
         </div>
@@ -120,17 +97,10 @@ const LoginPage = (props: LoginPageProps) => {
               <img src={logo} className="login-banner-img w-24" alt="" />
             </div>
             <HorizontalLine widthScale="80%" />
-            <Typography
-              className="text-center mt-2"
-              variant="h2"
-              color="blue-gray"
-            >
+            <Typography className="text-center mt-2" variant="h2" color="blue-gray">
               Đăng nhập
             </Typography>
-            <form
-              className="mt-8 mb-2 w-84 max-w-screen-lg sm:w-84"
-              onSubmit={handleLogin}
-            >
+            <form className="mt-8 mb-2 w-84 max-w-screen-lg sm:w-84" onSubmit={handleLogin}>
               <div className="mb-4 flex flex-col gap-6">
                 <Input
                   size="lg"

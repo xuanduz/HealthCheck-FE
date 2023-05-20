@@ -11,45 +11,39 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { BsEye, BsFilePost } from "react-icons/bs";
-import { FiEdit3 } from "react-icons/fi";
-import { GrFormFilter } from "react-icons/gr";
-import { MdOutlineAttachFile } from "react-icons/md";
 import DialogComponent from "../../components/dialog/DialogComponent";
-import ClinicFormComponent from "../../components/clinic/ClinicFormComponent";
-import ClinicPostComponent from "../../components/clinic/ClinicPostComponent";
-import { ClinicType, defaultPageInfo } from "../../data/types.data";
+import { SpecialtyType, defaultPageInfo } from "../../data/types.data";
 import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable, useSetRecoilState } from "recoil";
-import { clinicAtom } from "../../data/recoil/admin/clinic.admin";
+import { specialtyAtom } from "../../data/recoil/admin/specialty.admin";
 import { useState, useEffect } from "react";
-import { clinicSelector } from "../../data/recoil/admin/clinic.admin";
+import { specialtySelector } from "../../data/recoil/admin/specialty.admin";
 import Pagination, { PaginationData } from "../../components/PaginationComponent";
-import ProvinceComponent from "../../components/ProvinceComponent";
-import EmptyClinic from "../../assets/images/empty-clinic.png";
-import { PostRequest } from "../../utils/rest-api";
+import Empty from "../../assets/images/empty.jpg";
+import { DeleteRequest, PostRequest } from "../../utils/rest-api";
+import SpecialtyFormComponent from "../../components/SpecialtyFormComponent";
+import { FiEdit3 } from "react-icons/fi";
 
-export interface FilterClinicType extends PaginationData {
-  clinicName?: string;
-  provinceKey?: string;
+export interface FilterSpecialtyType extends PaginationData {
+  specialtyName?: string;
 }
 
-const ClinicPageAdmin = () => {
-  const TABLE_HEAD = ["Tên", "Tỉnh/Thành", "Địa chỉ chi tiết", "Ảnh", "", ""];
-  const setFilterClinic = useSetRecoilState(clinicAtom(defaultPageInfo));
-  const listClinicLoadable = useRecoilValueLoadable(clinicSelector);
-  const [listClinics, setListClinics] = useState<ClinicType[]>([]);
+const SpecialtyPageAdmin = () => {
+  const TABLE_HEAD = ["Tên", "Ảnh", "Mô tả", ""];
+  const setFilterSpecialty = useSetRecoilState(specialtyAtom(defaultPageInfo));
+  const listSpecialtyLoadable = useRecoilValueLoadable(specialtySelector);
+  const [listSpecialtys, setListSpecialtys] = useState<SpecialtyType[]>([]);
 
-  const [formData, setFormData] = useState<FilterClinicType>();
+  const [formData, setFormData] = useState<FilterSpecialtyType>();
   const [paginationData, setPaginationData] = useState<PaginationData>();
-  const [filter, setFilter] = useState<FilterClinicType>(defaultPageInfo);
-  const refresh = useRecoilRefresher_UNSTABLE(clinicSelector);
+  const [filter, setFilter] = useState<FilterSpecialtyType>(defaultPageInfo);
+  const refresh = useRecoilRefresher_UNSTABLE(specialtySelector);
 
   useEffect(() => {
-    if (listClinicLoadable?.state == "hasValue") {
-      setListClinics(listClinicLoadable?.contents?.data?.data);
-      setPaginationData(listClinicLoadable?.contents?.data?.pagination);
+    if (listSpecialtyLoadable?.state == "hasValue") {
+      setListSpecialtys(listSpecialtyLoadable?.contents?.data?.data);
+      setPaginationData(listSpecialtyLoadable?.contents?.data?.pagination);
     }
-  }, [listClinicLoadable?.state]);
+  }, [listSpecialtyLoadable?.state]);
 
   const handleFilter = async (e: any) => {
     e.preventDefault();
@@ -68,24 +62,29 @@ const ClinicPageAdmin = () => {
 
   useEffect(() => {
     if (filter) {
-      setFilterClinic(filter);
+      setFilterSpecialty(filter);
     }
   }, [filter]);
 
-  const handleSubmitForm = async (clinicData: ClinicType) => {
-    await PostRequest(`${process.env.REACT_APP_API_ADMIN}/clinic/edit`, clinicData, true);
+  const handleSubmitForm = async (specialtyData: SpecialtyType) => {
+    await PostRequest(`${process.env.REACT_APP_API_ADMIN}/specialty/edit`, specialtyData, true);
     refresh();
   };
 
-  const handleAddClinic = async (clinicData: ClinicType) => {
-    await PostRequest(`${process.env.REACT_APP_API_ADMIN}/clinic/add-new`, clinicData, true);
+  const handleDeleteItem = async (specialtyId: number | string) => {
+    await DeleteRequest(`${process.env.REACT_APP_API_ADMIN}/specialty/${specialtyId}`, true);
+    refresh();
+  };
+
+  const handleAddSpecialty = async (specialtyData: SpecialtyType) => {
+    await PostRequest(`${process.env.REACT_APP_API_ADMIN}/specialty/add-new`, specialtyData, true);
     refresh();
   };
 
   return (
     <div>
       <Typography variant="h3" className="">
-        Quản lý cơ sở y tế
+        Quản lý chuyên khoa
       </Typography>
       <Card className="mt-4 p-3">
         <div className="p-2 flex justify-between">
@@ -93,16 +92,8 @@ const ClinicPageAdmin = () => {
             <Input
               type="search"
               label="Tìm kiếm theo tên"
-              onChange={(e: any) => setFormData({ ...formData, clinicName: e.target.value })}
+              onChange={(e: any) => setFormData({ ...formData, specialtyName: e.target.value })}
             ></Input>
-            <ProvinceComponent
-              handleChange={(value: string) =>
-                setFormData({
-                  ...formData,
-                  provinceKey: value,
-                })
-              }
-            />
             <div>
               <Button type="submit">Lọc</Button>
             </div>
@@ -111,12 +102,12 @@ const ClinicPageAdmin = () => {
             displayButton={
               <Button className="flex gap-2">
                 <AiOutlinePlus color="white" className="mt-[2px]" />
-                Thêm mới cơ sở y tế
+                Thêm mới chuyên khoa
               </Button>
             }
-            formatterContent={<ClinicFormComponent handleSubmitForm={handleAddClinic} />}
-            size="lg"
-            title="Thêm mới cơ sở y tế"
+            formatterContent={<SpecialtyFormComponent handleSubmitForm={handleAddSpecialty} />}
+            size="md"
+            title="Thêm mới chuyên khoa"
           />
         </div>
       </Card>
@@ -144,11 +135,11 @@ const ClinicPageAdmin = () => {
               </tr>
             </thead>
             <tbody>
-              {listClinics?.map((data: ClinicType, index: number) => {
-                const isLast = index === listClinics?.length - 1;
+              {listSpecialtys?.map((data: SpecialtyType, index: number) => {
+                const isLast = index === listSpecialtys?.length - 1;
                 const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
                 return (
-                  <tr key={data?.id + " " + index}>
+                  <tr key={data?.id}>
                     <td className={classes}>
                       <div className="flex items-center gap-3">
                         <Typography variant="small" color="blue-gray" className="font-bold">
@@ -162,17 +153,12 @@ const ClinicPageAdmin = () => {
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Typography variant="small" color="blue-gray" className="font-normal">
-                        {data?.provinceData?.value}
-                      </Typography>
+                      <img src={data?.image || Empty} alt="image" className="max-w-[90px]" />
                     </td>
                     <td className={classes}>
                       <Typography variant="small" color="blue-gray" className="font-normal">
-                        {data?.address}
+                        {data?.describe}
                       </Typography>
-                    </td>
-                    <td className={classes}>
-                      <img src={data?.image || EmptyClinic} alt="image" className="max-w-[100px]" />
                     </td>
                     <td className={classes}>
                       <div className="float-right">
@@ -180,12 +166,13 @@ const ClinicPageAdmin = () => {
                           <IconButton variant="text" color="blue-gray">
                             <DialogComponent
                               displayButton={<FiEdit3 className="h-4 w-4" />}
-                              title="Chỉnh sửa cơ sở y tế"
-                              size="lg"
+                              title="Chỉnh sửa chuyên khoa"
+                              size="md"
                               formatterContent={
-                                <ClinicFormComponent
+                                <SpecialtyFormComponent
                                   data={data}
                                   handleSubmitForm={handleSubmitForm}
+                                  handleDelete={handleDeleteItem}
                                 />
                               }
                             />
@@ -209,4 +196,4 @@ const ClinicPageAdmin = () => {
   );
 };
 
-export default ClinicPageAdmin;
+export default SpecialtyPageAdmin;

@@ -21,18 +21,36 @@ export const handleResetAccountCookies = () => {
   cookies.set("refreshToken", "");
 };
 
+export const getLoginRoute = () => {
+  let loginUrl = "";
+  switch (cookies.get("role")) {
+    case "ADMIN":
+      loginUrl = process.env.REACT_APP_ADMIN_URL + "/login";
+      break;
+    case "DOCTOR":
+      loginUrl = process.env.REACT_APP_DOCTOR_URL + "/login";
+      break;
+    case "PATIENT":
+      loginUrl = "/login";
+      break;
+    default:
+      break;
+  }
+  return loginUrl;
+};
+
 export const handleLogout = async () => {
   let apiStr: string | undefined = "";
   let response: boolean = false;
   switch (cookies.get("role")) {
     case "ADMIN":
-      apiStr = process.env.REACT_APP_HOST_ADMIN;
+      apiStr = process.env.REACT_APP_API_ADMIN;
       break;
     case "DOCTOR":
-      apiStr = process.env.REACT_APP_HOST_DOCTOR;
+      apiStr = process.env.REACT_APP_API_DOCTOR;
       break;
     case "PATIENT":
-      apiStr = process.env.REACT_APP_HOST;
+      apiStr = process.env.REACT_APP_API;
       break;
     default:
       break;
@@ -48,14 +66,10 @@ export const handleLogout = async () => {
         },
       })
       .then((res: any) => {
-        if (res.status == 204) {
-          handleResetAccountCookies();
-          response = true;
-        }
+        handleResetAccountCookies();
       })
-      .catch(() => {
-        toast.warn("Đăng xuất thất bại, vui lòng kiểm tra lại kết nối !");
-        response = false;
+      .catch((err: any) => {
+        console.log("err", err);
       });
   }
   return response;

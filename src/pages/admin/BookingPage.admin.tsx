@@ -14,33 +14,30 @@ import {
 import DialogComponent from "../../components/dialog/DialogComponent";
 import { FiEdit3 } from "react-icons/fi";
 import {
+  bookingOption,
+  filterOption,
   getColorStatus,
   getLabelStatus,
   listStatus,
-} from "../../data/status.data";
+} from "../../data/selection.data";
 import PatientFormComponent from "../../components/patient/PatientFormComponent";
+import { AppointmentType, CodeType, PatientType, defaultPageInfo } from "../../data/types.data";
 import {
-  AppointmentType,
-  CodeType,
-  PatientType,
-  defaultPageInfo,
-} from "../../data/types.data";
-import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
+  useRecoilRefresher_UNSTABLE,
+  useRecoilValue,
+  useRecoilValueLoadable,
+  useSetRecoilState,
+} from "recoil";
 import { provincesSelector } from "../../data/recoil/commonData";
 import { useEffect, useState } from "react";
-import {
-  bookingAtom,
-  bookingSelector,
-} from "../../data/recoil/admin/booking.admin";
-import Pagination, {
-  PaginationData,
-  PaginationProps,
-} from "../../components/PaginationComponent";
+import { bookingAtom, bookingSelector } from "../../data/recoil/admin/booking.admin";
+import Pagination, { PaginationData, PaginationProps } from "../../components/PaginationComponent";
 import ProvinceComponent from "../../components/ProvinceComponent";
 import AdminFormPatientComponent from "../../components/admin/AdminFormPatientComponent";
 import { PostRequest } from "../../utils/rest-api";
+import SelectComponent from "../../components/SelectComponent";
 
-export interface FilterAppointmentType {
+export interface FilterAppointmentType extends PaginationData {
   date?: string;
   orderBy?: string;
   patientName?: string;
@@ -49,39 +46,27 @@ export interface FilterAppointmentType {
   bookingType?: string;
 }
 
-export interface FilterBookingType
-  extends FilterAppointmentType,
-    PaginationData {}
-
 const BookingPageAdmin = () => {
-  const provinces = useRecoilValueLoadable(provincesSelector);
-  const [listProvinces, setListProvinces] = useState<CodeType[]>([]);
   const setFilterBooking = useSetRecoilState(bookingAtom(defaultPageInfo));
   const listBookingLoadable = useRecoilValueLoadable(bookingSelector);
   const [listBookings, setListBookings] = useState<AppointmentType[]>([]);
+
   const [formData, setFormData] = useState<FilterAppointmentType>();
   const [paginationData, setPaginationData] = useState<PaginationData>();
-  const [filter, setFilter] = useState<FilterBookingType>(defaultPageInfo);
-
-  useEffect(() => {
-    if (provinces?.state == "hasValue") {
-      setListProvinces([
-        { id: 0, key: "", type: "", value: "Tất cả" },
-        ...provinces?.contents?.data?.data,
-      ]);
-    }
-  }, [provinces.state]);
+  const [filter, setFilter] = useState<FilterAppointmentType>(defaultPageInfo);
+  const refresh = useRecoilRefresher_UNSTABLE(bookingSelector);
 
   useEffect(() => {
     if (listBookingLoadable?.state == "hasValue") {
       setListBookings(listBookingLoadable?.contents?.data?.data);
       setPaginationData(listBookingLoadable?.contents?.data?.pagination);
     }
-  }, [listBookingLoadable]);
+  }, [listBookingLoadable?.state]);
 
   const TABLE_HEAD = [
     "Thời gian",
     "Họ Tên",
+    "Email",
     "Số điện thoại",
     "Tỉnh/Thành",
     "Trạng thái",
@@ -89,34 +74,15 @@ const BookingPageAdmin = () => {
     "",
   ];
 
-  const filterOption = [
-    {
-      label: "Mới nhất",
-      value: "DESC",
-    },
-    {
-      label: "Cũ nhất",
-      value: "ASC",
-    },
-  ];
-
-  const bookingOption = [
-    {
-      label: "Khám tại nhà",
-      value: "B2",
-    },
-    {
-      label: "Khám tại phòng khám",
-      value: "B1",
-    },
-  ];
-
   const handleUpdateFormPatient = async (data: any) => {
     const res = await PostRequest(
-      `${process.env.REACT_APP_HOST_ADMIN}/appointment/edit`,
+      `${process.env.REACT_APP_API_ADMIN}/appointment/edit`,
       data,
       true
     );
+    if (res?.data?.success) {
+      refresh();
+    }
   };
 
   const handleFilter = async (e: any) => {
@@ -160,28 +126,20 @@ const BookingPageAdmin = () => {
                 })
               }
             ></Input>
-            <Select
-              label="Lọc theo thời gian"
-              menuProps={{ className: "h-42" }}
-              onChange={(value: any) =>
+            <SelectComponent
+              data={filterOption}
+              onChange={(value: any) => {
                 setFormData({
                   ...formData,
                   orderBy: value,
-                })
-              }
-            >
-              {filterOption.map((opt: any) => (
-                <Option key={opt?.value} value={opt?.value}>
-                  {opt?.label}
-                </Option>
-              ))}
-            </Select>
+                });
+              }}
+              labelFirstElement="Lọc theo thời gian"
+            />
             <Input
               type="search"
               label="Tìm kiếm theo tên"
-              onChange={(e: any) =>
-                setFormData({ ...formData, patientName: e.target.value })
-              }
+              onChange={(e: any) => setFormData({ ...formData, patientName: e.target.value })}
             ></Input>
             <ProvinceComponent
               handleChange={(value: string) =>
@@ -191,38 +149,27 @@ const BookingPageAdmin = () => {
                 })
               }
             />
-            <Select
-              label="Chọn trạng thái"
-              menuProps={{ className: "h-42" }}
+            <SelectComponent
+              data={listStatus}
               onChange={(value: any) =>
                 setFormData({
                   ...formData,
                   statusKey: value,
                 })
               }
-            >
-              {listStatus.map((opt: any) => (
-                <Option key={opt.name} value={opt.value}>
-                  {opt.name}
-                </Option>
-              ))}
-            </Select>
-            <Select
-              label="Địa điểm khám"
-              menuProps={{ className: "h-42" }}
+              labelFirstElement="Chọn trạng thái"
+            />
+            <SelectComponent
+              data={bookingOption}
               onChange={(value: any) =>
                 setFormData({
                   ...formData,
                   bookingType: value,
                 })
               }
-            >
-              {bookingOption.map((opt: any) => (
-                <Option key={opt.name} value={opt.value}>
-                  {opt.label}
-                </Option>
-              ))}
-            </Select>
+              customClassName="w-72"
+              labelFirstElement="Địa điểm khám"
+            />
             <div>
               <Button type="submit">Lọc</Button>
             </div>
@@ -235,21 +182,14 @@ const BookingPageAdmin = () => {
             <thead>
               <tr>
                 <th
-                  className={`border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-[30px]`}
+                  className={`border-y bg-gray border-blue-gray-100 bg-blue-gray-50/50 p-4 w-[30px]`}
                 >
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none"
-                  >
+                  <Typography variant="small" color="blue-gray" className="font-bold leading-none">
                     STT
                   </Typography>
                 </th>
                 {TABLE_HEAD.map((head: string, index: number) => (
-                  <th
-                    key={head}
-                    className={`border-y border-blue-gray-100 bg-blue-gray-50/50 p-4`}
-                  >
+                  <th key={head} className={`border-y border-blue-gray-100 bg-blue-gray-50/50 p-4`}>
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -264,55 +204,38 @@ const BookingPageAdmin = () => {
             <tbody>
               {listBookings?.map((data: AppointmentType, index: number) => {
                 const isLast = index === listBookings?.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+                const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
                 return (
-                  <tr key={index}>
+                  <tr key={data?.id}>
                     <td className={classes}>
                       <div className="flex items-center gap-3">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-bold"
-                        >
+                        <Typography variant="small" color="blue-gray" className="font-bold">
                           {index + 1}
                         </Typography>
                       </div>
                     </td>
                     <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
+                      <Typography variant="small" color="blue-gray" className="font-normal">
                         {data?.timeData?.value + " / " + data.date}
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
+                      <Typography variant="small" color="blue-gray" className="font-normal">
                         {data?.patientData?.fullName}
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        {data?.patientData?.email}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography variant="small" color="blue-gray" className="font-normal">
                         {data?.patientData?.phoneNumber}
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
+                      <Typography variant="small" color="blue-gray" className="font-normal">
                         {data?.patientData?.provincePatientData?.value}
                       </Typography>
                     </td>
@@ -323,30 +246,27 @@ const BookingPageAdmin = () => {
                       />
                     </td>
                     <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
+                      <Typography variant="small" color="blue-gray" className="font-normal">
                         {data?.bookingData?.value}
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Tooltip content="Chỉnh sửa">
-                        <IconButton variant="text" color="blue-gray">
-                          <DialogComponent
-                            displayButton={<FiEdit3 className="h-4 w-4" />}
-                            formatterContent={
-                              <AdminFormPatientComponent
-                                handleSubmitForm={handleUpdateFormPatient}
-                                appointmentData={data}
-                              />
-                            }
-                            title="Chỉnh sửa thông tin bệnh nhân"
-                            accessText="Lưu"
-                          />
-                        </IconButton>
-                      </Tooltip>
+                      <div className="float-right">
+                        <Tooltip content="Chỉnh sửa">
+                          <IconButton variant="text" color="blue-gray">
+                            <DialogComponent
+                              displayButton={<FiEdit3 className="h-4 w-4" />}
+                              formatterContent={
+                                <AdminFormPatientComponent
+                                  handleSubmitForm={handleUpdateFormPatient}
+                                  appointmentData={data}
+                                />
+                              }
+                              title="Chỉnh sửa thông tin bệnh nhân"
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -356,10 +276,7 @@ const BookingPageAdmin = () => {
         </CardBody>
         <CardFooter>
           <div className="flex justify-center">
-            <Pagination
-              paginationData={paginationData}
-              handlePaging={handlePaging}
-            />
+            <Pagination paginationData={paginationData} handlePaging={handlePaging} />
           </div>
         </CardFooter>
       </Card>

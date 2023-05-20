@@ -1,5 +1,5 @@
 import { Button, Input, Radio, Textarea } from "@material-tailwind/react";
-import { listStatus } from "../../data/status.data";
+import { bookingOption, listStatus } from "../../data/selection.data";
 import ProvinceComponent from "../ProvinceComponent";
 import { AppointmentType, PatientType } from "../../data/types.data";
 import { useState } from "react";
@@ -9,14 +9,11 @@ export interface AdminFormPatientComponentProps {
   appointmentData?: AppointmentType;
 }
 
-export default function AdminFormPatientComponent(
-  props: AdminFormPatientComponentProps
-) {
+export default function AdminFormPatientComponent(props: AdminFormPatientComponentProps) {
   const { handleSubmitForm, appointmentData } = props;
-  const [patient, setPatient] = useState<PatientType>(
-    appointmentData?.patientData || {}
-  );
+  const [patient, setPatient] = useState<PatientType>(appointmentData?.patientData || {});
   const [status, setStatus] = useState<any>(appointmentData?.statusKey);
+  const [bookingType, setBookingType] = useState<any>(appointmentData?.bookingType);
   const [reason, setReason] = useState<any>(appointmentData?.reason);
 
   const onSubmit = (e: any) => {
@@ -24,6 +21,7 @@ export default function AdminFormPatientComponent(
     const updateValue = {
       id: appointmentData?.id,
       statusKey: status,
+      bookingType: bookingType,
       reason: reason,
       patientData: { ...patient },
     };
@@ -73,9 +71,16 @@ export default function AdminFormPatientComponent(
       />
       <Input
         size="lg"
+        label="Email"
+        value={patient?.email}
+        onChange={(e: any) => updateValue({ email: e.target.value })}
+        required
+      />
+      <Input
+        size="lg"
         label="Số điện thoại"
         value={patient?.phoneNumber}
-        pattern="[089][0-9]{9}"
+        pattern="[0-9]+"
         maxLength={12}
         onChange={(e: any) => updateValue({ phoneNumber: e.target.value })}
         required
@@ -93,6 +98,7 @@ export default function AdminFormPatientComponent(
         required
       />
       <div className="black-all-child">
+        <p>Tỉnh/Thành</p>
         <ProvinceComponent
           provinceKey={patient?.provinceKey}
           handleChange={(value: string) => updateValue({ provinveKey: value })}
@@ -106,6 +112,7 @@ export default function AdminFormPatientComponent(
         required
       />
       <div className=" black-all-child">
+        <p>Trạng thái</p>
         <select
           id="status"
           className="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2.5 outline-none"
@@ -113,11 +120,22 @@ export default function AdminFormPatientComponent(
           value={status}
         >
           {listStatus?.map((stt: any, idx: number) => (
-            <option
-              selected={idx == 0 ? true : false}
-              key={stt.name}
-              value={stt.value}
-            >
+            <option key={stt.name} value={stt.key}>
+              {stt.value}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className=" black-all-child">
+        <p>Địa điểm khám</p>
+        <select
+          id="status"
+          className="bg-white border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2.5 outline-none"
+          onChange={(e: any) => setBookingType(e.target.value)}
+          value={bookingType}
+        >
+          {bookingOption?.map((stt: any, idx: number) => (
+            <option key={stt.name} value={stt.key}>
               {stt.value}
             </option>
           ))}

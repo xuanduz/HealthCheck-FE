@@ -14,11 +14,7 @@ import DoctorDetailPage from "./pages/patients/DoctorDetailPage";
 import BookingPage from "./pages/patients/BookingPage";
 import BookingForm from "./pages/patients/BookingForm";
 import HomePageDoctor from "./pages/doctor/HomePage.doctor";
-import {
-  RouteNameAdmin,
-  RouteNameDoctor,
-  RouteNamePatient,
-} from "./routes/routes";
+import { RouteNameAdmin, RouteNameDoctor, RouteNamePatient } from "./routes/routes";
 import AppointmentPageDoctor from "./pages/doctor/AppointmentPage.doctor";
 import SchedulePageDoctor from "./pages/doctor/SchedulePage.doctor";
 import DoctorLayout from "./layout/DoctorLayout";
@@ -29,8 +25,19 @@ import ClinicPageAdmin from "./pages/admin/ClinicPage.admin";
 import DoctorPageAdmin from "./pages/admin/DoctorPage.admin";
 import RegisterPageAdmin from "./pages/admin/RegisterPage.admin";
 import HomePageAdmin from "./pages/admin/HomePage.admin";
+import { useRecoilState } from "recoil";
+import { adminAccessTokenSelector } from "./data/recoil/admin/auth.admin";
+import { useEffect } from "react";
+import Cookies from "universal-cookie";
+import axios from "axios";
+import { PostRequest } from "./utils/rest-api";
+import { getLoginRoute, handleResetAccountCookies } from "./utils/utils";
+import SpecialtyPageAdmin from "./pages/admin/SpecialtyPage.admin";
+import ChangePasswordPageAdmin from "./pages/admin/ChangePasswordPage.admin";
 
 function App() {
+  const cookies = new Cookies();
+  const [accessToken, setAccessToken] = useRecoilState(adminAccessTokenSelector);
   const router = createBrowserRouter([
     {
       path: RouteNamePatient.HOME,
@@ -171,6 +178,14 @@ function App() {
       ),
     },
     {
+      path: RouteNameAdmin.SPECIALTY,
+      element: (
+        <AdminLayout>
+          <SpecialtyPageAdmin />
+        </AdminLayout>
+      ),
+    },
+    {
       path: RouteNameAdmin.DOCTORS,
       element: (
         <AdminLayout>
@@ -186,7 +201,63 @@ function App() {
         </AdminLayout>
       ),
     },
+    {
+      path: RouteNameAdmin.CHANGE_PASSWORD,
+      element: (
+        <AdminLayout>
+          <ChangePasswordPageAdmin />
+        </AdminLayout>
+      ),
+    },
   ]);
+
+  const resetAccessToken = async () => {
+    if (cookies.get("refreshToken")) {
+      let url: String = "";
+      switch (cookies.get("role")) {
+        case "ADMIN":
+          url = process.env.REACT_APP_API_ADMIN || "";
+          break;
+        case "DOCTOR":
+          url = process.env.REACT_APP_API_DOCTOR || "";
+          break;
+        case "PATIENT":
+          url = process.env.REACT_APP_API || "";
+          break;
+        default:
+          break;
+      }
+      await axios
+        .post(`${url}/token`, {
+          refreshToken: cookies.get("refreshToken"),
+        })
+        .then((res: any) => {
+          cookies.set("accessToken", res.data?.accessToken);
+        })
+        .catch((err: any) => {
+          if (err.response.status == 401) {
+            const loginUrl = process.env.REACT_APP_HOST + getLoginRoute();
+            console.log("getLoginRoute()", loginUrl);
+            window.location.replace(loginUrl);
+            // navigate(getLoginRoute());
+            handleResetAccountCookies();
+          }
+        });
+      // if (res?.data) {
+      //   cookies.set("accessToken", res.data?.accessToken);
+      // }
+      // console.log(">>> ", res);
+    }
+  };
+
+  useEffect(() => {
+    const minutes = 1000 * 60 * 9;
+    // const minutes = 1000 * 60 * 25;
+    setInterval(async () => {
+      console.log(">>> refresh token");
+      resetAccessToken();
+    }, minutes);
+  }, []);
 
   return (
     <div>

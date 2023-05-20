@@ -7,7 +7,7 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { listStatus } from "../../data/status.data";
+import { listStatus } from "../../data/selection.data";
 import { PatientType } from "../../data/types.data";
 
 export interface PatientFormComponentProps {
