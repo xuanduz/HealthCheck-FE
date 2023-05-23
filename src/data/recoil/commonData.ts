@@ -1,5 +1,5 @@
 import axios from "axios";
-import { atom, atomFamily, selector, selectorFamily } from "recoil";
+import { selector } from "recoil";
 
 export const provincesSelector = selector({
   key: "provincesSelector",
@@ -30,6 +30,14 @@ export const specialtiesSelector = selector({
   get: async ({ get }) => {
     const listSpecialties = await axios.get(`${process.env.REACT_APP_API}/specialty/all`);
     return listSpecialties;
+  },
+});
+
+export const scheduleSelector = selector({
+  key: "scheduleSelector",
+  get: async ({ get }) => {
+    const listSchedues = await axios.get(`${process.env.REACT_APP_API_DOCTOR}/schedule/all`);
+    return listSchedues;
   },
 });
 

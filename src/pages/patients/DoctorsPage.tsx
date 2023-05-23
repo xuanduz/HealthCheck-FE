@@ -2,11 +2,69 @@ import { Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
 import ContainerComponent from "../../components/ContainerComponent";
 import FilterForm, { InputFilter } from "../../components/FilterForm";
-import { useState } from "react";
 import CardComponent from "../../components/CardComponent";
+import { DoctorType, SpecialtyType, defaultPageInfo } from "../../data/types.data";
+import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
+import { doctorPatientAtom, doctorPatientSelector } from "../../data/recoil/patient/doctor.patient";
+import Pagination, { PaginationData } from "../../components/PaginationComponent";
+import { useEffect, useState } from "react";
+import { VNDMoney } from "../../utils/utils";
+import EmptyDoctor from "../../assets/images/empty-doctor.png";
+import { toast } from "react-toastify";
+
+export interface FilterDoctorPatientType extends PaginationData {
+  doctorName?: string;
+  clinicId?: string;
+  price?: any;
+}
 
 const DoctorsPage = () => {
-  const [filter, setFilter] = useState<InputFilter>();
+  const setFilterDoctor = useSetRecoilState(doctorPatientAtom(defaultPageInfo));
+  const listDoctorLoadable = useRecoilValueLoadable(doctorPatientSelector);
+
+  const [paginationData, setPaginationData] = useState<PaginationData>();
+  const [listDoctors, setListDoctors] = useState<DoctorType[]>([]);
+  const [filter, setFilter] = useState<FilterDoctorPatientType>(defaultPageInfo);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (listDoctorLoadable?.state == "hasValue") {
+      setListDoctors(listDoctorLoadable?.contents?.data?.data);
+      setPaginationData(listDoctorLoadable?.contents?.data?.pagination);
+    }
+  }, [listDoctorLoadable]);
+
+  useEffect(() => {
+    if (filter) {
+      setFilterDoctor(filter);
+    }
+  }, [filter]);
+
+  const handleFilter = ({ ...params }) => {
+    const data = { ...params };
+    const dataFilter: any = {
+      ...defaultPageInfo,
+      pageNum: 1,
+      doctorName: data?.name,
+      clinicId: data?.clinicId,
+      ...data,
+    };
+    if (dataFilter?.minPrice > dataFilter?.maxPrice) {
+      toast.warn("Giá nhỏ nhất phải thấp hơn hoặc bằng mức giá lớn nhất !");
+    } else {
+      setFilter(dataFilter);
+    }
+  };
+
+  const handlePaging = (paginationData: PaginationData) => {
+    setFilter({
+      ...filter,
+      ...paginationData,
+    });
+  };
 
   return (
     <>
@@ -30,7 +88,9 @@ const DoctorsPage = () => {
                 <FilterForm
                   haveName={true}
                   havePrice={true}
-                  handleSubmitFilterForm={setFilter}
+                  haveClinic={true}
+                  haveSpecialty={true}
+                  handleSubmitFilterForm={handleFilter}
                 />
               </div>
             </Card>
@@ -41,20 +101,26 @@ const DoctorsPage = () => {
             </Typography>
             <div>
               <ul className="grid grid-cols-3 gap-5 mt-2">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any, index: number) => (
+                {listDoctors?.map((doctor: DoctorType, index: number) => (
                   <li className="basis-1/3">
                     <CardComponent
-                      key={index}
-                      id={index}
-                      url={`/doctors/${index}`}
-                      title="Nguyen xuan duc"
-                      describe="Phó giáo sư, tiến sĩ"
-                      price="100.000d"
-                      image="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
+                      key={doctor?.id}
+                      title={doctor?.positionData?.value + " " + doctor.fullName}
+                      url={`/doctors/${doctor.id}`}
+                      price={doctor?.price ? VNDMoney.format(+doctor?.price) : ""}
+                      describe={doctor?.describe}
+                      specialties={doctor?.specialtyData
+                        ?.map((spec: SpecialtyType) => spec?.name)
+                        ?.join(", ")}
+                      // address={getLabelProvice(doctor?.provinceKey ? doctor.provinceKey : '', [] as any)}
+                      image={doctor?.image || EmptyDoctor}
                     />
                   </li>
                 ))}
               </ul>
+            </div>
+            <div className="flex justify-center my-14">
+              <Pagination paginationData={paginationData} handlePaging={handlePaging} />
             </div>
           </div>
         </div>

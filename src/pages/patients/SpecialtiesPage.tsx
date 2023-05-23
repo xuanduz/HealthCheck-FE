@@ -2,11 +2,34 @@ import { Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
 import ContainerComponent from "../../components/ContainerComponent";
 import FilterForm, { InputFilter } from "../../components/FilterForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CardComponent from "../../components/CardComponent";
+import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
+import { specialtiesSelector } from "../../data/recoil/commonData";
+import { SpecialtyType, defaultPageInfo } from "../../data/types.data";
+import EmptySpecialty from "../../assets/images/empty-specialty.png";
+import { PaginationData } from "../../components/PaginationComponent";
+import { specialtyAtom } from "../../data/recoil/admin/specialty.admin";
+import { speciatyPatientSelector } from "../../data/recoil/patient/specialty.patient";
 
 const SpecialtiesPage = () => {
+  const setFilterClinic = useSetRecoilState(specialtyAtom(defaultPageInfo));
+  const listClinicLoadable = useRecoilValueLoadable(speciatyPatientSelector);
+
+  const [paginationData, setPaginationData] = useState<PaginationData>();
+  const [listSpecialties, setListSpecialties] = useState<SpecialtyType[]>([]);
   const [filter, setFilter] = useState<InputFilter>();
+
+  useEffect(() => {
+    if (listClinicLoadable?.state == "hasValue") {
+      const data = listClinicLoadable?.contents?.data?.data;
+      setListSpecialties(data);
+    }
+  }, [listClinicLoadable.state]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
@@ -27,10 +50,7 @@ const SpecialtiesPage = () => {
             </Typography>
             <Card className="p-4 shadow-xl mt-2">
               <div>
-                <FilterForm
-                  haveName={true}
-                  handleSubmitFilterForm={setFilter}
-                />
+                <FilterForm haveName={true} handleSubmitFilterForm={setFilter} />
               </div>
             </Card>
           </div>
@@ -40,14 +60,14 @@ const SpecialtiesPage = () => {
             </Typography>
             <div>
               <ul className="grid grid-cols-3 gap-5 mt-2">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any, index: number) => (
+                {listSpecialties?.map((item: SpecialtyType, index: number) => (
                   <li className="basis-1/3">
                     <CardComponent
-                      key={index}
-                      id={index}
-                      url={`/specialties/${index}`}
-                      title="Chuyên khoa xương khớp"
-                      image="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
+                      key={item?.id}
+                      url={`/specialties/${item?.id}`}
+                      title={item?.name}
+                      describe={item?.describe}
+                      image={item?.image || EmptySpecialty}
                     />
                   </li>
                 ))}

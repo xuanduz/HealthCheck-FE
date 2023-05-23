@@ -33,47 +33,49 @@ const ChangePasswordPageAdmin = () => {
       <Typography variant="h3" className="">
         Đổi mật khẩu
       </Typography>
-      <div className="w-[350px] mt-5">
-        <Card>
-          <CardBody>
-            <form onSubmit={handleSubmitForm} className="flex flex-col gap-5">
-              <Input
-                type="password"
-                label="Mật khẩu cũ"
-                required
-                onChange={(e: any) =>
-                  setData({
-                    ...data,
-                    oldPassword: e.target.value,
-                  })
-                }
-              ></Input>
-              <Input
-                type="password"
-                label="Mật khẩu mới"
-                required
-                onChange={(e: any) =>
-                  setData({
-                    ...data,
-                    newPassword: e.target.value,
-                  })
-                }
-              ></Input>
-              <Input
-                type="password"
-                label="Nhập lại mật khẩu mới"
-                required
-                onChange={(e: any) =>
-                  setData({
-                    ...data,
-                    reNewPassword: e.target.value,
-                  })
-                }
-              ></Input>
-              <Button type="submit">{"Xác nhận"}</Button>
-            </form>
-          </CardBody>
-        </Card>
+      <div className="flex justify-center">
+        <div className="w-[450px] mt-5">
+          <Card>
+            <CardBody>
+              <form onSubmit={handleSubmitForm} className="flex flex-col gap-5">
+                <Input
+                  type="password"
+                  label="Mật khẩu cũ"
+                  required
+                  onChange={(e: any) =>
+                    setData({
+                      ...data,
+                      oldPassword: e.target.value,
+                    })
+                  }
+                ></Input>
+                <Input
+                  type="password"
+                  label="Mật khẩu mới"
+                  required
+                  onChange={(e: any) =>
+                    setData({
+                      ...data,
+                      newPassword: e.target.value,
+                    })
+                  }
+                ></Input>
+                <Input
+                  type="password"
+                  label="Nhập lại mật khẩu mới"
+                  required
+                  onChange={(e: any) =>
+                    setData({
+                      ...data,
+                      reNewPassword: e.target.value,
+                    })
+                  }
+                ></Input>
+                <Button type="submit">{"Xác nhận"}</Button>
+              </form>
+            </CardBody>
+          </Card>
+        </div>
       </div>
     </>
   );

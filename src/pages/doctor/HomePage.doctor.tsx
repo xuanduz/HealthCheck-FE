@@ -1,6 +1,4 @@
 import { useState } from "react";
-import SidebarComponent from "../../components/sidebar/SidebarComponent";
-import NavbarComponent from "../../components/NavbarComponent";
 import { Typography } from "@material-tailwind/react";
 
 const HomePageDoctor = () => {

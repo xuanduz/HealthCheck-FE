@@ -7,10 +7,37 @@ import SmallContainerComponent from "../../components/SmallContainerComponent";
 import { GrSchedule } from "react-icons/gr";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import SmallCardComponent from "../../components/SmallCardComponent";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { RouteNamePatient } from "../../routes/routes";
+import { useEffect, useState } from "react";
+import { GetRequest } from "../../utils/rest-api";
+import { DoctorType, ScheduleType } from "../../data/types.data";
+import EmptyDoctor from "../../assets/images/empty-doctor.png";
+import parse from "html-react-parser";
+import { VNDMoney, groupDate } from "../../utils/utils";
+import ScheduleDoctor from "../../components/patient/ScheduleDoctor.Component";
 
 const DoctorDetailPage = () => {
+  let { id } = useParams();
+  const [doctorData, setDoctorData] = useState<DoctorType>();
+  const [listScheduleData, setListScheduleData] = useState<any>();
+
+  useEffect(() => {
+    getDoctorDetail();
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  const getDoctorDetail = async () => {
+    const res = await GetRequest(`${process.env.REACT_APP_API}/doctor/${id}`);
+    setDoctorData(res.data?.data);
+    if (res.data?.data?.scheduleData?.length) {
+      let schedules = groupDate(res.data?.data?.scheduleData);
+      setListScheduleData(schedules);
+    }
+  };
+
+  console.log("listScheduleData", listScheduleData);
+
   return (
     <>
       <div className="relative">
@@ -28,32 +55,28 @@ const DoctorDetailPage = () => {
             <div className="relative">
               <Avatar
                 alt="doctor"
-                src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000"
+                src={doctorData?.image || EmptyDoctor}
                 sx={{ width: 200, height: 200 }}
                 className="absolute top-[-5rem]"
               />
             </div>
             <div>
-              <Typography variant="h2">Lorem, ipsum dolor.</Typography>
-              <p>Lorem ipsum dolor sit amet.</p>
+              <Typography variant="h2">
+                {(doctorData?.positionData?.value || "") + " " + doctorData?.fullName}
+              </Typography>
+              <p>{doctorData?.describe}</p>
             </div>
           </div>
           <div>
             <div className="flex gap-1 pt-2 pr-6 pb-2 pl-6 border-2 rounded-lg">
               <span>Giá khám:</span>
-              <p>315.000 đ</p>
+              <p>{doctorData?.price ? VNDMoney.format(+doctorData?.price) : ""}</p>
             </div>
           </div>
         </div>
         <div className="flex">
           <div className="simple_info basis-1/2">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Repellendus officia voluptatem officiis! Tenetur expedita, saepe,
-            delectus at asperiores nulla dolores dicta quis esse quaerat quasi
-            adipisci molestiae porro animi totam deserunt. Voluptatibus quis
-            laborum ratione aspernatur. Maiores porro error ipsa. Vitae,
-            blanditiis maiores nobis ipsa sint perspiciatis optio accusantium
-            iure!
+            <div className="description mt-4">{parse(doctorData?.descriptionHTML || "")}</div>
           </div>
           <div className="flex flex-col gap-4 basis-1/2">
             <Card className="schedule p-4">
@@ -63,10 +86,10 @@ const DoctorDetailPage = () => {
                     <GrSchedule className="mt-1" /> Lịch khám
                   </Typography>
                   <HorizontalLine />
+                  <div className="p-3">
+                    <ScheduleDoctor schedule={listScheduleData} doctor={doctorData} />
+                  </div>
                 </div>
-                <Link to={RouteNamePatient.BOOKING_FORM}>
-                  <Button className="w-full">Đặt lịch ngay</Button>
-                </Link>
               </form>
             </Card>
             <Card color="yellow" className="p-4">
@@ -74,9 +97,8 @@ const DoctorDetailPage = () => {
                 <BsFillExclamationCircleFill className="mt-1" /> Chú ý
               </Typography>
               <p className="text-black">
-                Lịch là lịch dự kiến có thể sẽ thay đổi. Chúng tôi khuyên bạn
-                nên đặt lịch bác sĩ trong vòng 7 ngày để tránh thời gian chờ
-                đợi.
+                Lịch là lịch dự kiến có thể sẽ thay đổi. Chúng tôi khuyên bạn nên đặt lịch bác sĩ
+                trong vòng dưới 7 ngày để tránh thời gian chờ đợi.
               </p>
             </Card>
             <div>
@@ -84,10 +106,10 @@ const DoctorDetailPage = () => {
                 Chuyên gia tương tự
               </Typography>
               <div>
-                <SmallCardComponent
-                  title="quiwb qw eqw"
+                <SmallCardComponent //TODO:
+                  title="Bác sĩ Nguyễn Văn Năm"
                   url="213"
-                  describe="qwe qwe qwe qweqw riwor ioqow"
+                  describe="Bác sĩ"
                   image="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000"
                 />
               </div>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { CodeType } from "../data/types.data";
+import { CodeType, ScheduleType } from "../data/types.data";
 import { toast } from "react-toastify";
 
 const cookies = new Cookies();
@@ -15,6 +15,7 @@ export const getLabelProvice = (proKey: string, listPro: Array<CodeType>) => {
 };
 
 export const handleResetAccountCookies = () => {
+  cookies.set("id", "");
   cookies.set("role", "");
   cookies.set("email", "");
   cookies.set("accessToken", "");
@@ -73,4 +74,15 @@ export const handleLogout = async () => {
       });
   }
   return response;
+};
+
+export const groupDate = (schedules: ScheduleType[]) => {
+  const groups = schedules?.reduce(
+    (groups: any, item: ScheduleType) => ({
+      ...groups,
+      [item?.date as string]: [...(groups[item?.date as string] || []), item],
+    }),
+    {}
+  );
+  return groups;
 };

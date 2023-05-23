@@ -4,27 +4,24 @@ import ContainerComponent from "../../components/ContainerComponent";
 import FilterForm, { InputFilter } from "../../components/FilterForm";
 import { useState, useEffect } from "react";
 import CardComponent from "../../components/CardComponent";
-import {
-  useRecoilStateLoadable,
-  useRecoilValueLoadable,
-  useSetRecoilState,
-} from "recoil";
+import { useRecoilStateLoadable, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import { ClinicType, CodeType, defaultPageInfo } from "../../data/types.data";
-import {
-  clinicAtom,
-  clinicSelector,
-} from "../../data/recoil/patient/clinic.patient";
+import { clinicAtom, clinicSelector } from "../../data/recoil/patient/clinic.patient";
 import { provincesSelector } from "../../data/recoil/commonData";
 import EmptyClinic from "../../assets/images/empty-clinic.png";
-import Pagination from "../../components/PaginationComponent";
+import Pagination, { PaginationData } from "../../components/PaginationComponent";
+import { FilterClinicType } from "../admin/ClinicPage.admin";
 
 const ClinicsPage = () => {
   // const [listClinics, setFilterClinic] = useRecoilStateLoadable(clinicSelector);
   const setFilterClinic = useSetRecoilState(clinicAtom(defaultPageInfo));
   const listClinicLoadable = useRecoilValueLoadable(clinicSelector);
   const provinces = useRecoilValueLoadable(provincesSelector);
+
+  const [paginationData, setPaginationData] = useState<PaginationData>();
   const [listProvinces, setListProvinces] = useState<CodeType[]>([]);
   const [listClinics, setListClinics] = useState<ClinicType[]>([]);
+  const [filter, setFilter] = useState<FilterClinicType>(defaultPageInfo);
 
   useEffect(() => {
     if (provinces?.state == "hasValue") {
@@ -36,17 +33,36 @@ const ClinicsPage = () => {
   }, [provinces.state]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (listClinicLoadable?.state == "hasValue") {
       setListClinics(listClinicLoadable?.contents?.data?.data);
+      setPaginationData(listClinicLoadable?.contents?.data?.pagination);
     }
   }, [listClinicLoadable]);
 
+  useEffect(() => {
+    if (filter) {
+      setFilterClinic(filter);
+    }
+  }, [filter]);
+
   const handleFilter = ({ ...params }) => {
     const data = { ...params };
-    setFilterClinic({
+    setFilter({
       ...defaultPageInfo,
+      pageNum: 1,
       clinicName: data?.name,
       provinceKey: data?.provinceKey,
+    });
+  };
+
+  const handlePaging = (paginationData: PaginationData) => {
+    setFilter({
+      ...filter,
+      ...paginationData,
     });
   };
 
@@ -91,16 +107,16 @@ const ClinicsPage = () => {
                       id={index}
                       url={`/clinics/${clinic?.id}`}
                       title={clinic?.name}
-                      describe={clinic?.describe}
                       address={clinic?.provinceData?.value}
+                      describe={clinic?.address}
                       image={clinic?.image || EmptyClinic}
                     />
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="flex justify-center my-10">
-              {/* <Pagination /> */}
+            <div className="flex justify-center my-14">
+              <Pagination paginationData={paginationData} handlePaging={handlePaging} />
             </div>
           </div>
         </div>

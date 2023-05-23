@@ -9,8 +9,12 @@ export const RouteNamePatient = {
   SPECIALTIES: "/specialties",
   SPECIALTY_DETAIL: "/specialties/:id",
   BOOKING_DOCTOR: "/booking",
-  BOOKING_FORM: "/booking/123",
+  BOOKING_FORM: "/booking/:id",
   LOGIN: "/login",
+  REGISTER: "/register",
+  INFORMATION: "/information",
+  CHANGE_PASSWORD: "/change-password",
+  HISTORY: "/history",
 };
 
 export const RouteNameDoctor = {
@@ -18,6 +22,7 @@ export const RouteNameDoctor = {
   HOME: "/system-doctor/home",
   SCHEDULE: "/system-doctor/schedule",
   APPOINTMENT: "/system-doctor/appointment",
+  INFOMATION: "/system-doctor/doctor",
   CHANGE_PASSWORD: "/system-doctor/change-password",
 };
 
@@ -37,8 +42,8 @@ export const RouteNameAdmin = {
 };
 
 export const RoleRoutes = {
-  ADMIN: "admin",
-  DOCTOR: "doctor",
+  ADMIN: "ADMIN",
+  DOCTOR: "DOCTOR",
 };
 
 export const routesSidebar: RoutesType[] = [
@@ -55,6 +60,11 @@ export const routesSidebar: RoutesType[] = [
   {
     name: "Quản lý đơn đặt lịch",
     path: RouteNameDoctor.APPOINTMENT,
+    role: RoleRoutes.DOCTOR,
+  },
+  {
+    name: "Thông tin cá nhân",
+    path: RouteNameDoctor.INFOMATION,
     role: RoleRoutes.DOCTOR,
   },
   {

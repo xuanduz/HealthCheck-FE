@@ -47,10 +47,12 @@ const SpecialtyPageAdmin = () => {
 
   const handleFilter = async (e: any) => {
     e.preventDefault();
-    setFilter({
+    const dataFilter = {
       ...filter,
       ...formData,
-    });
+      pageNum: 1,
+    };
+    setFilter(dataFilter);
   };
 
   const handlePaging = (paginationData: PaginationData) => {

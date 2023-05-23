@@ -34,6 +34,11 @@ import { PostRequest } from "./utils/rest-api";
 import { getLoginRoute, handleResetAccountCookies } from "./utils/utils";
 import SpecialtyPageAdmin from "./pages/admin/SpecialtyPage.admin";
 import ChangePasswordPageAdmin from "./pages/admin/ChangePasswordPage.admin";
+import InfomationPageDoctor from "./pages/doctor/InfomationPage.doctor";
+import RegisterPage from "./pages/patients/RegisterPage";
+import InfomationPage from "./pages/patients/InfomationPage";
+import ChangePasswordPage from "./pages/patients/ChangePasswordPage";
+import HistoryPage from "./pages/patients/HistoryPage";
 
 function App() {
   const cookies = new Cookies();
@@ -53,6 +58,34 @@ function App() {
       element: (
         <PatientLayout>
           <ClinicsPage />
+        </PatientLayout>
+      ),
+    },
+    {
+      path: RouteNamePatient.LOGIN,
+      element: (
+        <PatientLayout>
+          <LoginPage role="PATIENT" />
+        </PatientLayout>
+      ),
+    },
+    {
+      path: RouteNamePatient.REGISTER,
+      element: <RegisterPage />,
+    },
+    {
+      path: RouteNamePatient.INFORMATION,
+      element: (
+        <PatientLayout>
+          <InfomationPage />
+        </PatientLayout>
+      ),
+    },
+    {
+      path: RouteNamePatient.CHANGE_PASSWORD,
+      element: (
+        <PatientLayout>
+          <ChangePasswordPage />
         </PatientLayout>
       ),
     },
@@ -85,6 +118,14 @@ function App() {
       element: (
         <PatientLayout>
           <SpecialtyDetailPage />
+        </PatientLayout>
+      ),
+    },
+    {
+      path: RouteNamePatient.HISTORY,
+      element: (
+        <PatientLayout>
+          <HistoryPage />
         </PatientLayout>
       ),
     },
@@ -137,6 +178,14 @@ function App() {
       element: (
         <DoctorLayout>
           <SchedulePageDoctor />
+        </DoctorLayout>
+      ),
+    },
+    {
+      path: RouteNameDoctor.INFOMATION,
+      element: (
+        <DoctorLayout>
+          <InfomationPageDoctor />
         </DoctorLayout>
       ),
     },

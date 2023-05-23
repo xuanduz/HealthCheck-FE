@@ -15,7 +15,7 @@ export default function ClinicSelectComponent(props: any) {
   const { handleChange, clinicId, required, customClassName } = props;
   const clinics = useRecoilValueLoadable(clinicsSelector);
   const [listClinics, setListClinics] = useState<ClinicType[]>([]);
-  const [value, setValue] = useState(clinicId || "");
+  const [value, setValue] = useState();
 
   useEffect(() => {
     if (clinics?.state == "hasValue") {
@@ -23,6 +23,10 @@ export default function ClinicSelectComponent(props: any) {
       setListClinics(data);
     }
   }, [clinics.state]);
+
+  useEffect(() => {
+    setValue(clinicId);
+  }, [clinicId]);
 
   const onChange = (e: any) => {
     handleChange && handleChange(e.target.value);

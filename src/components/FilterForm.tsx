@@ -1,15 +1,12 @@
-import {
-  Button,
-  Input,
-  Option,
-  Select,
-  Typography,
-} from "@material-tailwind/react";
+import { Button, Input, Option, Select, Typography } from "@material-tailwind/react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { FaHandPointRight } from "react-icons/fa";
 import { useState } from "react";
 import { CodeType } from "../data/types.data";
+import ClinicSelectComponent from "./clinic/ClinicSelectComponent";
+import HorizontalLine from "./HorizontalLineComponent";
+import SpecialtyComponent from "./SpecialtyComponent";
 
 export interface PriceRangeType {
   minPrice?: number | undefined;
@@ -19,7 +16,10 @@ export interface PriceRangeType {
 export interface InputFilter {
   name?: string;
   provinceKey?: string;
-  price?: PriceRangeType;
+  clinicId?: number | string;
+  specialtyId?: number | string;
+  minPrice?: number | string;
+  maxPrice?: number | string;
 }
 
 export interface Mark {
@@ -31,6 +31,8 @@ export interface FilterFormProps {
   haveName?: boolean;
   haveProvince?: boolean;
   havePrice?: boolean;
+  haveClinic?: boolean;
+  haveSpecialty?: boolean;
   listProvinces?: CodeType[];
   handleSubmitFilterForm: Function;
 }
@@ -40,6 +42,8 @@ const FilterForm = (props: FilterFormProps) => {
     haveName,
     haveProvince,
     havePrice,
+    haveClinic,
+    haveSpecialty,
     handleSubmitFilterForm,
     listProvinces,
   } = props;
@@ -65,43 +69,6 @@ const FilterForm = (props: FilterFormProps) => {
     },
   ];
 
-  const onPriceChange = (
-    event: Event,
-    value: number | number[],
-    activeThumb: number
-  ) => {
-    let price: PriceRangeType = {};
-    switch (value) {
-      case 0:
-        price = {
-          maxPrice: 200000,
-        };
-        break;
-      case 33:
-        price = {
-          minPrice: 200000,
-          maxPrice: 300000,
-        };
-        break;
-      case 66:
-        price = {
-          minPrice: 300000,
-          maxPrice: 400000,
-        };
-        break;
-      case 100:
-        price = {
-          minPrice: 4000000,
-        };
-        break;
-      default:
-    }
-    setFormData({
-      ...formData,
-      price,
-    });
-  };
-
   return (
     <form
       onSubmit={(e) => {
@@ -120,6 +87,31 @@ const FilterForm = (props: FilterFormProps) => {
             })
           }
         />
+      )}
+      {haveClinic && (
+        <div className="my-5">
+          <ClinicSelectComponent
+            handleChange={(value: any) =>
+              setFormData({
+                ...formData,
+                clinicId: value,
+              })
+            }
+          />
+        </div>
+      )}
+      {haveSpecialty && (
+        <div className="my-5">
+          <SpecialtyComponent
+            handleChange={(id: any) =>
+              setFormData({
+                ...formData,
+                specialtyId: id,
+              })
+            }
+            customClassName={"w-[320px]"}
+          />
+        </div>
       )}
       {haveProvince && (
         <div className="mt-5">
@@ -143,30 +135,30 @@ const FilterForm = (props: FilterFormProps) => {
       )}
       {havePrice && (
         <div className="select-price mt-5">
-          <Typography variant="h6">Chọn mức giá</Typography>
-          <p className="italic text-sm text-red-500 ">
-            Lưu ý: đơn vị "k" tức là "nghìn đồng"
-          </p>
-          <p className="italic text-sm text-red-500 ">
-            Ví dụ: 100k là 100.000 VNĐ
-          </p>
-          <Box className="w-full pr-4 pl-4">
-            <Slider
-              track={false}
-              aria-label="Restricted values"
-              defaultValue={0}
-              step={null}
-              marks={marks}
-              onChange={onPriceChange}
-            />
-          </Box>
+          <Typography variant="h6">Nhập mức giá (VNĐ)</Typography>
+          <div className="flex justify-between gap-5 my-5">
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900">Nhỏ nhất</label>
+              <input
+                type="number"
+                onChange={(e: any) => setFormData({ ...formData, minPrice: e.target.value })}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none"
+                placeholder="(Ví dụ: 200000)"
+              ></input>
+            </div>
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900">Lớn nhất</label>
+              <input
+                type="number"
+                onChange={(e: any) => setFormData({ ...formData, maxPrice: e.target.value })}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none"
+                placeholder="(Ví dụ: 300000)"
+              ></input>
+            </div>
+          </div>
         </div>
       )}
-      <Button
-        className="mt-6 flex justify-center items-center gap-2"
-        fullWidth
-        type="submit"
-      >
+      <Button className="mt-6 flex justify-center items-center gap-2" fullWidth type="submit">
         <FaHandPointRight size={17} />
         Áp dụng
       </Button>

@@ -21,6 +21,8 @@ import { FilterDoctor } from "../../types/api.type";
 import axios from "axios";
 import { ClinicType, DoctorType } from "../../data/types.data";
 import { VNDMoney, getLabelProvice } from "../../utils/utils";
+import EmptyDoctor from "../../assets/images/empty-doctor.png";
+import EmptyClinic from "../../assets/images/empty-clinic.png";
 
 const HomePagePatient = () => {
   const [featuredDoctors, setFeaturedDoctors] = useState([]);
@@ -29,6 +31,9 @@ const HomePagePatient = () => {
     pageNum: 1,
     pageSize: 4,
   });
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const filterDoctor = async (doctorFilter: FilterDoctor) => {
     const data = await axios.post(
       `${process.env.REACT_APP_API}/doctor/featured/filter`,
@@ -80,12 +85,12 @@ const HomePagePatient = () => {
               {featuredDoctors?.map((doctor: DoctorType, index: number) => (
                 <CardComponent
                   key={index}
-                  title={doctor.fullName}
+                  title={doctor?.positionData?.value + " " + doctor.fullName}
                   url={`/doctors/${doctor.id}`}
                   price={doctor?.price ? VNDMoney.format(+doctor?.price) : ""}
                   describe={doctor?.describe}
                   // address={getLabelProvice(doctor?.provinceKey ? doctor.provinceKey : '', [] as any)}
-                  image="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
+                  image={doctor?.image || EmptyDoctor}
                 />
               ))}
             </div>
@@ -99,10 +104,11 @@ const HomePagePatient = () => {
               {featuredClinics?.map((item: ClinicType, index: number) => (
                 <CardComponent
                   key={index}
-                  url={`/clinics/${index}`}
+                  url={`/clinics/${item.id}`}
                   title={item?.name}
                   address={item?.provinceData?.value}
-                  image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMwKBUwf_nIB2kVoLrMZj265hgjQgklhd0tw&usqp=CAU"
+                  describe={item?.address}
+                  image={item?.image || EmptyClinic}
                 />
               ))}
             </div>

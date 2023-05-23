@@ -34,7 +34,7 @@ import { bookingAtom, bookingSelector } from "../../data/recoil/admin/booking.ad
 import Pagination, { PaginationData, PaginationProps } from "../../components/PaginationComponent";
 import ProvinceComponent from "../../components/ProvinceComponent";
 import AdminFormPatientComponent from "../../components/admin/AdminFormPatientComponent";
-import { PostRequest } from "../../utils/rest-api";
+import { DeleteRequest, PostRequest } from "../../utils/rest-api";
 import SelectComponent from "../../components/SelectComponent";
 
 export interface FilterAppointmentType extends PaginationData {
@@ -85,12 +85,19 @@ const BookingPageAdmin = () => {
     }
   };
 
+  const handleDeleteAppointment = async (dataId: any) => {
+    await DeleteRequest(`${process.env.REACT_APP_API_ADMIN}/appointment/${dataId}`, true);
+    refresh();
+  };
+
   const handleFilter = async (e: any) => {
     e.preventDefault();
-    setFilter({
+    const dataFilter = {
       ...filter,
       ...formData,
-    });
+      pageNum: 1,
+    };
+    setFilter(dataFilter);
   };
 
   const handlePaging = (paginationData: PaginationData) => {
@@ -168,7 +175,7 @@ const BookingPageAdmin = () => {
                 })
               }
               customClassName="w-72"
-              labelFirstElement="Địa điểm khám"
+              labelFirstElement="Hình thức khám bệnh"
             />
             <div>
               <Button type="submit">Lọc</Button>
@@ -260,6 +267,7 @@ const BookingPageAdmin = () => {
                                 <AdminFormPatientComponent
                                   handleSubmitForm={handleUpdateFormPatient}
                                   appointmentData={data}
+                                  handleDelete={handleDeleteAppointment}
                                 />
                               }
                               title="Chỉnh sửa thông tin bệnh nhân"

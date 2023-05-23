@@ -1,5 +1,5 @@
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import bannerDoctors from "../assets/images/doctors.jpg";
 import logo from "../assets/images/logo.png";
 import HorizontalLine from "../components/HorizontalLineComponent";
@@ -14,6 +14,7 @@ import {
 } from "../data/recoil/admin/auth.admin";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import jwt from "jwt-decode";
 
 export interface LoginPageProps {
   role: "ADMIN" | "DOCTOR" | "PATIENT";
@@ -30,6 +31,10 @@ const LoginPage = (props: LoginPageProps) => {
 
   let location = useLocation();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const isPatientRoute = () => {
     return !location.pathname.includes("/system");
   };
@@ -40,6 +45,8 @@ const LoginPage = (props: LoginPageProps) => {
     toast.success(data.message);
     cookies.set("role", role);
     cookies.set("email", email);
+    const decoded: any = jwt(data.accessToken || data.refreshToken);
+    cookies.set("id", decoded?.id);
   };
 
   const handleLogin = async (e: any) => {
@@ -75,7 +82,7 @@ const LoginPage = (props: LoginPageProps) => {
       });
       if (data.success) {
         loginSuccess(data);
-        navigate(RouteNamePatient.HOME);
+        navigate(-1);
       } else {
         toast.warn(data.message);
       }
@@ -123,7 +130,7 @@ const LoginPage = (props: LoginPageProps) => {
               </div>
               {isPatientRoute() ? (
                 <Link to={"/register"}>
-                  <p>Đăng ký ngay</p>
+                  <p className="text-blue-600">Đăng ký ngay</p>
                 </Link>
               ) : null}
               <Button className="mt-4" fullWidth type="submit">

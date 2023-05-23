@@ -15,7 +15,7 @@ export const adminRefreshTokenSelector = selector({
   get: ({ get }) => get(adminRefreshTokenState),
   set: ({ set }, newValue) => {
     cookies.set("refreshToken", newValue);
-    set(adminAccessTokenState, newValue + "");
+    set(adminRefreshTokenState, newValue + ""); //TODO: adminAccessTokenState
   },
 });
 

@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { DoctorType, SpecialtyType } from "../../data/types.data";
-import { Button, Input, Radio, Textarea } from "@material-tailwind/react";
+import { Button, Input, Radio, Textarea, Typography } from "@material-tailwind/react";
 import ProvinceComponent from "../ProvinceComponent";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
 import PositionComponent from "../PositionComponent";
-import ClinicComponent from "../clinic/ClinicSelectComponent";
+import ClinicSelectComponent from "../clinic/ClinicSelectComponent";
 import SpecialtyMultiSelectComponent from "../SpecialtySelectComponent";
 import DoctorPostComponent from "../doctor/DoctorPostComponent";
+import DialogComponent from "../dialog/DialogComponent";
 
 export interface DoctorFormComponentComponentProps {
   handleSubmitForm: Function;
   data?: any;
   isNew?: boolean;
+  handleDelete?: Function;
 }
 
 export default function DoctorFormComponent(props: DoctorFormComponentComponentProps) {
-  const { handleSubmitForm, data, isNew } = props;
+  const { handleSubmitForm, data, isNew, handleDelete } = props;
   const [doctor, setDoctor] = useState<DoctorType>(data);
   const [description, setDescription] = useState<string>(data?.descriptionHTML || "");
 
@@ -48,19 +50,8 @@ export default function DoctorFormComponent(props: DoctorFormComponentComponentP
             updateData({ gender: JSON.parse(e.target.id) });
           }}
         >
-          <Radio
-            name="gender"
-            id="true"
-            label="Nam"
-            defaultChecked={doctor?.gender == true ? true : false}
-            required
-          />
-          <Radio
-            name="gender"
-            id="false"
-            label="Nữ"
-            defaultChecked={doctor?.gender == false ? true : false}
-          />
+          <Radio name="gender" id="true" label="Nam" defaultChecked={doctor?.gender} required />
+          <Radio name="gender" id="false" label="Nữ" defaultChecked={!doctor?.gender} />
         </div>
       </div>
       <div className="flex gap-5">
@@ -137,7 +128,7 @@ export default function DoctorFormComponent(props: DoctorFormComponentComponentP
           specialtyData={doctor?.specialtyData}
           handleChange={(specialies: SpecialtyType[]) => updateData({ specialtyData: specialies })}
         />
-        <ClinicComponent
+        <ClinicSelectComponent
           required={true}
           clinicId={doctor?.clinicId}
           handleChange={(value: string) => updateData({ clinicId: value })}
@@ -149,10 +140,32 @@ export default function DoctorFormComponent(props: DoctorFormComponentComponentP
         onChange={(e: any) => updateData({ describe: e.target.value })}
       />
       <DoctorPostComponent descriptionHTML={description} setDescriptionHTML={setDescription} />
-      <div className="text-center w-full">
-        <Button type="submit" className="w-full mb-2">
-          {"Xác nhận"}
-        </Button>
+      <div className="flex justify-between">
+        <div>
+          {doctor ? (
+            <div>
+              <DialogComponent
+                displayButton={
+                  <Button color="red" className="flex gap-2">
+                    Xoá
+                  </Button>
+                }
+                formatterContent={
+                  <Typography variant="h5">Bạn có muốn xoá bác sĩ {doctor?.fullName}?</Typography>
+                }
+                acceptText="Đồng ý"
+                acceptAction={() => handleDelete && handleDelete(doctor?.id)}
+                size="sm"
+                title="Lưu ý"
+              />
+            </div>
+          ) : null}
+        </div>
+        <div className="text-center ">
+          <Button type="submit" className="w-full mb-2">
+            {"Xác nhận"}
+          </Button>
+        </div>
       </div>
     </form>
   );

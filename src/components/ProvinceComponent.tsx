@@ -9,13 +9,14 @@ export interface ProvinceComponentProps {
   provinceKey?: string;
   required?: boolean;
   customClassName?: string;
+  disabled?: boolean;
 }
 
 export default function ProvinceComponent(props: ProvinceComponentProps) {
-  const { handleChange, provinceKey, required, customClassName } = props;
+  const { handleChange, provinceKey, required, customClassName, ...rest } = props;
   const provinces = useRecoilValueLoadable(provincesSelector);
   const [listProvinces, setListProvinces] = useState<CodeType[]>([]);
-  const [value, setValue] = useState(provinceKey || "");
+  const [value, setValue] = useState();
 
   useEffect(() => {
     if (provinces?.state == "hasValue") {
@@ -26,6 +27,10 @@ export default function ProvinceComponent(props: ProvinceComponentProps) {
       setListProvinces(data);
     }
   }, [provinces.state]);
+
+  useEffect(() => {
+    setValue(provinceKey as any);
+  }, [provinceKey]);
 
   const onChange = (e: any) => {
     handleChange && handleChange(e.target.value);
@@ -39,6 +44,7 @@ export default function ProvinceComponent(props: ProvinceComponentProps) {
         value={value}
         onChange={onChange}
         required={required}
+        {...rest}
       >
         {listProvinces?.map((province: CodeType, idx: number) => (
           <option selected={idx == 0 ? true : false} key={province.id} value={province.key}>

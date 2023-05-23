@@ -2,6 +2,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { RoleRoutes } from "../../routes/routes";
+import Cookies from "universal-cookie";
 
 export interface RoutesType {
   name: string;
@@ -12,8 +13,8 @@ export interface RoutesType {
 }
 
 export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
+  const cookies = new Cookies();
   let location = useLocation();
-  const ROLE = "admin";
   const { routes } = props;
 
   const activeRoute = (routeName: string) => {
@@ -23,14 +24,11 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
   const createLinks = (routes: RoutesType[]) => {
     return routes.map((route, index) => {
       //! TODO: Check role
-      if (route.role === ROLE) {
+      if (route.role === cookies.get("role")) {
         return (
           <Link key={index} to={route.path}>
             <div className="relative mb-3 flex hover:cursor-pointer">
-              <li
-                className="my-[3px] flex cursor-pointer items-center px-4"
-                key={index}
-              >
+              <li className="my-[3px] flex cursor-pointer items-center px-4" key={index}>
                 <p
                   className={`leading-1 ml-4 flex ${
                     activeRoute(route.path) === true

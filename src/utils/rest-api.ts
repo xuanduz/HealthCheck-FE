@@ -26,6 +26,35 @@ export const PostRequest = async (api: string, query: any, notifi?: boolean) => 
         toast.warn("Lỗi kết nối !");
       }
       if (err.response?.status == 401) {
+        toast.warn("Lỗi quyền truy cập !");
+      }
+    });
+  return response;
+};
+
+export const PutRequest = async (api: string, query: any, notifi?: boolean) => {
+  let response: any;
+  await axios
+    .put(api, query, {
+      headers: {
+        Authorization: `Bearer ${cookies.get("accessToken")}`,
+      },
+    })
+    .then((res: any) => {
+      response = res;
+      if (notifi) {
+        res.data?.success
+          ? toast.success(response.data?.message)
+          : toast.warn(response.data?.message);
+      }
+    })
+    .catch((err: any) => {
+      console.log("err", err);
+      if (err.code == "ERR_NETWORK") {
+        toast.warn("Lỗi kết nối !");
+      }
+      if (err.response?.status == 401) {
+        toast.warn("Lỗi quyền truy cập !");
       }
     });
   return response;
@@ -41,7 +70,6 @@ export const DeleteRequest = async (api: string, notifi?: boolean) => {
     })
     .then((res: any) => {
       response = res;
-      console.log(">>>", response);
       if (notifi) {
         res.data?.success
           ? toast.success(response.data?.message)
@@ -54,6 +82,34 @@ export const DeleteRequest = async (api: string, notifi?: boolean) => {
         toast.warn("Lỗi kết nối !");
       }
       if (err.response?.status == 401) {
+        toast.warn("Lỗi quyền truy cập !");
+      }
+    });
+  return response;
+};
+
+export const GetRequest = async (api: string, notifi?: boolean) => {
+  let response: any;
+  await axios
+    .get(api, {
+      headers: {
+        Authorization: `Bearer ${cookies.get("accessToken")}`,
+      },
+    })
+    .then((res: any) => {
+      response = res;
+      if (notifi) {
+        res.data?.success
+          ? toast.success(response.data?.message)
+          : toast.warn(response.data?.message);
+      }
+    })
+    .catch((err: any) => {
+      if (err.code == "ERR_NETWORK") {
+        toast.warn("Lỗi kết nối !");
+      }
+      if (err.response?.status == 401) {
+        toast.warn("Lỗi quyền truy cập !");
       }
     });
   return response;

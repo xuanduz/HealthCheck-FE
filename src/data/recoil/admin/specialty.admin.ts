@@ -11,13 +11,6 @@ export const specialtySelector = selector({
   key: "specialtySelector",
   get: async ({ get }) => {
     let query = get(specialtyAtom(defaultPageInfo));
-    // if ((query?.records - 1) % query?.pageSize == 0) {
-    //   let temp = query;
-    //   query = {
-    //     ...temp,
-    //     pageNum: temp.pageNum - 1,
-    //   };
-    // }
     let pageData = await PostRequest(`${process.env.REACT_APP_API_ADMIN}/specialty/filter`, query);
     return pageData;
   },

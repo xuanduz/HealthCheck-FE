@@ -26,7 +26,7 @@ import { clinicSelector } from "../../data/recoil/admin/clinic.admin";
 import Pagination, { PaginationData } from "../../components/PaginationComponent";
 import ProvinceComponent from "../../components/ProvinceComponent";
 import EmptyClinic from "../../assets/images/empty-clinic.png";
-import { PostRequest } from "../../utils/rest-api";
+import { DeleteRequest, PostRequest } from "../../utils/rest-api";
 
 export interface FilterClinicType extends PaginationData {
   clinicName?: string;
@@ -53,10 +53,12 @@ const ClinicPageAdmin = () => {
 
   const handleFilter = async (e: any) => {
     e.preventDefault();
-    setFilter({
+    const dataFilter = {
       ...filter,
       ...formData,
-    });
+      pageNum: 1,
+    };
+    setFilter(dataFilter);
   };
 
   const handlePaging = (paginationData: PaginationData) => {
@@ -74,6 +76,10 @@ const ClinicPageAdmin = () => {
 
   const handleSubmitForm = async (clinicData: ClinicType) => {
     await PostRequest(`${process.env.REACT_APP_API_ADMIN}/clinic/edit`, clinicData, true);
+    refresh();
+  };
+  const handleDeleteClinic = async (clinicId: string) => {
+    await DeleteRequest(`${process.env.REACT_APP_API_ADMIN}/clinic/${clinicId}`, true);
     refresh();
   };
 
@@ -186,6 +192,7 @@ const ClinicPageAdmin = () => {
                                 <ClinicFormComponent
                                   data={data}
                                   handleSubmitForm={handleSubmitForm}
+                                  handleDelete={handleDeleteClinic}
                                 />
                               }
                             />

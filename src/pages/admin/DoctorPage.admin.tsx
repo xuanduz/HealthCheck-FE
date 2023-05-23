@@ -23,7 +23,7 @@ import { doctorAtom, doctorSelector } from "../../data/recoil/admin/doctor.admin
 import ClinicComponent from "../../components/clinic/ClinicSelectComponent";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
 import DoctorFormComponent from "../../components/admin/DoctorFormComponent";
-import { PostRequest } from "../../utils/rest-api";
+import { DeleteRequest, PostRequest } from "../../utils/rest-api";
 
 export interface FilterDoctorType extends PaginationData {
   clinicId?: string;
@@ -51,10 +51,12 @@ const DoctorPageAdmin = () => {
 
   const handleFilter = async (e: any) => {
     e.preventDefault();
-    setFilter({
+    const dataFilter = {
       ...filter,
       ...formData,
-    });
+      pageNum: 1,
+    };
+    setFilter(dataFilter);
   };
 
   const handlePaging = (paginationData: PaginationData) => {
@@ -77,6 +79,12 @@ const DoctorPageAdmin = () => {
       refresh();
     }
   };
+
+  const handleDeleteDoctor = async (id: any) => {
+    await DeleteRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/${id}`, true);
+    refresh();
+  };
+
   const handleAddDoctor = async (data: any) => {
     console.log("handleAddDoctor", data);
     const res = await PostRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/add-new`, data, true);
@@ -215,6 +223,7 @@ const DoctorPageAdmin = () => {
                                 <DoctorFormComponent
                                   data={data}
                                   handleSubmitForm={handleUpdateFormDoctor}
+                                  handleDelete={handleDeleteDoctor}
                                 />
                               }
                               title="Chỉnh sửa bác sĩ"

@@ -15,7 +15,7 @@ export default function PositionComponent(props: any) {
   const { handleChange, positionKey, required, customClassName } = props;
   const positions = useRecoilValueLoadable(positionsSelector);
   const [listPositions, setListPositions] = useState<CodeType[]>([]);
-  const [value, setValue] = useState(positionKey || "");
+  const [value, setValue] = useState();
 
   useEffect(() => {
     if (positions?.state == "hasValue") {
@@ -26,6 +26,10 @@ export default function PositionComponent(props: any) {
       setListPositions(data);
     }
   }, [positions.state]);
+
+  useEffect(() => {
+    setValue(positionKey as any);
+  }, [positionKey]);
 
   const onChange = (e: any) => {
     handleChange && handleChange(e.target.value);

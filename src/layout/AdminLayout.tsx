@@ -6,7 +6,7 @@ import ErrorPage from "../pages/common/ErrorPage";
 const AdminLayout = (props: any) => {
   const cookies = new Cookies();
   const [open, setOpen] = useState(true);
-  console.log(">>> check", cookies.get("role"));
+
   return (
     <>
       {cookies.get("role") == "ADMIN" ? (
@@ -15,9 +15,7 @@ const AdminLayout = (props: any) => {
           {/* Navbar & Main Content */}
           <div className="h-full w-full bg-lightPrimary dark:!bg-navy-900">
             {/* Main Content */}
-            <main
-              className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}
-            >
+            <main className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}>
               <div className="h-full">
                 <div className="pt-5s mx-auto mb-auto h-full min-h-[100vh] pt-10 p-2 md:pr-2">
                   {props?.children}

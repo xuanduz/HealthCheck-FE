@@ -24,12 +24,17 @@ const RegisterPageAdmin = () => {
       <Typography variant="h3" className="">
         Đăng ký thêm tài khoản Admin
       </Typography>
-      <div className="w-[350px] mt-5">
-        <Card>
-          <CardBody>
-            <AdminFormComponent handleSubmitForm={handleSubmitForm} submitButtonContent="Đăng ký" />
-          </CardBody>
-        </Card>
+      <div className="flex justify-center">
+        <div className="w-[350px] mt-5 ">
+          <Card>
+            <CardBody>
+              <AdminFormComponent
+                handleSubmitForm={handleSubmitForm}
+                submitButtonContent="Đăng ký"
+              />
+            </CardBody>
+          </Card>
+        </div>
       </div>
     </>
   );

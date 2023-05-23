@@ -33,7 +33,7 @@ export default function SpecialtyMultiSelectComponent(props: SpecialtyMultiSelec
   const specialties = useRecoilValueLoadable(specialtiesSelector);
   const [listSpecialties, setListSpecialties] = useState<SpecialtyType[]>([]);
   const [specialtyOptions, setSpecialtiesOption] = useState<SpecialOptionType[]>([]);
-  // const [value, setValue] = useState(convertToSelectData(specialData) || []);
+  const [defaultVal, setDefaultVal] = useState();
 
   useEffect(() => {
     if (specialties?.state == "hasValue") {
@@ -47,19 +47,23 @@ export default function SpecialtyMultiSelectComponent(props: SpecialtyMultiSelec
     }
   }, [specialties.state]);
 
+  useEffect(() => {
+    setDefaultVal(convertToSelectData(specialtyData) as any);
+  }, [specialtyData]);
+
   const onChange = (values: any) => {
     const newList = listSpecialties.filter((spec: SpecialtyType) =>
       values.some((v: any) => v?.value == spec.id)
     );
     handleChange && handleChange(newList);
-    // setValue(e.target.value);
   };
 
   return (
     <div>
       <p className="b-0">Chọn chuyên khoa</p>
       <Select
-        defaultValue={convertToSelectData(specialtyData) || []}
+        // defaultValue={defaultVal}
+        value={defaultVal}
         isMulti
         name="specialty"
         options={specialtyOptions as any}
