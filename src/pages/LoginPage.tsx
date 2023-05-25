@@ -129,9 +129,14 @@ const LoginPage = (props: LoginPageProps) => {
                 />
               </div>
               {isPatientRoute() ? (
-                <Link to={"/register"}>
-                  <p className="text-blue-600">Đăng ký ngay</p>
-                </Link>
+                <div className="flex justify-between">
+                  <Link to={"/register"}>
+                    <p className="text-blue-600">Đăng ký ngay</p>
+                  </Link>
+                  <Link to={"/forgot-password"}>
+                    <p className="text-blue-600">Quên mật khẩu</p>
+                  </Link>
+                </div>
               ) : null}
               <Button className="mt-4" fullWidth type="submit">
                 Đăng nhập
