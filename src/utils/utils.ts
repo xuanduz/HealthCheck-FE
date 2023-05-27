@@ -77,12 +77,19 @@ export const handleLogout = async () => {
 };
 
 export const groupDate = (schedules: ScheduleType[]) => {
-  const groups = schedules?.reduce(
-    (groups: any, item: ScheduleType) => ({
-      ...groups,
-      [item?.date as string]: [...(groups[item?.date as string] || []), item],
-    }),
-    {}
-  );
+  let groups = [];
+  if (schedules?.length) {
+    groups = schedules?.reduce(
+      (groups: any, item: ScheduleType) => ({
+        ...groups,
+        [item?.date as string]: [...(groups[item?.date as string] || []), item],
+      }),
+      {}
+    );
+  }
   return groups;
 };
+
+export function isEmpty(obj: any) {
+  return Object?.keys(obj).length === 0;
+}

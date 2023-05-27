@@ -9,6 +9,7 @@ import { bookingPatientAtom } from "../../data/recoil/patient/booking.patient";
 import { DoctorType } from "../../data/types.data";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
+import { isEmpty } from "../../utils/utils";
 
 export interface ScheduleDoctorProps {
   schedule?: any;
@@ -28,9 +29,9 @@ interface ScheduleActiveType {
 }
 
 export default function ScheduleDoctor(props: ScheduleDoctorProps) {
+  const { schedule, doctor } = props;
   let navigate = useNavigate();
   const cookies = new Cookies();
-  const { schedule, doctor } = props;
   const [listDate, setListDate] = useState<any>();
   const [scheduleData, setScheduleData] = useState<any>([]);
   const [dateActive, setDateActive] = useState<ScheduleActiveType>({ num: 0 });
@@ -57,7 +58,7 @@ export default function ScheduleDoctor(props: ScheduleDoctorProps) {
         num: 0,
       });
       setTimeActive({
-        value: listTime[0][0]?.timeSlot,
+        value: listTime[0] ? listTime[0][0]?.timeSlot : null,
         num: 0,
       });
     }
@@ -114,7 +115,7 @@ export default function ScheduleDoctor(props: ScheduleDoctorProps) {
   return (
     <>
       <div className="mb-5">
-        {schedule ? (
+        {listDate?.length ? (
           <>
             <div className="flex flex-wrap gap-4">
               {listDate?.map((data: any, index: number) => (

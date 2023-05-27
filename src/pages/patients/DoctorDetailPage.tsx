@@ -11,7 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import { RouteNamePatient } from "../../routes/routes";
 import { useEffect, useState } from "react";
 import { GetRequest } from "../../utils/rest-api";
-import { DoctorType, ScheduleType } from "../../data/types.data";
+import { DoctorType, ScheduleType, SpecialtyType } from "../../data/types.data";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
 import parse from "html-react-parser";
 import { VNDMoney, groupDate } from "../../utils/utils";
@@ -20,23 +20,26 @@ import ScheduleDoctor from "../../components/patient/ScheduleDoctor.Component";
 const DoctorDetailPage = () => {
   let { id } = useParams();
   const [doctorData, setDoctorData] = useState<DoctorType>();
+  const [relateDoctorData, setRelateDoctorData] = useState<DoctorType[]>();
   const [listScheduleData, setListScheduleData] = useState<any>();
 
   useEffect(() => {
     getDoctorDetail();
-    window.scrollTo(0, 0);
+    getRelateDoctors();
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
   }, [id]);
 
   const getDoctorDetail = async () => {
     const res = await GetRequest(`${process.env.REACT_APP_API}/doctor/${id}`);
     setDoctorData(res.data?.data);
-    if (res.data?.data?.scheduleData?.length) {
-      let schedules = groupDate(res.data?.data?.scheduleData);
-      setListScheduleData(schedules);
-    }
+    let schedules = groupDate(res.data?.data?.scheduleData);
+    setListScheduleData(schedules);
   };
 
-  console.log("listScheduleData", listScheduleData);
+  const getRelateDoctors = async () => {
+    const res = await GetRequest(`${process.env.REACT_APP_API}/doctor/relate/${id}`);
+    setRelateDoctorData(res.data?.data);
+  };
 
   return (
     <>
@@ -102,16 +105,25 @@ const DoctorDetailPage = () => {
               </p>
             </Card>
             <div>
-              <Typography variant="h5" className="mb-2">
-                Chuyên gia tương tự
-              </Typography>
-              <div>
-                <SmallCardComponent //TODO:
-                  title="Bác sĩ Nguyễn Văn Năm"
-                  url="213"
-                  describe="Bác sĩ"
-                  image="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000"
-                />
+              {relateDoctorData?.length ? (
+                <>
+                  <Typography variant="h5" className="mb-2">
+                    Chuyên gia tương tự
+                  </Typography>
+                </>
+              ) : null}
+              <div className="flex gap-3">
+                {relateDoctorData?.map((doctor: DoctorType) => (
+                  <SmallCardComponent
+                    title={doctor?.fullName}
+                    url={`/doctors/${doctor?.id}`}
+                    // describe={doctor?.describe}
+                    specialties={doctor?.specialtyData
+                      ?.map((spec: SpecialtyType) => spec?.name)
+                      ?.join(", ")}
+                    image={doctor?.image || EmptyDoctor}
+                  />
+                ))}
               </div>
             </div>
           </div>

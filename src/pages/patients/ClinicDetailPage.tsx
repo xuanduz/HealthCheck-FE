@@ -18,7 +18,7 @@ const ClinicDetailPage = () => {
 
   useEffect(() => {
     getClinicDetail();
-    window.scrollTo(0, 0);
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
   }, [id]);
 
   const getClinicDetail = async () => {
