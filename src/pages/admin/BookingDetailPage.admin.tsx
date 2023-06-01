@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { DeleteRequest, GetRequest, PostRequest } from "../../utils/rest-api";
 import { useEffect, useState } from "react";
 import { AppointmentType, DoctorType, PatientType } from "../../data/types.data";
@@ -13,8 +13,9 @@ import Calendar from "react-calendar";
 import { listTimeData } from "../../components/timeSlot/TimeListComponent";
 import { TimeSlotType } from "../doctor/SchedulePage.doctor";
 import SelectComponent from "../../components/common/SelectComponent";
-import { formatDate } from "../../utils/utils";
+import { formatDate, groupDate } from "../../utils/utils";
 import DialogComponent from "../../components/dialog/DialogComponent";
+import { RouteNamePatient } from "../../routes/routes";
 
 export default function BookingDetailPageAdmin() {
   const today = new Date();
@@ -24,22 +25,25 @@ export default function BookingDetailPageAdmin() {
   const navigate = useNavigate();
   const [appointmentData, setAppointmentData] = useState<AppointmentType>({});
   const [patient, setPatient] = useState<PatientType>({});
+  const [scheduleDoctor, setScheduleDoctor] = useState();
 
-  const getAppintmentDetail = async () => {
+  const getAppointmentDetail = async () => {
     const res = await GetRequest(`${process.env.REACT_APP_API_ADMIN}/appointment/${id}`);
     const data = res.data?.data;
     if (data) {
       setAppointmentData(data);
       setPatient(data?.patientData);
+      let schedules = groupDate(res.data?.data?.scheduleData);
+      setScheduleDoctor(schedules);
     }
   };
 
   useEffect(() => {
-    getAppintmentDetail();
+    getAppointmentDetail();
   }, [id]);
 
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
+  const onSubmit = async () => {
+    // e.preventDefault();
     const updateValue = {
       ...appointmentData,
       patientData: { ...patient },
@@ -84,7 +88,7 @@ export default function BookingDetailPageAdmin() {
         Thông tin đơn đặt lịch
       </Typography>
       <Card className="mt-4 p-3">
-        <form onSubmit={onSubmit} className="">
+        <form>
           <div>
             <Typography variant="h5">Thông tin bệnh nhân</Typography>
             <div className="flex flex-col gap-6 p-2">
@@ -231,37 +235,25 @@ export default function BookingDetailPageAdmin() {
                   handleChange={(clinicId: any) => updateAppointment({ clinicId: clinicId })}
                 />
               </div>
-              <div className="w-full flex flex-col gap-1">
+            </div>
+            <div className="flex gap-5">
+              <div className="flex flex-col gap-1">
                 <p>Bác sĩ</p>
                 <DoctorSelectComponent
-                  doctorData={appointmentData?.doctorData}
+                  doctorId={appointmentData?.doctorId}
                   clinicId={appointmentData?.clinicId || appointmentData?.doctorData?.clinicId}
                   onChange={(doctorId: any) => updateAppointment({ doctorId: doctorId })}
                 />
               </div>
-              {/* {
-                appointmentData?.doctorData ? (
-                  <></>
-                ) : (
-                  <>
-
-                  </>
-                )
-              } */}
-              {/* {isDoctor ? null : (
-            <DialogComponent
-              displayButton={
-                <Button color="red" className="flex gap-2">
-                  Xoá
-                </Button>
-              }
-              formatterContent={<Typography variant="h5">Bạn có muốn xoá ?</Typography>}
-              acceptText="Đồng ý"
-              acceptAction={() => handleDelete && handleDelete(appointmentData?.id)}
-              size="sm"
-              title="Lưu ý"
-            />
-          )} */}
+              <div className="flex flex-col gap-3">
+                <p>Lịch khám của bác sĩ</p>
+                <Link
+                  to={`${RouteNamePatient.DOCTORS}/${appointmentData?.doctorId}`}
+                  target="_blank"
+                >
+                  <p className="text-blue-500">Xem chi tiết</p>
+                </Link>
+              </div>
             </div>
             <div className="flex gap-5">
               <div className="flex flex-col gap-1">
@@ -315,9 +307,16 @@ export default function BookingDetailPageAdmin() {
               />
             </div>
             <div className="text-center ">
-              <Button type="submit" className="w-full mb-2">
-                {"Lưu thông tin"}
-              </Button>
+              <DialogComponent
+                displayButton={<Button className="w-full mb-2">{"Lưu thông tin"}</Button>}
+                formatterContent={
+                  <Typography variant="h5">Bạn có muốn cập nhật đơn đặt !</Typography>
+                }
+                acceptText="Đồng ý"
+                acceptAction={() => onSubmit()}
+                size="sm"
+                title="Lưu ý"
+              />
             </div>
           </div>
         </form>

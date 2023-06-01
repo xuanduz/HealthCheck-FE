@@ -40,10 +40,16 @@ export default function ScheduleDoctor(props: ScheduleDoctorProps) {
 
   useEffect(() => {
     if (schedule) {
-      let data = Object.keys(schedule)?.map((date: string, idx: number) => ({
-        date: date,
-        check: idx == 0 ? true : false,
-      }));
+      let data = Object.keys(schedule)
+        ?.sort(function (a, b) {
+          var aa = a.split("-").reverse().join(),
+            bb = b.split("-").reverse().join();
+          return aa < bb ? -1 : aa > bb ? 1 : 0;
+        })
+        ?.map((date: string, idx: number) => ({
+          date: date,
+          check: idx == 0 ? true : false,
+        }));
       let listTime = data?.map((data: any, idx: number) => {
         let times = schedule[data?.date]?.map((item: any, index: number) => ({
           ...item,
@@ -65,16 +71,14 @@ export default function ScheduleDoctor(props: ScheduleDoctorProps) {
   }, [schedule]);
 
   const handleSelectDate = (date: string, index: number) => {
-    let num = 0;
     const data = listDate?.map((date: any, idx: number) => {
-      num = idx == index ? index : 0;
       return {
         ...date,
         check: idx == index ? true : false,
       };
     });
     setListDate(data);
-    setDateActive({ value: date, num: num });
+    setDateActive({ value: date, num: index });
   };
 
   const handleSelectTime = (timeSlot: string, indexCheck: number) => {

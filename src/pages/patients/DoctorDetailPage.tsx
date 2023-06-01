@@ -36,6 +36,8 @@ const DoctorDetailPage = () => {
     setListScheduleData(schedules);
   };
 
+  console.log("listScheduleData", listScheduleData);
+
   const getRelateDoctors = async () => {
     const res = await GetRequest(`${process.env.REACT_APP_API}/doctor/relate/${id}`);
     setRelateDoctorData(res.data?.data);

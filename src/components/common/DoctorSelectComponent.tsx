@@ -4,7 +4,7 @@ import { GetRequest } from "../../utils/rest-api";
 
 export interface SelectComponentProps {
   value?: string;
-  doctorData?: DoctorType;
+  doctorId?: string | number;
   onChange: Function;
   labelFirstElement?: string;
   customClassName?: any;
@@ -13,7 +13,7 @@ export interface SelectComponentProps {
 }
 
 export default function DoctorSelectComponent(props: SelectComponentProps) {
-  const { onChange, labelFirstElement, customClassName, required, doctorData, clinicId } = props;
+  const { onChange, labelFirstElement, customClassName, required, doctorId, clinicId } = props;
   const [listData, setListData] = useState([
     { id: "", fullName: labelFirstElement || "Chọn bác sĩ..." },
   ]);
@@ -33,7 +33,7 @@ export default function DoctorSelectComponent(props: SelectComponentProps) {
   return (
     <select
       className={`bg-white border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2.5 outline-none w ${customClassName}`}
-      value={doctorData?.id}
+      value={doctorId}
       onChange={(e: any) => onChange(e.target.value)}
       required={required}
       {...customClassName}
