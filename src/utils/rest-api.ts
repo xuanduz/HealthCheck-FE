@@ -28,6 +28,9 @@ export const PostRequest = async (api: string, query: any, notifi?: boolean) => 
       if (err.response?.status == 401) {
         toast.warn("Lỗi quyền truy cập !");
       }
+      if (err.response?.status == 403) {
+        toast.warn("Có lỗi xảy ra, vui lòng thử lại !");
+      }
     });
   return response;
 };
@@ -84,6 +87,9 @@ export const DeleteRequest = async (api: string, notifi?: boolean) => {
       if (err.response?.status == 401) {
         toast.warn("Lỗi quyền truy cập !");
       }
+      if (err.response?.status == 403) {
+        toast.warn("Có lỗi xảy ra, vui lòng thử lại !");
+      }
     });
   return response;
 };
@@ -110,6 +116,9 @@ export const GetRequest = async (api: string, notifi?: boolean) => {
       }
       if (err.response?.status == 401) {
         toast.warn("Lỗi quyền truy cập !");
+      }
+      if (err.response?.status == 403) {
+        toast.warn("Có lỗi xảy ra, vui lòng thử lại !");
       }
     });
   return response;

@@ -93,3 +93,15 @@ export const groupDate = (schedules: ScheduleType[]) => {
 export function isEmpty(obj: any) {
   return Object?.keys(obj).length === 0;
 }
+
+export function formatDate(date: any) {
+  let yyyy = date?.getFullYear();
+  let mm = date?.getMonth() + 1; // Months start at 0!
+  let dd = date?.getDate();
+
+  if (dd < 10) dd = "0" + dd;
+  if (mm < 10) mm = "0" + mm;
+
+  let formattedDate = dd + "-" + mm + "-" + yyyy;
+  return formattedDate;
+}

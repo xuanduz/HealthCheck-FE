@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { FaHandPointRight } from "react-icons/fa";
 import { useState } from "react";
-import { CodeType } from "../data/types.data";
-import ClinicSelectComponent from "./clinic/ClinicSelectComponent";
+import { CodeType } from "../../data/types.data";
+import ClinicSelectComponent from "../clinic/ClinicSelectComponent";
 import HorizontalLine from "./HorizontalLineComponent";
 import SpecialtyComponent from "./SpecialtyComponent";
 

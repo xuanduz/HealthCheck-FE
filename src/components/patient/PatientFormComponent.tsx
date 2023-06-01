@@ -5,18 +5,27 @@ import { PatientType } from "../../data/types.data";
 import { GetRequest } from "../../utils/rest-api";
 import { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
-import ProvinceComponent from "../ProvinceComponent";
-import SelectComponent from "../SelectComponent";
+import SelectComponent from "../common/SelectComponent";
+import ProvinceComponent from "../common/ProvinceComponent";
 
 export interface PatientFormComponentProps {
   submitButtonContent?: string;
   handleSubmitForm: SubmitHandler<FieldValues>;
   haveStatus?: boolean;
   haveResultFile?: boolean;
+  disableSubmit?: boolean;
+  disableBookingType?: boolean;
 }
 
 export default function PatientFormComponent(props: PatientFormComponentProps) {
-  const { submitButtonContent, handleSubmitForm, haveStatus, haveResultFile } = props;
+  const {
+    submitButtonContent,
+    handleSubmitForm,
+    haveStatus,
+    haveResultFile,
+    disableSubmit,
+    disableBookingType,
+  } = props;
   const cookies = new Cookies();
   const [patient, setPatient] = useState<PatientType>();
   const [reason, setReason] = useState("");
@@ -52,15 +61,17 @@ export default function PatientFormComponent(props: PatientFormComponentProps) {
     <form onSubmit={onSubmit} className="flex flex-col mt-6 gap-6">
       <div className="flex flex-col black-all-child">
         <div className="flex justify-between items-center">
-          <div>
-            <SelectComponent
-              data={bookingOption}
-              onChange={(value: any) => setBookingType(value)}
-              // customClassName="w-72"
-              labelFirstElement="Hình thức khám bệnh"
-              required={true}
-            />
-          </div>
+          {!disableBookingType ? (
+            <div>
+              <SelectComponent
+                data={bookingOption}
+                onChange={(value: any) => setBookingType(value)}
+                // customClassName="w-72"
+                labelFirstElement="Hình thức khám bệnh"
+                required={true}
+              />
+            </div>
+          ) : null}
           <div className=" basis-1/2">
             <div className="flex gap-1 mt-2">
               <p>Chọn giới tính</p>
@@ -141,7 +152,9 @@ export default function PatientFormComponent(props: PatientFormComponentProps) {
         value={reason}
         onChange={(e: any) => setReason(e.target.value)}
       />
-      <Button type="submit">Đặt lịch</Button>
+      {!disableSubmit ? (
+        <Button type="submit">{submitButtonContent ? submitButtonContent : "Đặt lịch"}</Button>
+      ) : null}
     </form>
   );
 }

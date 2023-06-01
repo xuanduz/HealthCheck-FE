@@ -1,18 +1,18 @@
-import logo from "../assets/images/logo.png";
-import { HeaderContentData, HeaderContentType } from "../data/header-content.data";
+import logo from "../../assets/images/logo.png";
+import { HeaderContentData, HeaderContentType } from "../../data/header-content.data";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { RouteNamePatient } from "../routes/routes";
+import { RouteNamePatient } from "../../routes/routes";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 import Cookies from "universal-cookie";
 import { Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
 import { CgProfile } from "react-icons/cg";
-import { handleLogout } from "../utils/utils";
+import { handleLogout } from "../../utils/utils";
 import { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   adminAccessTokenSelector,
   adminRefreshTokenSelector,
-} from "../data/recoil/admin/auth.admin";
+} from "../../data/recoil/admin/auth.admin";
 
 export interface HeaderProps {
   isLogin?: boolean;

@@ -1,4 +1,4 @@
-import { CodeType } from "../data/types.data";
+import { CodeType } from "../../data/types.data";
 
 export interface SelectComponentProps {
   value?: string;

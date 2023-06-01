@@ -9,6 +9,8 @@ export const RouteNamePatient = {
   SPECIALTIES: "/specialties",
   SPECIALTY_DETAIL: "/specialties/:id",
   BOOKING_DOCTOR: "/booking",
+  BOOKING_DIRECT: "/booking/directly",
+  BOOKING_HOME: "/booking/home",
   BOOKING_FORM: "/booking/:id",
   LOGIN: "/login",
   REGISTER: "/register",
@@ -18,6 +20,7 @@ export const RouteNamePatient = {
 };
 
 export const RouteNameDoctor = {
+  DEFAULT: "/system-doctor",
   LOGIN: "/system-doctor/login",
   HOME: "/system-doctor/home",
   SCHEDULE: "/system-doctor/schedule",
@@ -27,6 +30,7 @@ export const RouteNameDoctor = {
 };
 
 export const RouteNameAdmin = {
+  DEFAULT: "/system-admin",
   LOGIN: "/system-admin/login",
   HOME: "/system-admin/home",
   DOCTORS: "/system-admin/doctor",
@@ -35,6 +39,7 @@ export const RouteNameAdmin = {
   CLINICS: "/system-admin/clinics",
   CLINIC_DETAIL: "/system-admin/clinics/:id",
   BOOKING: "/system-admin/booking",
+  BOOKING_DETAIL: "/system-admin/booking/:id",
   // SPECIALTY_DETAIL: "/specialties/:id",
   // BOOKING_DOCTOR: "/booking",
   REGISTER: "/system-admin/register",

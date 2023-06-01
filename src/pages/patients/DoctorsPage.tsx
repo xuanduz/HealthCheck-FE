@@ -1,12 +1,12 @@
 import { Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
-import ContainerComponent from "../../components/ContainerComponent";
-import FilterForm, { InputFilter } from "../../components/FilterForm";
-import CardComponent from "../../components/CardComponent";
+import ContainerComponent from "../../components/common/ContainerComponent";
+import FilterForm, { InputFilter } from "../../components/common/FilterForm";
+import CardComponent from "../../components/common/CardComponent";
 import { DoctorType, SpecialtyType, defaultPageInfo } from "../../data/types.data";
 import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import { doctorPatientAtom, doctorPatientSelector } from "../../data/recoil/patient/doctor.patient";
-import Pagination, { PaginationData } from "../../components/PaginationComponent";
+import Pagination, { PaginationData } from "../../components/common/PaginationComponent";
 import { useEffect, useState } from "react";
 import { VNDMoney } from "../../utils/utils";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";

@@ -1,12 +1,12 @@
 import { Button, Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
-import ContainerComponent from "../../components/ContainerComponent";
-import HorizontalLine from "../../components/HorizontalLineComponent";
+import ContainerComponent from "../../components/common/ContainerComponent";
+import HorizontalLine from "../../components/common/HorizontalLineComponent";
 import { Avatar } from "@mui/material";
-import SmallContainerComponent from "../../components/SmallContainerComponent";
+import SmallContainerComponent from "../../components/common/SmallContainerComponent";
 import { GrSchedule } from "react-icons/gr";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
-import SmallCardComponent from "../../components/SmallCardComponent";
+import SmallCardComponent from "../../components/common/SmallCardComponent";
 import { Link, useParams } from "react-router-dom";
 import { RouteNamePatient } from "../../routes/routes";
 import { useEffect, useState } from "react";

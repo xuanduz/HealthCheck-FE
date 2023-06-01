@@ -20,8 +20,8 @@ import {
   getColorStatus,
   getLabelStatus,
 } from "../../data/selection.data";
-import SelectComponent from "../../components/SelectComponent";
-import Pagination, { PaginationData } from "../../components/PaginationComponent";
+import SelectComponent from "../../components/common/SelectComponent";
+import Pagination, { PaginationData } from "../../components/common/PaginationComponent";
 import { useState, useEffect } from "react";
 import { bookingDoctorAtom, bookingDoctorSelector } from "../../data/recoil/doctor/booking.doctor";
 import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable, useSetRecoilState } from "recoil";

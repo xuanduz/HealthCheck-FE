@@ -1,15 +1,15 @@
 import { Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
-import ContainerComponent from "../../components/ContainerComponent";
-import FilterForm, { InputFilter } from "../../components/FilterForm";
+import ContainerComponent from "../../components/common/ContainerComponent";
+import FilterForm, { InputFilter } from "../../components/common/FilterForm";
 import { useState, useEffect } from "react";
-import CardComponent from "../../components/CardComponent";
+import CardComponent from "../../components/common/CardComponent";
 import { useRecoilStateLoadable, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import { ClinicType, CodeType, defaultPageInfo } from "../../data/types.data";
 import { clinicAtom, clinicSelector } from "../../data/recoil/patient/clinic.patient";
 import { provincesSelector } from "../../data/recoil/commonData";
 import EmptyClinic from "../../assets/images/empty-clinic.png";
-import Pagination, { PaginationData } from "../../components/PaginationComponent";
+import Pagination, { PaginationData } from "../../components/common/PaginationComponent";
 import { FilterClinicType } from "../admin/ClinicPage.admin";
 
 const ClinicsPage = () => {

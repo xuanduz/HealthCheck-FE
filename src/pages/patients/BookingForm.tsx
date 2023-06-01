@@ -8,7 +8,7 @@ import {
   Textarea,
   Typography,
 } from "@material-tailwind/react";
-import SmallContainerComponent from "../../components/SmallContainerComponent";
+import SmallContainerComponent from "../../components/common/SmallContainerComponent";
 import { Avatar } from "@mui/material";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ const BookingForm = () => {
       date: booking?.date,
       timeSlot: booking?.timeSlot,
     };
-    await PostRequest(`${process.env.REACT_APP_API}/booking`, bookingData);
+    await PostRequest(`${process.env.REACT_APP_API}/booking`, bookingData, true);
   };
 
   useEffect(() => {

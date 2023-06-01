@@ -1,5 +1,5 @@
-import FooterComponent from "../components/FooterComponent";
-import HeaderComponent from "../components/HeaderComponent";
+import FooterComponent from "../components/common/FooterComponent";
+import HeaderComponent from "../components/common/HeaderComponent";
 
 const PatientLayout = (props: any) => {
   return (

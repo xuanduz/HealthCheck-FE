@@ -1,8 +1,8 @@
 import { Button, Input, Radio, Typography } from "@material-tailwind/react";
-import SmallContainerComponent from "../../components/SmallContainerComponent";
+import SmallContainerComponent from "../../components/common/SmallContainerComponent";
 import { useEffect, useState } from "react";
 import { PatientType } from "../../data/types.data";
-import ProvinceComponent from "../../components/ProvinceComponent";
+import ProvinceComponent from "../../components/common/ProvinceComponent";
 import Cookies from "universal-cookie";
 import { GetRequest, PutRequest } from "../../utils/rest-api";
 

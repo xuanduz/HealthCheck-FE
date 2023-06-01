@@ -23,8 +23,8 @@ import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable, useSetRecoilState 
 import { clinicAtom } from "../../data/recoil/admin/clinic.admin";
 import { useState, useEffect } from "react";
 import { clinicSelector } from "../../data/recoil/admin/clinic.admin";
-import Pagination, { PaginationData } from "../../components/PaginationComponent";
-import ProvinceComponent from "../../components/ProvinceComponent";
+import Pagination, { PaginationData } from "../../components/common/PaginationComponent";
+import ProvinceComponent from "../../components/common/ProvinceComponent";
 import EmptyClinic from "../../assets/images/empty-clinic.png";
 import { DeleteRequest, PostRequest } from "../../utils/rest-api";
 

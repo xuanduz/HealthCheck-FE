@@ -1,7 +1,7 @@
 import { Option, Select } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { CodeType } from "../data/types.data";
-import { provincesSelector } from "../data/recoil/commonData";
+import { CodeType } from "../../data/types.data";
+import { provincesSelector } from "../../data/recoil/commonData";
 import { useRecoilValueLoadable } from "recoil";
 
 export interface ProvinceComponentProps {

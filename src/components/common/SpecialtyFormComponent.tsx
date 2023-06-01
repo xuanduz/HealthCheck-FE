@@ -1,8 +1,8 @@
 import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import { useState } from "react";
-import Empty from "../assets/images/empty.jpg";
-import { SpecialtyType } from "../data/types.data";
-import DialogComponent from "./dialog/DialogComponent";
+import Empty from "../../assets/images/empty.jpg";
+import { SpecialtyType } from "../../data/types.data";
+import DialogComponent from "./../dialog/DialogComponent";
 
 export interface ClinicFormComponentProps {
   data?: SpecialtyType;

@@ -2,7 +2,7 @@ import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import bannerDoctors from "../assets/images/doctors.jpg";
 import logo from "../assets/images/logo.png";
-import HorizontalLine from "../components/HorizontalLineComponent";
+import HorizontalLine from "../components/common/HorizontalLineComponent";
 import axios from "axios";
 import { RouteNameAdmin, RouteNameDoctor, RouteNamePatient } from "../routes/routes";
 import { toast } from "react-toastify";

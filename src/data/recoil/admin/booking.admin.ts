@@ -1,6 +1,6 @@
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import { defaultPageInfo } from "../../types.data";
-import { PostRequest } from "../../../utils/rest-api";
+import { GetRequest, PostRequest } from "../../../utils/rest-api";
 
 export const bookingAtom = atomFamily({
   key: "bookingAtom",

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import HorizontalLine from "../HorizontalLineComponent";
+import HorizontalLine from "../common/HorizontalLineComponent";
 import { listTimeData } from "../timeSlot/TimeListComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNamePatient } from "../../routes/routes";
@@ -161,11 +161,9 @@ export default function ScheduleDoctor(props: ScheduleDoctorProps) {
                 ))}
               </div>
             </div>
-            {/* <Link to={RouteNamePatient.BOOKING_FORM}> */}
             <Button className="w-full" onClick={handleBooking}>
               Đặt lịch ngay
             </Button>
-            {/* </Link> */}
           </>
         ) : (
           <>

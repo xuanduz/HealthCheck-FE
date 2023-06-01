@@ -6,12 +6,12 @@ import { useRecoilValueLoadable } from "recoil";
 
 export interface ClinicSelectComponentProps {
   handleChange?: Function;
-  clinicId?: string;
+  clinicId?: string | number;
   required?: boolean;
   customClassName?: string;
 }
 
-export default function ClinicSelectComponent(props: any) {
+export default function ClinicSelectComponent(props: ClinicSelectComponentProps) {
   const { handleChange, clinicId, required, customClassName } = props;
   const clinics = useRecoilValueLoadable(clinicsSelector);
   const [listClinics, setListClinics] = useState<ClinicType[]>([]);
@@ -25,7 +25,7 @@ export default function ClinicSelectComponent(props: any) {
   }, [clinics.state]);
 
   useEffect(() => {
-    setValue(clinicId);
+    setValue(clinicId as any);
   }, [clinicId]);
 
   const onChange = (e: any) => {

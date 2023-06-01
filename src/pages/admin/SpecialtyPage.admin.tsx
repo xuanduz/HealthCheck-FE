@@ -17,10 +17,10 @@ import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable, useSetRecoilState 
 import { specialtyAtom } from "../../data/recoil/admin/specialty.admin";
 import { useState, useEffect } from "react";
 import { specialtySelector } from "../../data/recoil/admin/specialty.admin";
-import Pagination, { PaginationData } from "../../components/PaginationComponent";
+import Pagination, { PaginationData } from "../../components/common/PaginationComponent";
 import Empty from "../../assets/images/empty.jpg";
 import { DeleteRequest, PostRequest } from "../../utils/rest-api";
-import SpecialtyFormComponent from "../../components/SpecialtyFormComponent";
+import SpecialtyFormComponent from "../../components/common/SpecialtyFormComponent";
 import { FiEdit3 } from "react-icons/fi";
 
 export interface FilterSpecialtyType extends PaginationData {

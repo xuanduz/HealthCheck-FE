@@ -1,14 +1,14 @@
 import { Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
 import { CiLocationOn } from "react-icons/ci";
-import ContainerComponent from "../../components/ContainerComponent";
-import SmallContainerComponent from "../../components/SmallContainerComponent";
+import ContainerComponent from "../../components/common/ContainerComponent";
+import SmallContainerComponent from "../../components/common/SmallContainerComponent";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetRequest } from "../../utils/rest-api";
 import { ClinicType, DoctorType } from "../../data/types.data";
 import parse from "html-react-parser";
-import CardComponent from "../../components/CardComponent";
+import CardComponent from "../../components/common/CardComponent";
 import { VNDMoney } from "../../utils/utils";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
 

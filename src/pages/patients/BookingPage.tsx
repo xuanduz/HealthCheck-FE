@@ -1,5 +1,5 @@
 import { Button, Card, Typography } from "@material-tailwind/react";
-import SmallContainerComponent from "../../components/SmallContainerComponent";
+import SmallContainerComponent from "../../components/common/SmallContainerComponent";
 import { Avatar } from "@mui/material";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ const BookingPage = () => {
 
   return (
     <div>
+      <h1>Booking Page</h1>
       <div className=" bg-blue-50 flex justify-center">
         <div className="w-8/12 booking-title relative pt-10 pb-10 flex items-center">
           <div className="z-10 p-2 basis-1/6" role="button" onClick={() => navigate(-1)}>

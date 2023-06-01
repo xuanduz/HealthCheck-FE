@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { CodeType, SpecialtyType } from "../data/types.data";
-import { specialtiesSelector } from "../data/recoil/commonData";
+import { CodeType, SpecialtyType } from "../../data/types.data";
+import { specialtiesSelector } from "../../data/recoil/commonData";
 import { useRecoilValueLoadable } from "recoil";
 import Select from "react-select";
 

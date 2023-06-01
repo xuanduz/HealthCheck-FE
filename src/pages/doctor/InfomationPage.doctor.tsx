@@ -9,9 +9,9 @@ import {
   Textarea,
   Typography,
 } from "@material-tailwind/react";
-import PositionComponent from "../../components/PositionComponent";
-import ProvinceComponent from "../../components/ProvinceComponent";
-import SpecialtyMultiSelectComponent from "../../components/SpecialtySelectComponent";
+import PositionComponent from "../../components/common/PositionComponent";
+import ProvinceComponent from "../../components/common/ProvinceComponent";
+import SpecialtyMultiSelectComponent from "../../components/common/SpecialtySelectComponent";
 import ClinicSelectComponent from "../../components/clinic/ClinicSelectComponent";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
 import { useEffect } from "react";

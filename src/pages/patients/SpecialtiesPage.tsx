@@ -1,14 +1,14 @@
 import { Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
-import ContainerComponent from "../../components/ContainerComponent";
-import FilterForm, { InputFilter } from "../../components/FilterForm";
+import ContainerComponent from "../../components/common/ContainerComponent";
+import FilterForm, { InputFilter } from "../../components/common/FilterForm";
 import { useState, useEffect } from "react";
-import CardComponent from "../../components/CardComponent";
+import CardComponent from "../../components/common/CardComponent";
 import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import { specialtiesSelector } from "../../data/recoil/commonData";
 import { SpecialtyType, defaultPageInfo } from "../../data/types.data";
 import EmptySpecialty from "../../assets/images/empty-specialty.png";
-import { PaginationData } from "../../components/PaginationComponent";
+import { PaginationData } from "../../components/common/PaginationComponent";
 import { specialtyAtom } from "../../data/recoil/admin/specialty.admin";
 import { speciatyPatientSelector } from "../../data/recoil/patient/specialty.patient";
 

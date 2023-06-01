@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SmallContainerComponent from "../../components/SmallContainerComponent";
+import SmallContainerComponent from "../../components/common/SmallContainerComponent";
 import { DataChangePassword } from "../admin/ChangePasswordPage.admin";
 import { PutRequest } from "../../utils/rest-api";
 import { Button, Input, Typography } from "@material-tailwind/react";

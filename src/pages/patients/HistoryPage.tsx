@@ -1,11 +1,12 @@
 import Cookies from "universal-cookie";
-import SmallContainerComponent from "../../components/SmallContainerComponent";
+import SmallContainerComponent from "../../components/common/SmallContainerComponent";
 import { GetRequest } from "../../utils/rest-api";
 import { useState, useEffect } from "react";
 import { AppointmentType } from "../../data/types.data";
 import { Chip, Typography } from "@material-tailwind/react";
 import { Avatar } from "@mui/material";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
+import EmptyClinic from "../../assets/images/empty-clinic.png";
 import { Link } from "react-router-dom";
 import { RouteNamePatient } from "../../routes/routes";
 import { getColorStatus, getLabelStatus } from "../../data/selection.data";
@@ -33,21 +34,39 @@ export default function HistoryPage() {
                 <div className=" border-2 rounded-md w-full p-4 flex gap-2">
                   <div className="basis-1/2">
                     <p>{"Thời gian: " + his?.timeData?.value + " Ngày " + his?.date}</p>
-                    <div className="flex gap-3">
-                      <Avatar
-                        alt="doctor"
-                        src={his?.doctorData?.image || EmptyDoctor}
-                        sx={{ width: 100, height: 100 }}
-                      />
-                      <div className="flex flex-col gap-2 justify-center">
-                        <p>{"Bác sĩ: " + his?.doctorData?.fullName}</p>
-                        <Link to={`${RouteNamePatient.DOCTORS}/${his.doctorId}`}>
-                          <p className="text-blue-600">Xem chi tiết bác sĩ</p>
-                        </Link>
+                    {his?.doctorData ? (
+                      <div className="flex gap-3">
+                        <Avatar
+                          alt="doctor"
+                          src={his?.doctorData?.image || EmptyDoctor}
+                          sx={{ width: 100, height: 100 }}
+                        />
+                        <div className="flex flex-col justify-center">
+                          <p>{"Bác sĩ: " + his?.doctorData?.fullName}</p>
+                          <Link to={`${RouteNamePatient.DOCTORS}/${his.doctorId}`} target="_blank">
+                            <p className="text-blue-600">Xem chi tiết bác sĩ</p>
+                          </Link>
+                          <p>{"Bệnh viện: " + his?.doctorData?.clinicData?.name}</p>
+                          <Link to={`${RouteNamePatient.CLINICS}/${his?.clinicId}`} target="_blank">
+                            <p className="text-blue-600">Xem chi tiết bệnh viện</p>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                    {/* <p>{doctor?.clinicData?.name}</p>
-                <p>{doctor?.clinicData?.address}</p> */}
+                    ) : (
+                      <div className="flex gap-3">
+                        <Avatar
+                          alt="doctor"
+                          src={his?.clinicData?.image || EmptyClinic}
+                          sx={{ width: 100, height: 100 }}
+                        />
+                        <div className="flex flex-col justify-center">
+                          <p>{"Bệnh viện: " + his?.clinicData?.name}</p>
+                          <Link to={`${RouteNamePatient.CLINICS}/${his?.clinicId}`} target="_blank">
+                            <p className="text-blue-600">Xem chi tiết bệnh viện</p>
+                          </Link>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="basis-1/2">
                     <div className="flex gap-2 items-center">

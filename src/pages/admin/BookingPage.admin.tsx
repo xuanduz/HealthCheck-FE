@@ -20,7 +20,6 @@ import {
   getLabelStatus,
   listStatus,
 } from "../../data/selection.data";
-import PatientFormComponent from "../../components/patient/PatientFormComponent";
 import { AppointmentType, CodeType, PatientType, defaultPageInfo } from "../../data/types.data";
 import {
   useRecoilRefresher_UNSTABLE,
@@ -31,11 +30,17 @@ import {
 import { provincesSelector } from "../../data/recoil/commonData";
 import { useEffect, useState } from "react";
 import { bookingAtom, bookingSelector } from "../../data/recoil/admin/booking.admin";
-import Pagination, { PaginationData, PaginationProps } from "../../components/PaginationComponent";
-import ProvinceComponent from "../../components/ProvinceComponent";
+import Pagination, {
+  PaginationData,
+  PaginationProps,
+} from "../../components/common/PaginationComponent";
+import ProvinceComponent from "../../components/common/ProvinceComponent";
 import AdminFormPatientComponent from "../../components/admin/AdminFormPatientComponent";
 import { DeleteRequest, PostRequest } from "../../utils/rest-api";
-import SelectComponent from "../../components/SelectComponent";
+import SelectComponent from "../../components/common/SelectComponent";
+import { BsEye } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { RouteNameAdmin } from "../../routes/routes";
 
 export interface FilterAppointmentType extends PaginationData {
   date?: string;
@@ -74,21 +79,21 @@ const BookingPageAdmin = () => {
     "",
   ];
 
-  const handleUpdateFormPatient = async (data: any) => {
-    const res = await PostRequest(
-      `${process.env.REACT_APP_API_ADMIN}/appointment/edit`,
-      data,
-      true
-    );
-    if (res?.data?.success) {
-      refresh();
-    }
-  };
+  // const handleUpdateFormPatient = async (data: any) => {
+  //   const res = await PostRequest(
+  //     `${process.env.REACT_APP_API_ADMIN}/appointment/edit`,
+  //     data,
+  //     true
+  //   );
+  //   if (res?.data?.success) {
+  //     refresh();
+  //   }
+  // };
 
-  const handleDeleteAppointment = async (dataId: any) => {
-    await DeleteRequest(`${process.env.REACT_APP_API_ADMIN}/appointment/${dataId}`, true);
-    refresh();
-  };
+  // const handleDeleteAppointment = async (dataId: any) => {
+  //   await DeleteRequest(`${process.env.REACT_APP_API_ADMIN}/appointment/${dataId}`, true);
+  //   refresh();
+  // };
 
   const handleFilter = async (e: any) => {
     e.preventDefault();
@@ -118,7 +123,6 @@ const BookingPageAdmin = () => {
       <Typography variant="h3" className="">
         Quản lý đơn đặt lịch của bệnh nhân
       </Typography>
-      <div className="w-48 mt-4"></div>
       <Card className="mt-4 p-3">
         <div className="p-2 flex justify-between">
           <form className="flex gap-4" onSubmit={handleFilter}>
@@ -259,7 +263,7 @@ const BookingPageAdmin = () => {
                     </td>
                     <td className={classes}>
                       <div className="float-right">
-                        <Tooltip content="Chỉnh sửa">
+                        {/* <Tooltip content="Chỉnh sửa">
                           <IconButton variant="text" color="blue-gray">
                             <DialogComponent
                               displayButton={<FiEdit3 className="h-4 w-4" />}
@@ -270,8 +274,15 @@ const BookingPageAdmin = () => {
                                   handleDelete={handleDeleteAppointment}
                                 />
                               }
-                              title="Chỉnh sửa thông tin bệnh nhân"
+                              title="Chỉnh sửa thông tin đặt lịch"
                             />
+                          </IconButton>
+                        </Tooltip> */}
+                        <Tooltip content="Xem chi tiết">
+                          <IconButton variant="text" color="blue-gray">
+                            <Link to={`${RouteNameAdmin.DEFAULT}/booking/${data?.id}`}>
+                              <BsEye className="h-4 w-4" />
+                            </Link>
                           </IconButton>
                         </Tooltip>
                       </div>

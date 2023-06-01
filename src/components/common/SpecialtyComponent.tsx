@@ -1,7 +1,7 @@
 import { Option, Select } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { SpecialtyType, CodeType } from "../data/types.data";
-import { specialtiesSelector } from "../data/recoil/commonData";
+import { SpecialtyType, CodeType } from "../../data/types.data";
+import { specialtiesSelector } from "../../data/recoil/commonData";
 import { useRecoilValueLoadable } from "recoil";
 
 export interface SpecialtyComponentProps {

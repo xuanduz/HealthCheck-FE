@@ -3,7 +3,7 @@ import { useState } from "react";
 import bannerDoctors from "../../assets/images/doctors.jpg";
 import logo from "../../assets/images/logo.png";
 import "react-toastify/dist/ReactToastify.css";
-import HorizontalLine from "../../components/HorizontalLineComponent";
+import HorizontalLine from "../../components/common/HorizontalLineComponent";
 import { RouteNamePatient } from "../../routes/routes";
 import axios from "axios";
 import { toast } from "react-toastify";

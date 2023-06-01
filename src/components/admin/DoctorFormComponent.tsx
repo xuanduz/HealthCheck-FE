@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { DoctorType, SpecialtyType } from "../../data/types.data";
 import { Button, Input, Radio, Textarea, Typography } from "@material-tailwind/react";
-import ProvinceComponent from "../ProvinceComponent";
+import ProvinceComponent from "../common/ProvinceComponent";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
-import PositionComponent from "../PositionComponent";
+import PositionComponent from "../common/PositionComponent";
 import ClinicSelectComponent from "../clinic/ClinicSelectComponent";
-import SpecialtyMultiSelectComponent from "../SpecialtySelectComponent";
+import SpecialtyMultiSelectComponent from "../common/SpecialtySelectComponent";
 import DoctorPostComponent from "../doctor/DoctorPostComponent";
 import DialogComponent from "../dialog/DialogComponent";
 

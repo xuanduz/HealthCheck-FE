@@ -1,7 +1,7 @@
 import Container from "./ContainerComponent";
-import BgFooter from "../assets/images/bg-footer.png";
+import BgFooter from "../../assets/images/bg-footer.png";
 import { Typography } from "@material-tailwind/react";
-import logo from "../assets/images/logo.png";
+import logo from "../../assets/images/logo.png";
 import { FaFacebookSquare, FaYoutube } from "react-icons/fa";
 
 const FooterComponent = () => {
@@ -22,16 +22,13 @@ const FooterComponent = () => {
               </Typography>
             </li>
             <li className="flex gap-1">
-              <span className="font-semibold">Địa chỉ:</span>{" "}
-              <p>Số 3 Câu Giấy</p>
+              <span className="font-semibold">Địa chỉ:</span> <p>Số 3 Câu Giấy</p>
             </li>
             <li className="flex gap-1">
-              <span className="font-semibold">Hottline:</span>{" "}
-              <p>1900 123123</p>
+              <span className="font-semibold">Hottline:</span> <p>1900 123123</p>
             </li>
             <li className="flex gap-1">
-              <span className="font-semibold">Email:</span>{" "}
-              <p>info@healthcheck.vn</p>
+              <span className="font-semibold">Email:</span> <p>info@healthcheck.vn</p>
             </li>
             <li></li>
           </ul>

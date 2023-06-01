@@ -1,5 +1,5 @@
 import { Button, Input, Option, Select, Textarea, Typography } from "@material-tailwind/react";
-import ProvinceComponent from "../ProvinceComponent";
+import ProvinceComponent from "../common/ProvinceComponent";
 import { ClinicType } from "../../data/types.data";
 import { useState } from "react";
 import ClinicPostComponent from "./ClinicPostComponent";

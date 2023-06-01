@@ -117,9 +117,11 @@ export interface AppointmentType {
   resultFile?: any;
   patientId?: number;
   doctorId?: number | string;
+  clinicId?: number | string;
   bookingType?: string;
   patientData?: PatientType;
   doctorData?: DoctorType;
+  clinicData?: ClinicType;
   bookingData?: CodeType;
   timeData?: CodeType;
   statusData?: CodeType;

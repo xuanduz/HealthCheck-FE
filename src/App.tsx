@@ -1,8 +1,7 @@
 import LoginPage from "./pages/LoginPage";
-import Header from "./components/HeaderComponent";
+import Header from "./components/common/HeaderComponent";
 import HomePagePatient from "./pages/patients/HomePage";
-import FooterComponent from "./components/FooterComponent";
-
+import FooterComponent from "./components/common/FooterComponent";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PatientLayout from "./layout/PatientLayout";
 import ClinicsPage from "./pages/patients/ClinicsPage";
@@ -30,7 +29,6 @@ import { adminAccessTokenSelector } from "./data/recoil/admin/auth.admin";
 import { useEffect } from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
-import { PostRequest } from "./utils/rest-api";
 import { getLoginRoute, handleResetAccountCookies } from "./utils/utils";
 import SpecialtyPageAdmin from "./pages/admin/SpecialtyPage.admin";
 import ChangePasswordPageAdmin from "./pages/admin/ChangePasswordPage.admin";
@@ -39,6 +37,8 @@ import RegisterPage from "./pages/patients/RegisterPage";
 import InfomationPage from "./pages/patients/InfomationPage";
 import ChangePasswordPage from "./pages/patients/ChangePasswordPage";
 import HistoryPage from "./pages/patients/HistoryPage";
+import DirectBooking from "./pages/patients/DirectBooking";
+import BookingDetailPageAdmin from "./pages/admin/BookingDetailPage.admin";
 
 function App() {
   const cookies = new Cookies();
@@ -146,6 +146,14 @@ function App() {
       ),
     },
     {
+      path: RouteNamePatient.BOOKING_DIRECT,
+      element: (
+        <PatientLayout>
+          <DirectBooking />
+        </PatientLayout>
+      ),
+    },
+    {
       path: RouteNamePatient.BOOKING_FORM,
       element: (
         <PatientLayout>
@@ -215,6 +223,14 @@ function App() {
       element: (
         <AdminLayout>
           <BookingPageAdmin />
+        </AdminLayout>
+      ),
+    },
+    {
+      path: RouteNameAdmin.BOOKING_DETAIL,
+      element: (
+        <AdminLayout>
+          <BookingDetailPageAdmin />
         </AdminLayout>
       ),
     },

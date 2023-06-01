@@ -1,12 +1,12 @@
 import { Card, Typography } from "@material-tailwind/react";
-import ContainerComponent from "../../components/ContainerComponent";
+import ContainerComponent from "../../components/common/ContainerComponent";
 import banner from "../../assets/images/banner-2.png";
 import { CiLocationOn } from "react-icons/ci";
-import FilterForm, { InputFilter } from "../../components/FilterForm";
+import FilterForm, { InputFilter } from "../../components/common/FilterForm";
 import { useState, useEffect } from "react";
-import CardComponent from "../../components/CardComponent";
+import CardComponent from "../../components/common/CardComponent";
 import { DoctorType, SpecialtyType, defaultPageInfo } from "../../data/types.data";
-import Pagination, { PaginationData } from "../../components/PaginationComponent";
+import Pagination, { PaginationData } from "../../components/common/PaginationComponent";
 import { useParams } from "react-router-dom";
 import { GetRequest, PostRequest } from "../../utils/rest-api";
 import { VNDMoney } from "../../utils/utils";
