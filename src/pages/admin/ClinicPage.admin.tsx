@@ -27,6 +27,8 @@ import Pagination, { PaginationData } from "../../components/common/PaginationCo
 import ProvinceComponent from "../../components/common/ProvinceComponent";
 import EmptyClinic from "../../assets/images/empty-clinic.png";
 import { DeleteRequest, PostRequest } from "../../utils/rest-api";
+import { Link } from "react-router-dom";
+import { RouteNameAdmin } from "../../routes/routes";
 
 export interface FilterClinicType extends PaginationData {
   clinicName?: string;
@@ -34,7 +36,7 @@ export interface FilterClinicType extends PaginationData {
 }
 
 const ClinicPageAdmin = () => {
-  const TABLE_HEAD = ["Tên", "Tỉnh/Thành", "Địa chỉ chi tiết", "Ảnh", "", ""];
+  const TABLE_HEAD = ["Tên", "Tỉnh/Thành", "Địa chỉ chi tiết", "Ảnh", ""];
   const setFilterClinic = useSetRecoilState(clinicAtom(defaultPageInfo));
   const listClinicLoadable = useRecoilValueLoadable(clinicSelector);
   const [listClinics, setListClinics] = useState<ClinicType[]>([]);
@@ -113,7 +115,13 @@ const ClinicPageAdmin = () => {
               <Button type="submit">Lọc</Button>
             </div>
           </form>
-          <DialogComponent
+          <Link to={`${RouteNameAdmin.CLINICS}/new`}>
+            <Button className="flex gap-2">
+              <AiOutlinePlus color="white" className="mt-[2px]" />
+              Thêm mới cơ sở y tế
+            </Button>
+          </Link>
+          {/* <DialogComponent
             displayButton={
               <Button className="flex gap-2">
                 <AiOutlinePlus color="white" className="mt-[2px]" />
@@ -123,7 +131,7 @@ const ClinicPageAdmin = () => {
             formatterContent={<ClinicFormComponent handleSubmitForm={handleAddClinic} />}
             size="lg"
             title="Thêm mới cơ sở y tế"
-          />
+          /> */}
         </div>
       </Card>
       <Card className="mt-6">
@@ -182,7 +190,14 @@ const ClinicPageAdmin = () => {
                     </td>
                     <td className={classes}>
                       <div className="float-right">
-                        <Tooltip content="Chỉnh sửa">
+                        <Tooltip content="Xem chi tiết">
+                          <IconButton variant="text" color="blue-gray">
+                            <Link to={`${RouteNameAdmin.CLINICS}/${data?.id}`}>
+                              <BsEye className="h-4 w-4" />
+                            </Link>
+                          </IconButton>
+                        </Tooltip>
+                        {/* <Tooltip content="Chỉnh sửa">
                           <IconButton variant="text" color="blue-gray">
                             <DialogComponent
                               displayButton={<FiEdit3 className="h-4 w-4" />}
@@ -197,7 +212,7 @@ const ClinicPageAdmin = () => {
                               }
                             />
                           </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
                       </div>
                     </td>
                   </tr>

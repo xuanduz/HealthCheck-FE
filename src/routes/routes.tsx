@@ -13,10 +13,12 @@ export const RouteNamePatient = {
   BOOKING_HOME: "/booking/home",
   BOOKING_FORM: "/booking/:id",
   LOGIN: "/login",
+  FORGOT_PASSWORD: "/forgot-password",
   REGISTER: "/register",
   INFORMATION: "/information",
   CHANGE_PASSWORD: "/change-password",
   HISTORY: "/history",
+  VERIFY_EMAIL: "/verify-email",
 };
 
 export const RouteNameDoctor = {
@@ -33,7 +35,7 @@ export const RouteNameAdmin = {
   DEFAULT: "/system-admin",
   LOGIN: "/system-admin/login",
   HOME: "/system-admin/home",
-  DOCTORS: "/system-admin/doctor",
+  DOCTORS: "/system-admin/doctors",
   SPECIALTY: "/system-admin/specialty",
   DOCTOR_DETAIL: "/system-admin/doctors/:id",
   CLINICS: "/system-admin/clinics",
@@ -48,6 +50,7 @@ export const RouteNameAdmin = {
 
 export const RoleRoutes = {
   ADMIN: "ADMIN",
+  SUPER_ADMIN: "SUPER_ADMIN",
   DOCTOR: "DOCTOR",
 };
 
@@ -88,29 +91,39 @@ export const routesSidebar: RoutesType[] = [
     role: RoleRoutes.ADMIN,
   },
   {
+    name: "Trang chủ",
+    path: RouteNameAdmin.HOME,
+    role: RoleRoutes.SUPER_ADMIN,
+  },
+  {
     name: "Quản lý đơn đặt lịch",
     path: RouteNameAdmin.BOOKING,
     role: RoleRoutes.ADMIN,
   },
   {
+    name: "Quản lý đơn đặt lịch",
+    path: RouteNameAdmin.BOOKING,
+    role: RoleRoutes.SUPER_ADMIN,
+  },
+  {
     name: "Quản lý cơ sở y tế",
     path: RouteNameAdmin.CLINICS,
-    role: RoleRoutes.ADMIN,
+    role: RoleRoutes.SUPER_ADMIN,
   },
   {
     name: "Quản lý chuyên khoa",
     path: RouteNameAdmin.SPECIALTY,
-    role: RoleRoutes.ADMIN,
+    role: RoleRoutes.SUPER_ADMIN,
   },
   {
     name: "Quản lý bác sĩ",
     path: RouteNameAdmin.DOCTORS,
-    role: RoleRoutes.ADMIN,
+    role: RoleRoutes.SUPER_ADMIN,
   },
   {
     name: "Đăng ký thêm tài khoản",
     path: RouteNameAdmin.REGISTER,
-    role: RoleRoutes.ADMIN,
+    role: RoleRoutes.SUPER_ADMIN,
   },
   {
     name: "Đổi mật khẩu",

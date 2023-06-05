@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { AdminType } from "../../data/types.data";
-import { Button, Input, Radio } from "@material-tailwind/react";
+import { Button, Input, Option, Radio, Select } from "@material-tailwind/react";
+import SelectComponent from "../common/SelectComponent";
 
 export interface AdminFormComponentProps {
   data?: AdminType;
@@ -37,6 +38,14 @@ export default function AdminFormComponent(props: AdminFormComponentProps) {
           minLength={9}
           required
         ></Input>
+        <select
+          className={`bg-white border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2.5 outline-none`}
+          {...register("role")}
+          required
+        >
+          <option value={"ADMIN"}>ADMIN</option>
+          <option value={"SUPER_ADMIN"}>SUPER ADMIN</option>
+        </select>
         <div className="flex black-all-child">
           <Radio id="male" label="Nam" value={"true"} {...register("gender")} required />
           <Radio id="female" label="Nữ" value={"false"} {...register("gender")} />

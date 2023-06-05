@@ -96,7 +96,7 @@ export interface AdminType {
   gender?: string;
   phoneNumber?: string;
   address?: string;
-
+  role?: string;
   rePassword?: string;
 }
 

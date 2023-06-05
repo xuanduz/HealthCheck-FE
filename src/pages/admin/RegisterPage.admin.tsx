@@ -19,6 +19,7 @@ const RegisterPageAdmin = () => {
       toast.warn("Nhập lại mật khẩu không đúng");
     }
   };
+
   return (
     <>
       <Typography variant="h3" className="">

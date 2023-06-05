@@ -43,7 +43,11 @@ const LoginPage = (props: LoginPageProps) => {
     setRefreshToken(data.refreshToken);
     setAccessToken(data.accessToken);
     toast.success(data.message);
-    cookies.set("role", role);
+    if (data?.role) {
+      cookies.set("role", data?.role);
+    } else {
+      cookies.set("role", role);
+    }
     cookies.set("email", email);
     const decoded: any = jwt(data.accessToken || data.refreshToken);
     cookies.set("id", decoded?.id);

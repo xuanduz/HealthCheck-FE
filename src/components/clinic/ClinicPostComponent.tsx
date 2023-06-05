@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { Editor } from "react-draft-wysiwyg";
@@ -16,6 +16,10 @@ export default function ClinicPostComponent(props: ClinicPostComponentProps) {
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(stateFromHTML(descriptionHTML || ""))
   );
+
+  useEffect(() => {
+    setEditorState(EditorState.createWithContent(stateFromHTML(descriptionHTML || "")));
+  }, [descriptionHTML]);
 
   const onEditorStateChange = function (editorState: any) {
     setEditorState(editorState);

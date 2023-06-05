@@ -17,7 +17,8 @@ const SidebarComponent = (props: {
   const logout = async () => {
     await handleLogout();
     //TODO: remove token in recoil state
-    cookie.get("role") == "ADMIN" && navigate(RouteNameAdmin.LOGIN);
+    (cookie.get("role") == "ADMIN" || cookie.get("role") == "SUPER_ADMIN") &&
+      navigate(RouteNameAdmin.LOGIN);
     cookie.get("role") == "DOCTOR" && navigate(RouteNameDoctor.LOGIN);
   };
 

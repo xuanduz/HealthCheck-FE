@@ -24,6 +24,8 @@ import ClinicComponent from "../../components/clinic/ClinicSelectComponent";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
 import DoctorFormComponent from "../../components/admin/DoctorFormComponent";
 import { DeleteRequest, PostRequest } from "../../utils/rest-api";
+import { Link } from "react-router-dom";
+import { RouteNameAdmin } from "../../routes/routes";
 
 export interface FilterDoctorType extends PaginationData {
   clinicId?: string;
@@ -130,19 +132,12 @@ const DoctorPageAdmin = () => {
               <Button type="submit">Lọc</Button>
             </div>
           </form>
-          <DialogComponent
-            displayButton={
-              <Button className="flex gap-2">
-                <AiOutlinePlus color="white" className="mt-[2px]" />
-                Thêm mới bác sĩ
-              </Button>
-            }
-            formatterContent={
-              <DoctorFormComponent handleSubmitForm={handleAddDoctor} isNew={true} />
-            }
-            size="lg"
-            title="Thêm mới bác sĩ"
-          />
+          <Link to={`${RouteNameAdmin.DOCTORS}/new`}>
+            <Button className="flex gap-2">
+              <AiOutlinePlus color="white" className="mt-[2px]" />
+              Thêm mới bác sĩ
+            </Button>
+          </Link>
         </div>
       </Card>
       <Card className="mt-6">
@@ -215,20 +210,11 @@ const DoctorPageAdmin = () => {
                     </td>
                     <td className={classes}>
                       <div className="float-right">
-                        <Tooltip content="Chỉnh sửa">
+                        <Tooltip content="Xem chi tiết">
                           <IconButton variant="text" color="blue-gray">
-                            <DialogComponent
-                              displayButton={<FiEdit3 className="h-4 w-4" />}
-                              formatterContent={
-                                <DoctorFormComponent
-                                  data={data}
-                                  handleSubmitForm={handleUpdateFormDoctor}
-                                  handleDelete={handleDeleteDoctor}
-                                />
-                              }
-                              title="Chỉnh sửa bác sĩ"
-                              size="lg"
-                            />
+                            <Link to={`${RouteNameAdmin.DOCTORS}/${data?.id}`}>
+                              <BsEye className="h-4 w-4" />
+                            </Link>
                           </IconButton>
                         </Tooltip>
                       </div>

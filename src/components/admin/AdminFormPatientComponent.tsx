@@ -167,8 +167,7 @@ export default function AdminFormPatientComponent(props: AdminFormPatientCompone
         </div>
       </div>
       <div className="mt-2">
-        <Typography variant="h5">Thông tin bác sĩ</Typography>
-        <div className="flex flex-col gap-6 p-2"></div>
+        {isDoctor ? null : <Typography variant="h5">Thông tin bác sĩ</Typography>}
       </div>
       <div className="flex justify-between">
         <div>

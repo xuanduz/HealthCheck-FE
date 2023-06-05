@@ -79,7 +79,7 @@ const DoctorDetailPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex">
+        <div className="flex gap-2">
           <div className="simple_info basis-1/2">
             <div className="description mt-4">{parse(doctorData?.descriptionHTML || "")}</div>
           </div>

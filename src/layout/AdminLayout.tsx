@@ -9,7 +9,7 @@ const AdminLayout = (props: any) => {
 
   return (
     <>
-      {cookies.get("role") == "ADMIN" ? (
+      {cookies.get("role") == "ADMIN" || cookies.get("role") == "SUPER_ADMIN" ? (
         <div className="flex h-full w-full">
           <SidebarComponent open={open} onClose={() => setOpen(false)} />
           {/* Navbar & Main Content */}

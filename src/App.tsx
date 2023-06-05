@@ -39,6 +39,10 @@ import ChangePasswordPage from "./pages/patients/ChangePasswordPage";
 import HistoryPage from "./pages/patients/HistoryPage";
 import DirectBooking from "./pages/patients/DirectBooking";
 import BookingDetailPageAdmin from "./pages/admin/BookingDetailPage.admin";
+import ClinicDetailPageAdmin from "./pages/admin/ClinicDetailPage.admin";
+import DoctorDetailPageAdmin from "./pages/admin/DoctorDetailPage.admin";
+import VerifyEmail from "./pages/patients/VerifyEmail";
+import ForgotPasswordPage from "./pages/patients/ForgotPassword";
 
 function App() {
   const cookies = new Cookies();
@@ -66,6 +70,14 @@ function App() {
       element: (
         <PatientLayout>
           <LoginPage role="PATIENT" />
+        </PatientLayout>
+      ),
+    },
+    {
+      path: RouteNamePatient.FORGOT_PASSWORD,
+      element: (
+        <PatientLayout>
+          <ForgotPasswordPage />
         </PatientLayout>
       ),
     },
@@ -162,6 +174,14 @@ function App() {
       ),
     },
     {
+      path: RouteNamePatient.VERIFY_EMAIL,
+      element: (
+        <PatientLayout>
+          <VerifyEmail />
+        </PatientLayout>
+      ),
+    },
+    {
       path: RouteNameDoctor.LOGIN,
       element: <LoginPage role="DOCTOR" />,
     },
@@ -243,6 +263,14 @@ function App() {
       ),
     },
     {
+      path: RouteNameAdmin.CLINIC_DETAIL,
+      element: (
+        <AdminLayout>
+          <ClinicDetailPageAdmin />
+        </AdminLayout>
+      ),
+    },
+    {
       path: RouteNameAdmin.SPECIALTY,
       element: (
         <AdminLayout>
@@ -255,6 +283,14 @@ function App() {
       element: (
         <AdminLayout>
           <DoctorPageAdmin />
+        </AdminLayout>
+      ),
+    },
+    {
+      path: RouteNameAdmin.DOCTOR_DETAIL,
+      element: (
+        <AdminLayout>
+          <DoctorDetailPageAdmin />
         </AdminLayout>
       ),
     },

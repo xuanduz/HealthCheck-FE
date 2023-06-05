@@ -79,22 +79,6 @@ const BookingPageAdmin = () => {
     "",
   ];
 
-  // const handleUpdateFormPatient = async (data: any) => {
-  //   const res = await PostRequest(
-  //     `${process.env.REACT_APP_API_ADMIN}/appointment/edit`,
-  //     data,
-  //     true
-  //   );
-  //   if (res?.data?.success) {
-  //     refresh();
-  //   }
-  // };
-
-  // const handleDeleteAppointment = async (dataId: any) => {
-  //   await DeleteRequest(`${process.env.REACT_APP_API_ADMIN}/appointment/${dataId}`, true);
-  //   refresh();
-  // };
-
   const handleFilter = async (e: any) => {
     e.preventDefault();
     const dataFilter = {
