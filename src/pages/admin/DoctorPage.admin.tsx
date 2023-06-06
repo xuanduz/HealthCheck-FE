@@ -74,26 +74,26 @@ const DoctorPageAdmin = () => {
     }
   }, [filter]);
 
-  const handleUpdateFormDoctor = async (data: any) => {
-    console.log("handleUpdateFormDoctor", data);
-    const res = await PostRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/edit`, data, true);
-    if (res?.data?.success) {
-      refresh();
-    }
-  };
+  // const handleUpdateFormDoctor = async (data: any) => {
+  //   console.log("handleUpdateFormDoctor", data);
+  //   const res = await PostRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/edit`, data, true);
+  //   if (res?.data?.success) {
+  //     refresh();
+  //   }
+  // };
 
-  const handleDeleteDoctor = async (id: any) => {
-    await DeleteRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/${id}`, true);
-    refresh();
-  };
+  // const handleDeleteDoctor = async (id: any) => {
+  //   await DeleteRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/${id}`, true);
+  //   refresh();
+  // };
 
-  const handleAddDoctor = async (data: any) => {
-    console.log("handleAddDoctor", data);
-    const res = await PostRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/add-new`, data, true);
-    if (res?.data?.success) {
-      refresh();
-    }
-  };
+  // const handleAddDoctor = async (data: any) => {
+  //   console.log("handleAddDoctor", data);
+  //   const res = await PostRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/add-new`, data, true);
+  //   if (res?.data?.success) {
+  //     refresh();
+  //   }
+  // };
 
   return (
     <div>

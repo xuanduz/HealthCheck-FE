@@ -39,6 +39,17 @@ const LoginPage = (props: LoginPageProps) => {
     return !location.pathname.includes("/system");
   };
 
+  const getTitleWelcome = () => {
+    if (location.pathname.includes("/system-admin")) {
+      return "Xin chào Quản trị";
+    }
+    if (location.pathname.includes("/system-doctor")) {
+      return "Xin chào Bác sĩ";
+    }
+
+    return "Xin chào";
+  };
+
   const loginSuccess = (data: any) => {
     setRefreshToken(data.refreshToken);
     setAccessToken(data.accessToken);
@@ -98,7 +109,7 @@ const LoginPage = (props: LoginPageProps) => {
       <div className="login-container w-10/12 flex items-center">
         <div className="login-banner w-1/2 flex flex-col items-center">
           <h3 className="font-extrabold text-center text-transparent text-5xl bg-clip-text bg-gradient-to-r from-blue-800 to-blue-400">
-            {"Xin chào !"}
+            {getTitleWelcome()}
           </h3>
           <img src={bannerDoctors} className="login-banner-img" alt="" />
         </div>

@@ -1,4 +1,4 @@
-import { Button, Input, Option, Select, Typography } from "@material-tailwind/react";
+import { Button, Input, Option, Select, Tooltip, Typography } from "@material-tailwind/react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { FaHandPointRight } from "react-icons/fa";
@@ -7,6 +7,8 @@ import { CodeType } from "../../data/types.data";
 import ClinicSelectComponent from "../clinic/ClinicSelectComponent";
 import HorizontalLine from "./HorizontalLineComponent";
 import SpecialtyComponent from "./SpecialtyComponent";
+import { FilterDoctorPatientType } from "../../pages/patients/DoctorsPage";
+import { GrPowerReset } from "react-icons/gr";
 
 export interface PriceRangeType {
   minPrice?: number | undefined;
@@ -34,6 +36,7 @@ export interface FilterFormProps {
   haveClinic?: boolean;
   haveSpecialty?: boolean;
   listProvinces?: CodeType[];
+  queryFilterBefore?: FilterDoctorPatientType;
   handleSubmitFilterForm: Function;
 }
 
@@ -44,8 +47,9 @@ const FilterForm = (props: FilterFormProps) => {
     havePrice,
     haveClinic,
     haveSpecialty,
-    handleSubmitFilterForm,
     listProvinces,
+    queryFilterBefore,
+    handleSubmitFilterForm,
   } = props;
 
   const [formData, setFormData] = useState<InputFilter>();
@@ -91,6 +95,7 @@ const FilterForm = (props: FilterFormProps) => {
       {haveClinic && (
         <div className="my-5">
           <ClinicSelectComponent
+            clinicId={queryFilterBefore?.clinicId}
             handleChange={(value: any) =>
               setFormData({
                 ...formData,
@@ -103,6 +108,7 @@ const FilterForm = (props: FilterFormProps) => {
       {haveSpecialty && (
         <div className="my-5">
           <SpecialtyComponent
+            specialtyId={queryFilterBefore?.specialtyId}
             handleChange={(id: any) =>
               setFormData({
                 ...formData,
@@ -158,10 +164,12 @@ const FilterForm = (props: FilterFormProps) => {
           </div>
         </div>
       )}
-      <Button className="mt-6 flex justify-center items-center gap-2" fullWidth type="submit">
-        <FaHandPointRight size={17} />
-        Áp dụng
-      </Button>
+      <div className="flex mt-6 gap-3">
+        <Button className="flex justify-center items-center gap-2" fullWidth type="submit">
+          <FaHandPointRight size={17} />
+          Áp dụng
+        </Button>
+      </div>
     </form>
   );
 };

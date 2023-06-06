@@ -5,9 +5,11 @@ import ProvinceComponent from "../../components/common/ProvinceComponent";
 import ClinicPostComponent from "../../components/clinic/ClinicPostComponent";
 import DialogComponent from "../../components/dialog/DialogComponent";
 import { useState, useEffect } from "react";
-import { ClinicType } from "../../data/types.data";
+import { ClinicType, SpecialtyType } from "../../data/types.data";
 import { DeleteRequest, GetRequest, PostRequest } from "../../utils/rest-api";
 import EmptyClinic from "../../assets/images/empty-clinic.png";
+import SpecialtyComponent from "../../components/common/SpecialtyComponent";
+import SpecialtyMultiSelectComponent from "../../components/common/SpecialtySelectComponent";
 
 export default function ClinicDetailPageAdmin() {
   let { id } = useParams();
@@ -122,6 +124,18 @@ export default function ClinicDetailPageAdmin() {
               }
               required
             ></Input>
+          </div>
+          <div className="black-all-child">
+            <SpecialtyMultiSelectComponent
+              required={true}
+              specialtyData={clinicData?.specialtyData}
+              handleChange={(specialies: SpecialtyType[]) =>
+                setClinicData({
+                  ...clinicData,
+                  specialtyData: specialies,
+                })
+              }
+            />
           </div>
           <Textarea
             label="Mô tả"

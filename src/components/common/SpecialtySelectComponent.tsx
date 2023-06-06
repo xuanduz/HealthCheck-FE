@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CodeType, SpecialtyType } from "../../data/types.data";
 import { specialtiesSelector } from "../../data/recoil/commonData";
-import { useRecoilValueLoadable } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable } from "recoil";
 import Select from "react-select";
 
 export interface SpecialtyMultiSelectComponentProps {
@@ -34,6 +34,7 @@ export default function SpecialtyMultiSelectComponent(props: SpecialtyMultiSelec
   const [listSpecialties, setListSpecialties] = useState<SpecialtyType[]>([]);
   const [specialtyOptions, setSpecialtiesOption] = useState<SpecialOptionType[]>([]);
   const [defaultVal, setDefaultVal] = useState();
+  const refresh = useRecoilRefresher_UNSTABLE(specialtiesSelector);
 
   useEffect(() => {
     if (specialties?.state == "hasValue") {
@@ -46,6 +47,10 @@ export default function SpecialtyMultiSelectComponent(props: SpecialtyMultiSelec
       setSpecialtiesOption(dataFormated);
     }
   }, [specialties.state]);
+
+  useEffect(() => {
+    refresh();
+  }, []);
 
   useEffect(() => {
     setDefaultVal(convertToSelectData(specialtyData) as any);

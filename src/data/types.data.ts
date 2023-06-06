@@ -29,7 +29,7 @@ export interface ClinicType {
   describe?: string;
   provinceData?: CodeType;
   email?: string;
-
+  specialtyData?: SpecialtyType[];
   doctorData: DoctorType[];
 }
 

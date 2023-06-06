@@ -1,4 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Button, Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
 import ContainerComponent from "../../components/common/ContainerComponent";
 import FilterForm, { InputFilter } from "../../components/common/FilterForm";
@@ -11,46 +11,51 @@ import { useEffect, useState } from "react";
 import { VNDMoney } from "../../utils/utils";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
 import { toast } from "react-toastify";
+import { useSearchParams } from "react-router-dom";
+import { PostRequest } from "../../utils/rest-api";
 
 export interface FilterDoctorPatientType extends PaginationData {
   doctorName?: string;
   clinicId?: string;
+  specialtyId?: string;
   price?: any;
 }
 
 const DoctorsPage = () => {
-  const setFilterDoctor = useSetRecoilState(doctorPatientAtom(defaultPageInfo));
-  const listDoctorLoadable = useRecoilValueLoadable(doctorPatientSelector);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const specialtyId = searchParams.get("specialtyId");
+  const clinicId = searchParams.get("clinicId");
+  const queryFilter: FilterDoctorPatientType = {
+    ...defaultPageInfo,
+    specialtyId: specialtyId || "",
+    clinicId: clinicId || "",
+  };
 
   const [paginationData, setPaginationData] = useState<PaginationData>();
   const [listDoctors, setListDoctors] = useState<DoctorType[]>([]);
-  const [filter, setFilter] = useState<FilterDoctorPatientType>(defaultPageInfo);
+  const [filter, setFilter] = useState<FilterDoctorPatientType>(queryFilter);
 
   useEffect(() => {
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
-  useEffect(() => {
-    if (listDoctorLoadable?.state == "hasValue") {
-      setListDoctors(listDoctorLoadable?.contents?.data?.data);
-      setPaginationData(listDoctorLoadable?.contents?.data?.pagination);
-    }
-  }, [listDoctorLoadable]);
+  const handleFilterRequest = async () => {
+    const res = await PostRequest(`${process.env.REACT_APP_API}/doctor/filter`, filter);
+    setListDoctors(res?.data?.data);
+    setPaginationData(res?.data?.pagination);
+  };
 
   useEffect(() => {
-    if (filter) {
-      setFilterDoctor(filter);
-    }
+    handleFilterRequest();
   }, [filter]);
 
   const handleFilter = ({ ...params }) => {
     const data = { ...params };
     const dataFilter: any = {
-      ...defaultPageInfo,
+      ...queryFilter,
+      ...data,
       pageNum: 1,
       doctorName: data?.name,
-      clinicId: data?.clinicId,
-      ...data,
     };
     if (dataFilter?.minPrice > dataFilter?.maxPrice) {
       toast.warn("Giá nhỏ nhất phải thấp hơn hoặc bằng mức giá lớn nhất !");
@@ -90,6 +95,7 @@ const DoctorsPage = () => {
                   havePrice={true}
                   haveClinic={true}
                   haveSpecialty={true}
+                  queryFilterBefore={queryFilter}
                   handleSubmitFilterForm={handleFilter}
                 />
               </div>
@@ -118,6 +124,11 @@ const DoctorsPage = () => {
                   </li>
                 ))}
               </ul>
+              {!listDoctors?.length && (
+                <div className="text-center w-full text-red-500">
+                  <Typography variant="h5">Không có dữ liệu</Typography>
+                </div>
+              )}
             </div>
             <div className="flex justify-center my-14">
               <Pagination paginationData={paginationData} handlePaging={handlePaging} />

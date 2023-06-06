@@ -8,28 +8,53 @@ import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import { specialtiesSelector } from "../../data/recoil/commonData";
 import { SpecialtyType, defaultPageInfo } from "../../data/types.data";
 import EmptySpecialty from "../../assets/images/empty-specialty.png";
-import { PaginationData } from "../../components/common/PaginationComponent";
-import { specialtyAtom } from "../../data/recoil/admin/specialty.admin";
-import { speciatyPatientSelector } from "../../data/recoil/patient/specialty.patient";
+import Pagination, { PaginationData } from "../../components/common/PaginationComponent";
+import {
+  speciatyPatientAtom,
+  speciatyPatientSelector,
+} from "../../data/recoil/patient/specialty.patient";
 
 const SpecialtiesPage = () => {
-  const setFilterClinic = useSetRecoilState(specialtyAtom(defaultPageInfo));
-  const listClinicLoadable = useRecoilValueLoadable(speciatyPatientSelector);
+  const setFilterSpecialty = useSetRecoilState(speciatyPatientAtom(defaultPageInfo));
+  const listSpecialtyLoadable = useRecoilValueLoadable(speciatyPatientSelector);
 
   const [paginationData, setPaginationData] = useState<PaginationData>();
   const [listSpecialties, setListSpecialties] = useState<SpecialtyType[]>([]);
-  const [filter, setFilter] = useState<InputFilter>();
+  const [filter, setFilter] = useState<any>();
 
   useEffect(() => {
-    if (listClinicLoadable?.state == "hasValue") {
-      const data = listClinicLoadable?.contents?.data?.data;
-      setListSpecialties(data);
+    if (listSpecialtyLoadable?.state == "hasValue") {
+      const data = listSpecialtyLoadable?.contents?.data;
+      setListSpecialties(data?.data);
+      setPaginationData(data?.pagination);
     }
-  }, [listClinicLoadable.state]);
+  }, [listSpecialtyLoadable.state]);
 
   useEffect(() => {
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
   }, []);
+
+  useEffect(() => {
+    if (filter) {
+      setFilterSpecialty(filter);
+    }
+  }, [filter]);
+
+  const handlePaging = (paginationData: PaginationData) => {
+    setFilter({
+      ...filter,
+      ...paginationData,
+    });
+  };
+
+  const handleFilter = ({ ...params }) => {
+    const data = { ...params };
+    setFilter({
+      ...defaultPageInfo,
+      pageNum: 1,
+      specialtyName: data?.name,
+    });
+  };
 
   return (
     <>
@@ -50,7 +75,7 @@ const SpecialtiesPage = () => {
             </Typography>
             <Card className="p-4 shadow-xl mt-2">
               <div>
-                <FilterForm haveName={true} handleSubmitFilterForm={setFilter} />
+                <FilterForm haveName={true} handleSubmitFilterForm={handleFilter} />
               </div>
             </Card>
           </div>
@@ -72,6 +97,14 @@ const SpecialtiesPage = () => {
                   </li>
                 ))}
               </ul>
+              {!listSpecialties?.length && (
+                <div className="text-center w-full text-red-500">
+                  <Typography variant="h5">Không có dữ liệu</Typography>
+                </div>
+              )}
+            </div>
+            <div className="flex justify-center my-14">
+              <Pagination paginationData={paginationData} handlePaging={handlePaging} />
             </div>
           </div>
         </div>

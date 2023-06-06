@@ -114,6 +114,11 @@ const ClinicsPage = () => {
                   </li>
                 ))}
               </ul>
+              {!listClinics?.length && (
+                <div className="text-center w-full text-red-500">
+                  <Typography variant="h5">Không có dữ liệu</Typography>
+                </div>
+              )}
             </div>
             <div className="flex justify-center my-14">
               <Pagination paginationData={paginationData} handlePaging={handlePaging} />
