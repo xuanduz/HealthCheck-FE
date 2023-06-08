@@ -115,6 +115,7 @@ export interface AppointmentType {
   timeSlot?: string;
   reason?: string;
   resultFile?: any;
+  filename?: any;
   patientId?: number;
   doctorId?: number | string;
   clinicId?: number | string;

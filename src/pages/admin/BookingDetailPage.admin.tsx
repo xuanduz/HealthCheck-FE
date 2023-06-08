@@ -292,12 +292,12 @@ export default function BookingDetailPageAdmin() {
               <DialogComponent
                 displayButton={
                   <Button color="red" className="flex gap-2">
-                    {"Huỷ đơn đặt"}
+                    {"Xoá đơn đặt"}
                   </Button>
                 }
                 formatterContent={
                   <Typography variant="h5">
-                    Bạn có muốn huỷ đơn đặt, đơn đặt sau khi huỷ sẽ xoá khỏi hệ thống !
+                    Bạn có muốn xoá đơn đặt, đơn đặt sau khi xoá sẽ xoá hoàn toàn khỏi hệ thống !
                   </Typography>
                 }
                 acceptText="Đồng ý"

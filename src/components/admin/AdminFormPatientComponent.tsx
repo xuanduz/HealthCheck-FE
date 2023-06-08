@@ -1,9 +1,10 @@
-import { Button, Input, Radio, Textarea, Typography } from "@material-tailwind/react";
+import { Button, Input, Radio, Textarea, Tooltip, Typography } from "@material-tailwind/react";
 import { bookingOption, listStatus } from "../../data/selection.data";
 import ProvinceComponent from "../common/ProvinceComponent";
 import { AppointmentType, PatientType } from "../../data/types.data";
 import { useState } from "react";
 import DialogComponent from "../dialog/DialogComponent";
+import { AiFillFileText } from "react-icons/ai";
 
 export interface AdminFormPatientComponentProps {
   handleSubmitForm: Function;
@@ -18,6 +19,7 @@ export default function AdminFormPatientComponent(props: AdminFormPatientCompone
   const [status, setStatus] = useState<any>(appointmentData?.statusKey);
   const [bookingType, setBookingType] = useState<any>(appointmentData?.bookingType);
   const [reason, setReason] = useState<any>(appointmentData?.reason);
+  const [file, setFile] = useState<any>(appointmentData?.resultFile);
   const listStatusDoctor = listStatus?.filter((stt: any) => stt.key == "S2" || stt.key == "S3");
 
   const onSubmit = (e: any) => {
@@ -28,7 +30,9 @@ export default function AdminFormPatientComponent(props: AdminFormPatientCompone
       bookingType: bookingType,
       reason: reason,
       patientData: { ...patient },
+      filename: file,
     };
+
     handleSubmitForm(updateValue);
   };
 
@@ -141,6 +145,24 @@ export default function AdminFormPatientComponent(props: AdminFormPatientCompone
               ))}
             </select>
           </div>
+          {status == "S3" ? (
+            <div className="black-all-child flex gap-5">
+              <div>
+                <p>Gửi file kết quả</p>
+                <input type="file" onChange={(e: any) => setFile(e.target.files[0])} />
+              </div>
+              {appointmentData?.resultFile ? (
+                <div>
+                  <p>Tải file kết quả</p>
+                  <div className="w-12">
+                    <a href={file} target="_blank" className="block">
+                      <AiFillFileText size={20} />
+                    </a>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
           <div className=" black-all-child">
             <p>Địa điểm khám</p>
             <select

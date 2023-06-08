@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { RouteNamePatient } from "../../routes/routes";
 import { getColorStatus, getLabelStatus } from "../../data/selection.data";
 import DialogComponent from "../../components/dialog/DialogComponent";
+import { AiFillFileText } from "react-icons/ai";
 
 export default function HistoryPage() {
   const cookies = new Cookies();
@@ -27,7 +28,6 @@ export default function HistoryPage() {
   }, [reset]);
 
   const handleDeleteBooking = async (bookingInfo: AppointmentType) => {
-    console.log("delete ", bookingInfo);
     await DeleteRequest(`${process.env.REACT_APP_API}/booking/delete/${bookingInfo?.id}`, true);
     setReset(reset + 1);
   };
@@ -102,7 +102,16 @@ export default function HistoryPage() {
                       </div>
                       <div className=" flex flex-col gap-1 mt-1">
                         <p>Hình thức khám: {his?.bookingData?.value}</p>
-                        <p>Kết quả: </p>
+                        <div className="flex gap-2">
+                          <p>Kết quả: </p>
+                          {his?.resultFile ? (
+                            <div className="w-12">
+                              <a href={his?.resultFile} target="_blank" className="block">
+                                <AiFillFileText size={20} />
+                              </a>
+                            </div>
+                          ) : null}
+                        </div>
                       </div>
                     </div>
                   </div>

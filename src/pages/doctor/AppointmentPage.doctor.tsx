@@ -30,6 +30,8 @@ import DialogComponent from "../../components/dialog/DialogComponent";
 import { FiEdit3 } from "react-icons/fi";
 import AdminFormPatientComponent from "../../components/admin/AdminFormPatientComponent";
 import { PostRequest } from "../../utils/rest-api";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AppointmentPageDoctor = () => {
   const today = new Date().toLocaleDateString("pt-br").split("/").reverse().join("-"); //dd-mm-yyyy
@@ -94,15 +96,34 @@ const AppointmentPageDoctor = () => {
     }
   }, [filter]);
 
-  const handleUpdateFormPatient = async (data: any) => {
-    const res = await PostRequest(
-      `${process.env.REACT_APP_API_DOCTOR}/appointment/edit`,
-      data,
-      true
-    );
-    if (res?.data?.success) {
-      refresh();
-    }
+  const handleUpdateFormPatient = async (data: AppointmentType) => {
+    const formData = new FormData();
+    formData.append("id", data.id as any);
+    formData.append("filename", data.filename);
+    formData.append("statusKey", data.statusKey as any);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    await axios
+      .post(`${process.env.REACT_APP_API_DOCTOR}/appointment/edit`, formData, config)
+      .then((res: any) => {
+        res.data?.success ? toast.success(res.data?.message) : toast.warn(res.data?.message);
+      })
+      .catch((err: any) => {
+        console.log("err", err);
+        if (err.code == "ERR_NETWORK") {
+          toast.warn("Lỗi kết nối !");
+        }
+        if (err.response?.status == 401) {
+          toast.warn("Lỗi quyền truy cập !");
+        }
+        if (err.response?.status == 403) {
+          toast.warn("Có lỗi xảy ra, vui lòng thử lại !");
+        }
+      });
+    refresh();
   };
 
   return (
