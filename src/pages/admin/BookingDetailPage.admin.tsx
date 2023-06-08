@@ -16,6 +16,7 @@ import SelectComponent from "../../components/common/SelectComponent";
 import { formatDate, groupDate } from "../../utils/utils";
 import DialogComponent from "../../components/dialog/DialogComponent";
 import { RouteNamePatient } from "../../routes/routes";
+import ClinicByProvinceComponent from "../../components/common/ClinicByProvinceComponent";
 
 export default function BookingDetailPageAdmin() {
   const today = new Date();
@@ -224,13 +225,18 @@ export default function BookingDetailPageAdmin() {
                     appointmentData?.doctorData?.clinicData?.provinceKey ||
                     appointmentData?.clinicData?.provinceKey
                   }
+                  disabled={true}
                 />
               </div>
               <div className="w-full flex flex-col gap-1">
                 <p>Bệnh viện</p>
-                <ClinicSelectComponent
+                <ClinicByProvinceComponent
                   clinicId={
                     appointmentData?.doctorData?.clinicData?.id || appointmentData?.clinicId
+                  }
+                  provinceKey={
+                    appointmentData?.doctorData?.clinicData?.provinceKey ||
+                    appointmentData?.clinicData?.provinceKey
                   }
                   handleChange={(clinicId: any) => updateAppointment({ clinicId: clinicId })}
                 />
@@ -243,6 +249,7 @@ export default function BookingDetailPageAdmin() {
                   doctorId={appointmentData?.doctorId}
                   clinicId={appointmentData?.clinicId || appointmentData?.doctorData?.clinicId}
                   onChange={(doctorId: any) => updateAppointment({ doctorId: doctorId })}
+                  customClassName={"w-[200px]"}
                 />
               </div>
               <div className="flex flex-col gap-3">

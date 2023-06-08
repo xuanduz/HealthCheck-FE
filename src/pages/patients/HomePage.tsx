@@ -84,8 +84,8 @@ const HomePagePatient = () => {
           <div className="list-option flex gap-12 justify-center">
             <div
               className="flex flex-col gap-2 items-center"
-              role="button"
-              onClick={handleBookingDirect}
+              // role="button"
+              // onClick={handleBookingDirect}
             >
               <div className="bg-white shadow-2xl p-5 rounded-full">
                 <TbBuildingHospital size={30} />
@@ -94,8 +94,8 @@ const HomePagePatient = () => {
             </div>
             <div
               className="flex flex-col gap-2 items-center"
-              role="button"
-              onClick={handleBookingHome}
+              // role="button"
+              // onClick={handleBookingHome}
             >
               <div className="bg-white shadow-lg p-5 rounded-full">
                 <AiOutlineHome size={30} />
@@ -109,7 +109,11 @@ const HomePagePatient = () => {
           <div className="pt-16">
             <div className="flex justify-between items-center">
               <Typography variant="h2">Bác sĩ nổi bật</Typography>
-              <p>Xem thêm</p>
+              <Button>
+                <Link to={RouteNamePatient.DOCTORS}>
+                  <p>Xem thêm</p>
+                </Link>
+              </Button>
             </div>
             <div className="mt-2  grid grid-cols-4  gap-6">
               {featuredDoctors?.map((doctor: DoctorType, index: number) => (
@@ -128,7 +132,11 @@ const HomePagePatient = () => {
           <div className="pt-16">
             <div className="flex justify-between items-center">
               <Typography variant="h2">Cơ sở y tế nổi bật</Typography>
-              <p>Xem thêm</p>
+              <Button>
+                <Link to={RouteNamePatient.CLINICS}>
+                  <p>Xem thêm</p>
+                </Link>
+              </Button>
             </div>
             <div className="mt-2 grid grid-cols-4 gap-6">
               {featuredClinics?.map((item: ClinicType, index: number) => (

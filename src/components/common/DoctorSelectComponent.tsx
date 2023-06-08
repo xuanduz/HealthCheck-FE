@@ -22,7 +22,10 @@ export default function DoctorSelectComponent(props: SelectComponentProps) {
     const res = await GetRequest(
       `${process.env.REACT_APP_API_ADMIN}/doctor/get-by-clinic/${clinicId}`
     );
-    let newListData = [...listData, ...res.data?.data];
+    let newListData = [
+      { id: "", fullName: labelFirstElement || "Chọn bác sĩ..." },
+      ...res.data?.data,
+    ];
     setListData(newListData);
   };
 

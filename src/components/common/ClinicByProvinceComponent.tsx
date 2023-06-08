@@ -4,9 +4,13 @@ import { GetRequest, PostRequest } from "../../utils/rest-api";
 
 export interface ClinicByProvinceComponentProps {
   provinceKey?: string;
+  handleChange?: Function;
+  clinicId?: string | number;
+  required?: boolean;
+  customClassName?: string;
 }
 
-export default function ClinicByProvinceComponent(props: any) {
+export default function ClinicByProvinceComponent(props: ClinicByProvinceComponentProps) {
   const { handleChange, clinicId, provinceKey, required, customClassName, ...rest } = props;
   const [listClinics, setListClinics] = useState<any[]>([]);
   const [value, setValue] = useState();
