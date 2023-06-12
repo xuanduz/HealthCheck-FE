@@ -149,7 +149,11 @@ export default function AdminFormPatientComponent(props: AdminFormPatientCompone
             <div className="black-all-child flex gap-5">
               <div>
                 <p>Gửi file kết quả</p>
-                <input type="file" onChange={(e: any) => setFile(e.target.files[0])} />
+                <input
+                  type="file"
+                  onChange={(e: any) => setFile(e.target.files[0])}
+                  accept=".doc, .docx,.txt,.pdf"
+                />
               </div>
               {appointmentData?.resultFile ? (
                 <div>

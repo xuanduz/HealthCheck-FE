@@ -31,6 +31,7 @@ export interface ClinicType {
   email?: string;
   specialtyData?: SpecialtyType[];
   doctorData: DoctorType[];
+  filename?: any;
 }
 
 export interface SpecialtyType {
@@ -39,6 +40,7 @@ export interface SpecialtyType {
   image?: string;
   descriptionHTML?: string;
   describe?: string;
+  filename?: any;
 }
 
 export interface ScheduleType {
@@ -63,6 +65,7 @@ export interface DoctorType {
   positionKey?: string;
   descriptionHTML?: string;
   describe?: string;
+  filename?: any;
 
   specialty?: SpecialtyType;
   clinicId?: number | string;

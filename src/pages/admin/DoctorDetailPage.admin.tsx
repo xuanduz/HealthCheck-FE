@@ -9,7 +9,7 @@ import SpecialtyMultiSelectComponent from "../../components/common/SpecialtySele
 import ClinicSelectComponent from "../../components/clinic/ClinicSelectComponent";
 import DoctorPostComponent from "../../components/doctor/DoctorPostComponent";
 import DialogComponent from "../../components/dialog/DialogComponent";
-import { DeleteRequest, GetRequest, PostRequest } from "../../utils/rest-api";
+import { DeleteRequest, GetRequest, PostRequest, PostRequestWithFile } from "../../utils/rest-api";
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
 
 export default function DoctorDetailPageAdmin() {
@@ -17,6 +17,7 @@ export default function DoctorDetailPageAdmin() {
   const navigate = useNavigate();
   const [doctor, setDoctor] = useState<DoctorType>({});
   const [description, setDescription] = useState<string>("");
+  const [preview, setPreview] = useState<any>();
 
   const getDoctorDetail = async () => {
     const res = await GetRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/${id}`);
@@ -24,6 +25,7 @@ export default function DoctorDetailPageAdmin() {
     if (data) {
       setDoctor(data);
       setDescription(data?.descriptionHTML);
+      setPreview(data?.image);
     }
   };
 
@@ -41,16 +43,34 @@ export default function DoctorDetailPageAdmin() {
     }
   }, [id]);
 
-  const handleSubmit = async () => {
-    const data = {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const data: DoctorType = {
       ...doctor,
       descriptionHTML: description,
     };
-    console.log("submit ", data);
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      // if (typeof data[key as keyof DoctorType] == "string") {
+      //   formData.append(key, value);
+      // } else {
+      //   formData.append(key, JSON.stringify(value));
+      // }
+      if (key == "specialtyData") {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value);
+      }
+    });
+    console.log("data", data, formData.get("id"));
     if (checkIdParams()) {
-      await PostRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/edit`, data, true);
+      await PostRequestWithFile(`${process.env.REACT_APP_API_ADMIN}/doctor/edit`, formData, true);
     } else {
-      await PostRequest(`${process.env.REACT_APP_API_ADMIN}/doctor/add-new`, data, true);
+      await PostRequestWithFile(
+        `${process.env.REACT_APP_API_ADMIN}/doctor/add-new`,
+        formData,
+        true
+      );
     }
   };
 
@@ -66,13 +86,25 @@ export default function DoctorDetailPageAdmin() {
     });
   };
 
+  const onSelectFile = (e: any) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    }
+    const objectUrl = URL.createObjectURL(e.target.files[0]);
+    setPreview(objectUrl);
+    setDoctor({
+      ...doctor,
+      filename: e.target.files[0],
+    });
+  };
+
   return (
     <SmallContainerComponent>
       <Typography variant="h3" className="">
         Thông tin bác sĩ
       </Typography>
       <Card className="mt-4 p-3">
-        <form className="flex flex-col mt-6 gap-6">
+        <form className="flex flex-col mt-6 gap-6" onSubmit={handleSubmit}>
           <div className="flex flex-col black-all-child">
             <div className="flex gap-1">
               <p>Chọn giới tính</p>
@@ -85,7 +117,12 @@ export default function DoctorDetailPageAdmin() {
               }}
             >
               <Radio name="gender" id="true" label="Nam" defaultChecked={doctor?.gender} required />
-              <Radio name="gender" id="false" label="Nữ" defaultChecked={!doctor?.gender} />
+              <Radio
+                name="gender"
+                id="false"
+                label="Nữ"
+                defaultChecked={doctor?.gender == false ? true : false}
+              />
             </div>
           </div>
           <div className="flex gap-5">
@@ -133,10 +170,17 @@ export default function DoctorDetailPageAdmin() {
               required
             />
           </div>
-          <div className="flex gap-5 h-[160px]">
-            <Input type="text" label="Link Ảnh"></Input>
-            <div className="min-w-[150px] max-w-[180px] border-2">
-              <img src={doctor?.image || EmptyDoctor} alt="" />
+          <div className="flex justify-between h-[160px] mb-5">
+            <div className="flex flex-col gap-3">
+              <p>Ảnh</p>
+              <input
+                type="file"
+                onChange={onSelectFile}
+                accept="image/png, image/gif, image/jpeg, image/jpg"
+              ></input>
+            </div>
+            <div className="min-w-[200px] max-w-[180px] border-2">
+              <img src={preview || EmptyDoctor} alt="" />
             </div>
           </div>
           <div className="flex gap-5 black-all-child">
@@ -203,24 +247,9 @@ export default function DoctorDetailPageAdmin() {
               ) : null}
             </div>
             <div className="text-center ">
-              <div>
-                {checkIdParams() ? (
-                  <div>
-                    <DialogComponent
-                      displayButton={<Button className="flex gap-2">Xác nhận</Button>}
-                      formatterContent={
-                        <Typography variant="h5">
-                          Bạn có muốn lưu thông tin vừa chỉnh sửa ?
-                        </Typography>
-                      }
-                      acceptText="Đồng ý"
-                      acceptAction={() => handleSubmit()}
-                      size="sm"
-                      title="Lưu ý"
-                    />
-                  </div>
-                ) : null}
-              </div>
+              <Button className="flex gap-2" type="submit">
+                Xác nhận
+              </Button>
             </div>
           </div>
         </form>

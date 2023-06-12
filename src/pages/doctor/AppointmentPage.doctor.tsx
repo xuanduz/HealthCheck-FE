@@ -29,7 +29,7 @@ import { FilterAppointmentType } from "../admin/BookingPage.admin";
 import DialogComponent from "../../components/dialog/DialogComponent";
 import { FiEdit3 } from "react-icons/fi";
 import AdminFormPatientComponent from "../../components/admin/AdminFormPatientComponent";
-import { PostRequest } from "../../utils/rest-api";
+import { PostRequest, PostRequestWithFile } from "../../utils/rest-api";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -51,7 +51,6 @@ const AppointmentPageDoctor = () => {
     "Giới tính",
     "Hình thức khám",
     "Trạng thái",
-    "Kết quả",
     "",
   ];
 
@@ -101,28 +100,11 @@ const AppointmentPageDoctor = () => {
     formData.append("id", data.id as any);
     formData.append("filename", data.filename);
     formData.append("statusKey", data.statusKey as any);
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
-    await axios
-      .post(`${process.env.REACT_APP_API_DOCTOR}/appointment/edit`, formData, config)
-      .then((res: any) => {
-        res.data?.success ? toast.success(res.data?.message) : toast.warn(res.data?.message);
-      })
-      .catch((err: any) => {
-        console.log("err", err);
-        if (err.code == "ERR_NETWORK") {
-          toast.warn("Lỗi kết nối !");
-        }
-        if (err.response?.status == 401) {
-          toast.warn("Lỗi quyền truy cập !");
-        }
-        if (err.response?.status == 403) {
-          toast.warn("Có lỗi xảy ra, vui lòng thử lại !");
-        }
-      });
+    await PostRequestWithFile(
+      `${process.env.REACT_APP_API_DOCTOR}/appointment/edit`,
+      formData,
+      true
+    );
     refresh();
   };
 
@@ -257,13 +239,6 @@ const AppointmentPageDoctor = () => {
                         value={getLabelStatus(data?.statusKey)}
                         color={getColorStatus(data?.statusKey)}
                       />
-                    </td>
-                    <td className={classes}>
-                      <Tooltip content="Đính kèm file kết quả">
-                        <IconButton variant="text" color="blue-gray">
-                          <MdOutlineAttachFile className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
                     </td>
                     <td className={classes}>
                       <div className="float-right">

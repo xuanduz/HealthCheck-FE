@@ -16,13 +16,14 @@ import ClinicSelectComponent from "../../components/clinic/ClinicSelectComponent
 import EmptyDoctor from "../../assets/images/empty-doctor.png";
 import { useEffect } from "react";
 import Cookies from "universal-cookie";
-import { GetRequest, PostRequest, PutRequest } from "../../utils/rest-api";
+import { GetRequest, PostRequest, PutRequest, PutRequestWithFile } from "../../utils/rest-api";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function InfomationPageDoctor() {
   const [doctor, setDoctor] = useState<DoctorType>({});
   const cookies = new Cookies();
+  const [preview, setPreview] = useState<any>();
 
   useEffect(() => {
     getDoctorInfo();
@@ -33,21 +34,40 @@ export default function InfomationPageDoctor() {
     const res = await GetRequest(`${process.env.REACT_APP_API_DOCTOR}/doctor/${id}`);
     if (res) {
       setDoctor(res.data?.data);
+      setPreview(res?.data?.data?.image);
     }
-    console.log(">>> ", res.data?.data);
   };
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("doctor", doctor);
-    const res = await PutRequest(`${process.env.REACT_APP_API_DOCTOR}/doctor/edit`, doctor, true);
-    console.log("res", res);
+    console.log(">>> ", doctor);
+    const formData = new FormData();
+    Object.entries(doctor).forEach(([key, value]) => {
+      if (key == "specialtyData") {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value);
+      }
+    });
+    await PutRequestWithFile(`${process.env.REACT_APP_API_DOCTOR}/doctor/edit`, formData, true);
   };
 
   const updateData = (newValue: any) => {
     setDoctor({
       ...doctor,
       ...newValue,
+    });
+  };
+
+  const onSelectFile = (e: any) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    }
+    const objectUrl = URL.createObjectURL(e.target.files[0]);
+    setPreview(objectUrl);
+    setDoctor({
+      ...doctor,
+      filename: e.target.files[0],
     });
   };
 
@@ -110,10 +130,17 @@ export default function InfomationPageDoctor() {
                   required
                 />
               </div>
-              <div className="flex gap-5 h-[160px]">
-                <Input type="text" label="Link Ảnh"></Input>
-                <div className="min-w-[150px] max-w-[180px] border-2">
-                  <img src={doctor?.image || EmptyDoctor} alt="" />
+              <div className="flex justify-between h-[160px] mb-6">
+                <div className="flex flex-col gap-3">
+                  <p>Ảnh</p>
+                  <input
+                    type="file"
+                    onChange={onSelectFile}
+                    accept="image/png, image/gif, image/jpeg, image/jpg"
+                  ></input>
+                </div>
+                <div className="min-w-[200px] max-w-[180px] border-2">
+                  <img src={preview || EmptyDoctor} alt="" />
                 </div>
               </div>
               <div className="flex gap-5 black-all-child">

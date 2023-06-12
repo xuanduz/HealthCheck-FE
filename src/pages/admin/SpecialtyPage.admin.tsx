@@ -19,7 +19,7 @@ import { useState, useEffect } from "react";
 import { specialtySelector } from "../../data/recoil/admin/specialty.admin";
 import Pagination, { PaginationData } from "../../components/common/PaginationComponent";
 import Empty from "../../assets/images/empty.jpg";
-import { DeleteRequest, PostRequest } from "../../utils/rest-api";
+import { DeleteRequest, PostRequest, PostRequestWithFile } from "../../utils/rest-api";
 import SpecialtyFormComponent from "../../components/common/SpecialtyFormComponent";
 import { FiEdit3 } from "react-icons/fi";
 
@@ -69,7 +69,11 @@ const SpecialtyPageAdmin = () => {
   }, [filter]);
 
   const handleSubmitForm = async (specialtyData: SpecialtyType) => {
-    await PostRequest(`${process.env.REACT_APP_API_ADMIN}/specialty/edit`, specialtyData, true);
+    const formData = new FormData();
+    Object.entries(specialtyData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    await PostRequestWithFile(`${process.env.REACT_APP_API_ADMIN}/specialty/edit`, formData, true);
     refresh();
   };
 
@@ -79,7 +83,15 @@ const SpecialtyPageAdmin = () => {
   };
 
   const handleAddSpecialty = async (specialtyData: SpecialtyType) => {
-    await PostRequest(`${process.env.REACT_APP_API_ADMIN}/specialty/add-new`, specialtyData, true);
+    const formData = new FormData();
+    Object.entries(specialtyData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    await PostRequestWithFile(
+      `${process.env.REACT_APP_API_ADMIN}/specialty/add-new`,
+      formData,
+      true
+    );
     refresh();
   };
 

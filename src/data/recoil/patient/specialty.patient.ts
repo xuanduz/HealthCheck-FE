@@ -8,9 +8,10 @@ export const speciatyPatientAtom = atomFamily({
 });
 
 export const speciatyPatientSelector = selector({
-  key: "speciatyPatientPatientSelector",
+  key: "speciatyPatientSelector",
   get: async ({ get }) => {
     let query = get(speciatyPatientAtom(defaultPageInfo));
+    console.log(">> query", query, defaultPageInfo);
     let pageData = await axios.post(`${process.env.REACT_APP_API}/specialty/filter`, query);
     return pageData;
   },

@@ -1,11 +1,10 @@
 import { Card, Typography } from "@material-tailwind/react";
 import banner from "../../assets/images/banner-2.png";
 import ContainerComponent from "../../components/common/ContainerComponent";
-import FilterForm, { InputFilter } from "../../components/common/FilterForm";
+import FilterForm from "../../components/common/FilterForm";
 import { useState, useEffect } from "react";
 import CardComponent from "../../components/common/CardComponent";
 import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
-import { specialtiesSelector } from "../../data/recoil/commonData";
 import { SpecialtyType, defaultPageInfo } from "../../data/types.data";
 import EmptySpecialty from "../../assets/images/empty-specialty.png";
 import Pagination, { PaginationData } from "../../components/common/PaginationComponent";
@@ -20,7 +19,7 @@ const SpecialtiesPage = () => {
 
   const [paginationData, setPaginationData] = useState<PaginationData>();
   const [listSpecialties, setListSpecialties] = useState<SpecialtyType[]>([]);
-  const [filter, setFilter] = useState<any>();
+  const [filter, setFilter] = useState<any>(defaultPageInfo);
 
   useEffect(() => {
     if (listSpecialtyLoadable?.state == "hasValue") {
